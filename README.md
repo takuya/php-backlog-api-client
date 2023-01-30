@@ -107,3 +107,24 @@ $cli->getIssue("MYPRJ-40");
 APIの名前とメソッド名と実際のAPIの対応表を`api.html`に用意しています。
 
 
+## インストール via github
+```sh
+composer config repositories.'php-nulab-backlog-api-client' \
+vcs https://github.com/takuya/php-nulab-backlog-api-client  
+composer require takuya/php-nulab-backlog-api-client:master
+composer install
+```
+## インストール via packagist with composer 
+```sh
+composer require takuya/php-nulab-backlog-api-client
+```
+## Development
+インストールしてテストして開発。
+```sh
+git clone git@github.com:takuya/php-nulab-backlog-api-client.git
+cd php-nulab-backlog-api-client
+composer install
+composer run-script gen_api_methods
+composer run-script test
+php vendor/bin/phpunit --filter get_space
+```
