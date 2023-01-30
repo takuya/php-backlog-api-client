@@ -1,0 +1,39 @@
+{
+  "name": "takuya/php-backlog-api-client",
+  "description": "Access to Nulab Backlog Api.",
+  "type": "library",
+  "license": "GPL-3.0-or-later",
+  "version": "0.1",
+  "autoload": {
+    "psr-4": {
+      "Takuya\\BacklogApiClient\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "authors": [
+    {
+      "name": "takuya",
+      "email": "55338+takuya@users.noreply.github.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "scripts": {
+    "gen_api_methods": "php ./tools/scraping/bin/scraping_gen_api.php",
+    "test": "php vendor/bin/phpunit"
+  },
+  "require": {
+    "php": ">=8.0",
+    "guzzlehttp/guzzle": ">=7.5",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5",
+    "larapack/dd": "^1.1",
+    "ext-gd": "*",
+    "ext-dom": "*"
+  }
+}

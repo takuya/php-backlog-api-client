@@ -1,0 +1,827 @@
+<html>
+  <head>
+    <meta lang="ja">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0 auto;
+        padding: 0;
+      
+      }
+      table.main{
+        border-collapse: collapse;
+        width: 1000px;
+        left:0;
+        right: 0;
+        margin: 0 auto;
+      }
+      table.main > th,td {
+        border: solid 1px;
+        padding: 3px;
+        word-wrap: break-word;
+        word-break: break-all;
+        overflow-wrap: break-word;
+        width: 25%;
+        overflow: scroll;
+        font-size: 12px;
+        font-family: monospace;
+      }
+      table tr > td:nth-child(1){
+        width: 10%;
+      }
+      table tr > td:nth-child(2){
+        width: 10%;
+      }
+      table tr > td:nth-child(3){
+        width: 3%;
+      }
+      table tr > td:nth-child(4){
+        width: 30%;
+      }
+      table.main table {
+        border-collapse: collapse;
+        width: auto;
+      }
+      table.main table  > td,th{
+        border: 0.5px solid aliceblue;
+      }
+  </style>
+  </head>
+  <body>
+    <table class='main'>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-space/">スペース情報の取得</a></td>
+    <td>getSpace</td>
+    <td>GET</td>
+    <td>/api/v2/space</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-recent-updates/">最近の更新の取得</a></td>
+    <td>getRecentUpdates</td>
+    <td>GET</td>
+    <td>/api/v2/space/activities</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-activity/">アクティビティの取得</a></td>
+    <td>getActivity</td>
+    <td>GET</td>
+    <td>/api/v2/activities/:activityId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-space-logo/">スペースアイコン画像の取得</a></td>
+    <td>getSpaceLogo</td>
+    <td>GET</td>
+    <td>/api/v2/space/image</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-space-notification/">スペースのお知らせの取得</a></td>
+    <td>getSpaceNotification</td>
+    <td>GET</td>
+    <td>/api/v2/space/notification</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-space-notification/">スペースのお知らせの更新</a></td>
+    <td>updateSpaceNotification</td>
+    <td>PUT</td>
+    <td>/api/v2/space/notification</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-space-disk-usage/">スペースの容量使用状況の取得</a></td>
+    <td>getSpaceDiskUsage</td>
+    <td>GET</td>
+    <td>/api/v2/space/diskUsage</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/post-attachment-file/">添付ファイルの送信</a></td>
+    <td>postAttachmentFile</td>
+    <td>POST</td>
+    <td>/api/v2/space/attachment</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-user-list/">ユーザー一覧の取得</a></td>
+    <td>getUserList</td>
+    <td>GET</td>
+    <td>/api/v2/users</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-user/">ユーザー情報の取得</a></td>
+    <td>getUser</td>
+    <td>GET</td>
+    <td>/api/v2/users/:userId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-user/">ユーザーの追加</a></td>
+    <td>addUser</td>
+    <td>POST</td>
+    <td>/api/v2/users</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-user/">ユーザーの更新</a></td>
+    <td>updateUser</td>
+    <td>PATCH</td>
+    <td>/api/v2/users/:userId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-user/">ユーザーの削除</a></td>
+    <td>deleteUser</td>
+    <td>DELETE</td>
+    <td>/api/v2/users/:userId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-own-user/">認証ユーザー情報の取得</a></td>
+    <td>getOwnUser</td>
+    <td>GET</td>
+    <td>/api/v2/users/myself</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-user-icon/">ユーザーアイコンの取得</a></td>
+    <td>getUserIcon</td>
+    <td>GET</td>
+    <td>/api/v2/users/:userId/icon</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-user-recent-updates/">ユーザーの最近の活動の取得</a></td>
+    <td>getUserRecentUpdates</td>
+    <td>GET</td>
+    <td>/api/v2/users/:userId/activities</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-received-star-list/">ユーザーの受け取ったスター一覧の取得</a></td>
+    <td>getReceivedStarList</td>
+    <td>GET</td>
+    <td>/api/v2/users/:userId/stars</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/count-user-received-stars/">ユーザーの受け取ったスターの数の取得</a></td>
+    <td>countUserReceivedStars</td>
+    <td>GET</td>
+    <td>/api/v2/users/:userId/stars/count</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-list-of-recently-viewed-issues/">自分が最近見た課題一覧の取得</a></td>
+    <td>getListOfRecentlyViewedIssues</td>
+    <td>GET</td>
+    <td>/api/v2/users/myself/recentlyViewedIssues</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-recently-viewed-issue/">自分が最近見た課題の追加</a></td>
+    <td>addRecentlyViewedIssue</td>
+    <td>POST</td>
+    <td>/api/v2/users/myself/recentlyViewedIssues</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-list-of-recently-viewed-projects/">自分が最近見たプロジェクト一覧の取得</a></td>
+    <td>getListOfRecentlyViewedProjects</td>
+    <td>GET</td>
+    <td>/api/v2/users/myself/recentlyViewedProjects</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-list-of-recently-viewed-wikis/">自分が最近見たWiki一覧の取得</a></td>
+    <td>getListOfRecentlyViewedWikis</td>
+    <td>GET</td>
+    <td>/api/v2/users/myself/recentlyViewedWikis</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-recently-viewed-wiki/">自分が最近見たWikiの追加</a></td>
+    <td>addRecentlyViewedWiki</td>
+    <td>POST</td>
+    <td>/api/v2/users/myself/recentlyViewedWikis</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-list-of-groups/">グループ一覧の取得</a></td>
+    <td>getListOfGroups</td>
+    <td>GET</td>
+    <td>/api/v2/groups</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-group/">グループの追加</a></td>
+    <td>addGroup</td>
+    <td>POST</td>
+    <td>/api/v2/groups</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-group/">グループ情報の取得</a></td>
+    <td>getGroup</td>
+    <td>GET</td>
+    <td>/api/v2/groups/:groupId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-group/">グループ情報の更新</a></td>
+    <td>updateGroup</td>
+    <td>PATCH</td>
+    <td>/api/v2/groups/:groupId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-group/">グループの削除</a></td>
+    <td>deleteGroup</td>
+    <td>DELETE</td>
+    <td>/api/v2/groups/:groupId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-status-list/">状態一覧の取得</a></td>
+    <td>getStatusList</td>
+    <td>GET</td>
+    <td>/api/v2/statuses</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-status-list-of-project/">プロジェクトの状態一覧の取得</a></td>
+    <td>getStatusListOfProject</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/statuses</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-priority-list/">優先度一覧の取得</a></td>
+    <td>getPriorityList</td>
+    <td>GET</td>
+    <td>/api/v2/priorities</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-resolution-list/">完了理由一覧の取得</a></td>
+    <td>getResolutionList</td>
+    <td>GET</td>
+    <td>/api/v2/resolutions</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-project-list/">プロジェクト一覧の取得</a></td>
+    <td>getProjectList</td>
+    <td>GET</td>
+    <td>/api/v2/projects</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-project/">プロジェクトの追加</a></td>
+    <td>addProject</td>
+    <td>POST</td>
+    <td>/api/v2/projects</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-project/">プロジェクト情報の取得</a></td>
+    <td>getProject</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-project/">プロジェクト情報の更新</a></td>
+    <td>updateProject</td>
+    <td>PATCH</td>
+    <td>/api/v2/projects/:projectIdOrKey</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-project/">プロジェクトの削除</a></td>
+    <td>deleteProject</td>
+    <td>DELETE</td>
+    <td>/api/v2/projects/:projectIdOrKey</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-project-icon/">プロジェクトアイコンの取得</a></td>
+    <td>getProjectIcon</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/image</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-project-recent-updates/">プロジェクトの最近の活動の取得</a></td>
+    <td>getProjectRecentUpdates</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/activities</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-project-user/">プロジェクトユーザーの追加</a></td>
+    <td>addProjectUser</td>
+    <td>POST</td>
+    <td>/api/v2/projects/:projectIdOrKey/users</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-project-user-list/">プロジェクトユーザー一覧の取得</a></td>
+    <td>getProjectUserList</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/users</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-project-user/">プロジェクトユーザーの削除</a></td>
+    <td>deleteProjectUser</td>
+    <td>DELETE</td>
+    <td>/api/v2/projects/:projectIdOrKey/users</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-project-administrator/">プロジェクト管理者の追加</a></td>
+    <td>addProjectAdministrator</td>
+    <td>POST</td>
+    <td>/api/v2/projects/:projectIdOrKey/administrators</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-list-of-project-administrators/">プロジェクト管理者一覧の取得</a></td>
+    <td>getListOfProjectAdministrators</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/administrators</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-project-administrator/">プロジェクト管理者の削除</a></td>
+    <td>deleteProjectAdministrator</td>
+    <td>DELETE</td>
+    <td>/api/v2/projects/:projectIdOrKey/administrators</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-status/">状態の追加</a></td>
+    <td>addStatus</td>
+    <td>POST</td>
+    <td>/api/v2/projects/:projectIdOrKey/statuses</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-status/">状態情報の更新</a></td>
+    <td>updateStatus</td>
+    <td>PATCH</td>
+    <td>/api/v2/projects/:projectIdOrKey/statuses/:id</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-status/">状態の削除</a></td>
+    <td>deleteStatus</td>
+    <td>DELETE</td>
+    <td>/api/v2/projects/:projectIdOrKey/statuses/:id</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-order-of-status/">状態の並び替え</a></td>
+    <td>updateOrderOfStatus</td>
+    <td>PATCH</td>
+    <td>/api/v2/projects/:projectIdOrKey/statuses/updateDisplayOrder</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-issue-type-list/">種別一覧の取得</a></td>
+    <td>getIssueTypeList</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/issueTypes</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-issue-type/">種別の追加</a></td>
+    <td>addIssueType</td>
+    <td>POST</td>
+    <td>/api/v2/projects/:projectIdOrKey/issueTypes</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-issue-type/">種別情報の更新</a></td>
+    <td>updateIssueType</td>
+    <td>PATCH</td>
+    <td>/api/v2/projects/:projectIdOrKey/issueTypes/:id</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-issue-type/">種別の削除</a></td>
+    <td>deleteIssueType</td>
+    <td>DELETE</td>
+    <td>/api/v2/projects/:projectIdOrKey/issueTypes/:id</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-category-list/">カテゴリー一覧の取得</a></td>
+    <td>getCategoryList</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/categories</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-category/">カテゴリーの追加</a></td>
+    <td>addCategory</td>
+    <td>POST</td>
+    <td>/api/v2/projects/:projectIdOrKey/categories</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-category/">カテゴリー情報の更新</a></td>
+    <td>updateCategory</td>
+    <td>PATCH</td>
+    <td>/api/v2/projects/:projectIdOrKey/categories/:id</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-category/">カテゴリーの削除</a></td>
+    <td>deleteCategory</td>
+    <td>DELETE</td>
+    <td>/api/v2/projects/:projectIdOrKey/categories/:id</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-version-milestone-list/">バージョン(マイルストーン)一覧の取得</a></td>
+    <td>getVersionMilestoneList</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/versions</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-version-milestone/">バージョン(マイルストーン)の追加</a></td>
+    <td>addVersionMilestone</td>
+    <td>POST</td>
+    <td>/api/v2/projects/:projectIdOrKey/versions</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-version-milestone/">バージョン(マイルストーン)情報の更新</a></td>
+    <td>updateVersionMilestone</td>
+    <td>PATCH</td>
+    <td>/api/v2/projects/:projectIdOrKey/versions/:id</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-version/">バージョン(マイルストーン)の削除</a></td>
+    <td>deleteVersion</td>
+    <td>DELETE</td>
+    <td>/api/v2/projects/:projectIdOrKey/versions/:id</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-custom-field-list/">カスタム属性一覧の取得</a></td>
+    <td>getCustomFieldList</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/customFields</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-custom-field/">カスタム属性の追加</a></td>
+    <td>addCustomField</td>
+    <td>POST</td>
+    <td>/api/v2/projects/:projectIdOrKey/customFields</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-custom-field/">カスタム属性の更新</a></td>
+    <td>updateCustomField</td>
+    <td>PATCH</td>
+    <td>/api/v2/projects/:projectIdOrKey/customFields/:id</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-custom-field/">カスタム属性の削除</a></td>
+    <td>deleteCustomField</td>
+    <td>DELETE</td>
+    <td>/api/v2/projects/:projectIdOrKey/customFields/:id</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-list-item-for-list-type-custom-field/">選択リストカスタム属性のリスト項目の追加</a></td>
+    <td>addListItemForListTypeCustomField</td>
+    <td>POST</td>
+    <td>/api/v2/projects/:projectIdOrKey/customFields/:id/items</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-list-item-for-list-type-custom-field/">選択リストカスタム属性のリスト項目の更新</a></td>
+    <td>updateListItemForListTypeCustomField</td>
+    <td>PATCH</td>
+    <td>/api/v2/projects/:projectIdOrKey/customFields/:id/items/:itemId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-list-item-for-list-type-custom-field/">選択リストカスタム属性のリスト項目の削除</a></td>
+    <td>deleteListItemForListTypeCustomField</td>
+    <td>DELETE</td>
+    <td>/api/v2/projects/:projectIdOrKey/customFields/:id/items/:itemId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-list-of-shared-files/">共有ファイル一覧の取得</a></td>
+    <td>getListOfSharedFiles</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/files/metadata/:path</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-file/">共有ファイルのダウンロード</a></td>
+    <td>getFile</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/files/:sharedFileId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-project-disk-usage/">プロジェクトの容量使用状況の取得</a></td>
+    <td>getProjectDiskUsage</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/diskUsage</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-list-of-webhooks/">Webhook一覧の取得</a></td>
+    <td>getListOfWebhooks</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/webhooks</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-webhook/">Webhookの追加</a></td>
+    <td>addWebhook</td>
+    <td>POST</td>
+    <td>/api/v2/projects/:projectIdOrKey/webhooks</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-webhook/">Webhookの取得</a></td>
+    <td>getWebhook</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/webhooks/:webhookId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-webhook/">Webhookの更新</a></td>
+    <td>updateWebhook</td>
+    <td>PATCH</td>
+    <td>/api/v2/projects/:projectIdOrKey/webhooks/:webhookId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-webhook/">Webhookの削除</a></td>
+    <td>deleteWebhook</td>
+    <td>DELETE</td>
+    <td>/api/v2/projects/:projectIdOrKey/webhooks/:webhookId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-issue-list/">課題一覧の取得</a></td>
+    <td>getIssueList</td>
+    <td>GET</td>
+    <td>/api/v2/issues</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/count-issue/">課題数の取得</a></td>
+    <td>countIssue</td>
+    <td>GET</td>
+    <td>/api/v2/issues/count</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-issue/">課題の追加</a></td>
+    <td>addIssue</td>
+    <td>POST</td>
+    <td>/api/v2/issues</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-issue/">課題情報の取得</a></td>
+    <td>getIssue</td>
+    <td>GET</td>
+    <td>/api/v2/issues/:issueIdOrKey</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-issue/">課題情報の更新</a></td>
+    <td>updateIssue</td>
+    <td>PATCH</td>
+    <td>/api/v2/issues/:issueIdOrKey</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-issue/">課題の削除</a></td>
+    <td>deleteIssue</td>
+    <td>DELETE</td>
+    <td>/api/v2/issues/:issueIdOrKey</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-comment-list/">課題コメントの取得</a></td>
+    <td>getCommentList</td>
+    <td>GET</td>
+    <td>/api/v2/issues/:issueIdOrKey/comments</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-comment/">課題コメントの追加</a></td>
+    <td>addComment</td>
+    <td>POST</td>
+    <td>/api/v2/issues/:issueIdOrKey/comments</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/count-comment/">課題コメント数の取得</a></td>
+    <td>countComment</td>
+    <td>GET</td>
+    <td>/api/v2/issues/:issueIdOrKey/comments/count</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-comment/">課題コメント情報の取得</a></td>
+    <td>getComment</td>
+    <td>GET</td>
+    <td>/api/v2/issues/:issueIdOrKey/comments/:commentId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-comment/">課題コメントの削除</a></td>
+    <td>deleteComment</td>
+    <td>DELETE</td>
+    <td>/api/v2/issues/:issueIdOrKey/comments/:commentId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-comment/">課題コメント情報の更新</a></td>
+    <td>updateComment</td>
+    <td>PATCH</td>
+    <td>/api/v2/issues/:issueIdOrKey/comments/:commentId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-list-of-comment-notifications/">課題コメントのお知らせ一覧の取得</a></td>
+    <td>getListOfCommentNotifications</td>
+    <td>GET</td>
+    <td>/api/v2/issues/:issueIdOrKey/comments/:commentId/notifications</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-comment-notification/">課題コメントにお知らせを追加</a></td>
+    <td>addCommentNotification</td>
+    <td>POST</td>
+    <td>/api/v2/issues/:issueIdOrKey/comments/:commentId/notifications</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-list-of-issue-attachments/">課題添付ファイル一覧の取得</a></td>
+    <td>getListOfIssueAttachments</td>
+    <td>GET</td>
+    <td>/api/v2/issues/:issueIdOrKey/attachments</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-issue-attachment/">課題添付ファイルのダウンロード</a></td>
+    <td>getIssueAttachment</td>
+    <td>GET</td>
+    <td>/api/v2/issues/:issueIdOrKey/attachments/:attachmentId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-issue-attachment/">課題添付ファイルの削除</a></td>
+    <td>deleteIssueAttachment</td>
+    <td>DELETE</td>
+    <td>/api/v2/issues/:issueIdOrKey/attachments/:attachmentId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-issue-participant-list/">課題の参加者一覧の取得</a></td>
+    <td>getIssueParticipantList</td>
+    <td>GET</td>
+    <td>/api/v2/issues/:issueIdOrKey/participants</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-list-of-linked-shared-files/">課題共有ファイル一覧の取得</a></td>
+    <td>getListOfLinkedSharedFiles</td>
+    <td>GET</td>
+    <td>/api/v2/issues/:issueIdOrKey/sharedFiles</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/link-shared-files-to-issue/">課題に共有ファイルをリンク</a></td>
+    <td>linkSharedFilesToIssue</td>
+    <td>POST</td>
+    <td>/api/v2/issues/:issueIdOrKey/sharedFiles</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/remove-link-to-shared-file-from-issue/">課題の共有ファイルのリンクを解除</a></td>
+    <td>removeLinkToSharedFileFromIssue</td>
+    <td>DELETE</td>
+    <td>/api/v2/issues/:issueIdOrKey/sharedFiles/:id</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-wiki-page-list/">Wikiページ一覧の取得</a></td>
+    <td>getWikiPageList</td>
+    <td>GET</td>
+    <td>/api/v2/wikis</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/count-wiki-page/">Wikiページ数の取得</a></td>
+    <td>countWikiPage</td>
+    <td>GET</td>
+    <td>/api/v2/wikis/count</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-wiki-page-tag-list/">Wikiページタグ一覧の取得</a></td>
+    <td>getWikiPageTagList</td>
+    <td>GET</td>
+    <td>/api/v2/wikis/tags</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-wiki-page/">Wikiページの追加</a></td>
+    <td>addWikiPage</td>
+    <td>POST</td>
+    <td>/api/v2/wikis</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-wiki-page/">Wikiページ情報の取得</a></td>
+    <td>getWikiPage</td>
+    <td>GET</td>
+    <td>/api/v2/wikis/:wikiId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-wiki-page/">Wikiページ情報の更新</a></td>
+    <td>updateWikiPage</td>
+    <td>PATCH</td>
+    <td>/api/v2/wikis/:wikiId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-wiki-page/">Wikiページの削除</a></td>
+    <td>deleteWikiPage</td>
+    <td>DELETE</td>
+    <td>/api/v2/wikis/:wikiId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-list-of-wiki-attachments/">Wiki添付ファイル一覧の取得</a></td>
+    <td>getListOfWikiAttachments</td>
+    <td>GET</td>
+    <td>/api/v2/wikis/:wikiId/attachments</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/attach-file-to-wiki/">Wiki添付ファイルの追加</a></td>
+    <td>attachFileToWiki</td>
+    <td>POST</td>
+    <td>/api/v2/wikis/:wikiId/attachments</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-wiki-page-attachment/">Wiki添付ファイルのダウンロード</a></td>
+    <td>getWikiPageAttachment</td>
+    <td>GET</td>
+    <td>/api/v2/wikis/:wikiId/attachments/:attachmentId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/remove-wiki-attachment/">Wiki添付ファイルの削除</a></td>
+    <td>removeWikiAttachment</td>
+    <td>DELETE</td>
+    <td>/api/v2/wikis/:wikiId/attachments/:attachmentId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-list-of-shared-files-on-wiki/">Wiki共有ファイル一覧の取得</a></td>
+    <td>getListOfSharedFilesOnWiki</td>
+    <td>GET</td>
+    <td>/api/v2/wikis/:wikiId/sharedFiles</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/link-shared-files-to-wiki/">Wikiに共有ファイルをリンク</a></td>
+    <td>linkSharedFilesToWiki</td>
+    <td>POST</td>
+    <td>/api/v2/wikis/:wikiId/sharedFiles</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/remove-link-to-shared-file-from-wiki/">Wikiの共有ファイルのリンクを解除</a></td>
+    <td>removeLinkToSharedFileFromWiki</td>
+    <td>DELETE</td>
+    <td>/api/v2/wikis/:wikiId/sharedFiles/:id</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-wiki-page-history/">Wikiページ更新履歴一覧の取得</a></td>
+    <td>getWikiPageHistory</td>
+    <td>GET</td>
+    <td>/api/v2/wikis/:wikiId/history</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-wiki-page-star/">Wikiページのスター一覧の取得</a></td>
+    <td>getWikiPageStar</td>
+    <td>GET</td>
+    <td>/api/v2/wikis/:wikiId/stars</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-star/">スターの追加</a></td>
+    <td>addStar</td>
+    <td>POST</td>
+    <td>/api/v2/stars</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-notification/">お知らせ一覧の取得</a></td>
+    <td>getNotification</td>
+    <td>GET</td>
+    <td>/api/v2/notifications</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/count-notification/">お知らせ数の取得</a></td>
+    <td>countNotification</td>
+    <td>GET</td>
+    <td>/api/v2/notifications/count</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/reset-unread-notification-count/">お知らせ数のリセット</a></td>
+    <td>resetUnreadNotificationCount</td>
+    <td>POST</td>
+    <td>/api/v2/notifications/markAsRead</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/read-notification/">お知らせの既読化</a></td>
+    <td>readNotification</td>
+    <td>POST</td>
+    <td>/api/v2/notifications/:id/markAsRead</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-list-of-git-repositories/">Gitリポジトリ一覧の取得</a></td>
+    <td>getListOfGitRepositories</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/git/repositories</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-git-repository/">Gitリポジトリの取得</a></td>
+    <td>getGitRepository</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/git/repositories/:repoIdOrName</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-pull-request-list/">プルリクエスト一覧の取得</a></td>
+    <td>getPullRequestList</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/git/repositories/:repoIdOrName/pullRequests</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-number-of-pull-requests/">プルリクエスト数の取得</a></td>
+    <td>getNumberOfPullRequests</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/git/repositories/:repoIdOrName/pullRequests/count</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-pull-request/">プルリクエストの追加</a></td>
+    <td>addPullRequest</td>
+    <td>POST</td>
+    <td>/api/v2/projects/:projectIdOrKey/git/repositories/:repoIdOrName/pullRequests</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-pull-request/">プルリクエストの取得</a></td>
+    <td>getPullRequest</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/git/repositories/:repoIdOrName/pullRequests/:number</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-pull-request/">プルリクエストの更新</a></td>
+    <td>updatePullRequest</td>
+    <td>PATCH</td>
+    <td>/api/v2/projects/:projectIdOrKey/git/repositories/:repoIdOrName/pullRequests/:number</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-pull-request-comment/">プルリクエストコメントの取得</a></td>
+    <td>getPullRequestComment</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/git/repositories/:repoIdOrName/pullRequests/:number/comments</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-pull-request-comment/">プルリクエストコメントの追加</a></td>
+    <td>addPullRequestComment</td>
+    <td>POST</td>
+    <td>/api/v2/projects/:projectIdOrKey/git/repositories/:repoIdOrName/pullRequests/:number/comments</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-number-of-pull-request-comments/">プルリクエストコメント数の取得</a></td>
+    <td>getNumberOfPullRequestComments</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/git/repositories/:repoIdOrName/pullRequests/:number/comments/count</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-pull-request-comment-information/">プルリクエストコメント情報の更新</a></td>
+    <td>updatePullRequestCommentInformation</td>
+    <td>PATCH</td>
+    <td>/api/v2/projects/:projectIdOrKey/git/repositories/:repoIdOrName/pullRequests/:number/comments/:commentId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-list-of-pull-request-attachment/">プルリクエスト添付ファイル一覧の取得</a></td>
+    <td>getListOfPullRequestAttachment</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/git/repositories/:repoIdOrName/pullRequests/:number/attachments</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/download-pull-request-attachment/">プルリクエスト添付ファイルのダウンロード</a></td>
+    <td>downloadPullRequestAttachment</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/git/repositories/:repoIdOrName/pullRequests/:number/attachments/:attachmentId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-pull-request-attachments/">プルリクエスト添付ファイルの削除</a></td>
+    <td>deletePullRequestAttachments</td>
+    <td>DELETE</td>
+    <td>/api/v2/projects/:projectIdOrKey/git/repositories/:repoIdOrName/pullRequests/:number/attachments/:attachmentId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-watching-list/">ウォッチ一覧の取得</a></td>
+    <td>getWatchingList</td>
+    <td>GET</td>
+    <td>/api/v2/users/:userId/watchings</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/count-watching/">ウォッチ数の取得</a></td>
+    <td>countWatching</td>
+    <td>GET</td>
+    <td>/api/v2/users/:userId/watchings/count</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-watching/">ウォッチ情報の取得</a></td>
+    <td>getWatching</td>
+    <td>GET</td>
+    <td>/api/v2/watchings/:watchingId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-watching/">ウォッチの追加</a></td>
+    <td>addWatching</td>
+    <td>POST</td>
+    <td>/api/v2/watchings</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-watching/">ウォッチの更新</a></td>
+    <td>updateWatching</td>
+    <td>PATCH</td>
+    <td>/api/v2/watchings/:watchingId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-watching/">ウォッチの削除</a></td>
+    <td>deleteWatching</td>
+    <td>DELETE</td>
+    <td>/api/v2/watchings/:watchingId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/mark-watching-as-read/">ウォッチの既読化</a></td>
+    <td>markWatchingAsRead</td>
+    <td>POST</td>
+    <td>/api/v2/watchings/:watchingId/markAsRead</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-project-group-list/">プロジェクトグループ一覧の取得</a></td>
+    <td>getProjectGroupList</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/groups</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-project-group/">プロジェクトグループの追加</a></td>
+    <td>addProjectGroup</td>
+    <td>POST</td>
+    <td>/api/v2/projects/:projectIdOrKey/groups</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-project-group/">プロジェクトグループの削除</a></td>
+    <td>deleteProjectGroup</td>
+    <td>DELETE</td>
+    <td>/api/v2/projects/:projectIdOrKey/groups</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-group-icon/">グループアイコンの取得</a></td>
+    <td>getGroupIcon</td>
+    <td>GET</td>
+    <td>/api/v2/groups/:groupId/icon</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-licence/">ライセンス情報の取得</a></td>
+    <td>getLicence</td>
+    <td>GET</td>
+    <td>/api/v2/space/licence</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-list-of-teams/">チーム一覧の取得</a></td>
+    <td>getListOfTeams</td>
+    <td>GET</td>
+    <td>/api/v2/teams</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-team/">チームの追加</a></td>
+    <td>addTeam</td>
+    <td>POST</td>
+    <td>/api/v2/teams</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-team/">チーム情報の取得</a></td>
+    <td>getTeam</td>
+    <td>GET</td>
+    <td>/api/v2/teams/:teamId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/update-team/">チーム情報の更新</a></td>
+    <td>updateTeam</td>
+    <td>PATCH</td>
+    <td>/api/v2/teams/:teamId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-team/">チームの削除</a></td>
+    <td>deleteTeam</td>
+    <td>DELETE</td>
+    <td>/api/v2/teams/:teamId</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-team-icon/">チームアイコンの取得</a></td>
+    <td>getTeamIcon</td>
+    <td>GET</td>
+    <td>/api/v2/teams/:teamId/icon</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-project-team-list/">プロジェクトチーム一覧の取得</a></td>
+    <td>getProjectTeamList</td>
+    <td>GET</td>
+    <td>/api/v2/projects/:projectIdOrKey/teams</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/add-project-team/">プロジェクトチームの追加</a></td>
+    <td>addProjectTeam</td>
+    <td>POST</td>
+    <td>/api/v2/projects/:projectIdOrKey/teams</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/delete-project-team/">プロジェクトチームの削除</a></td>
+    <td>deleteProjectTeam</td>
+    <td>DELETE</td>
+    <td>/api/v2/projects/:projectIdOrKey/teams</td>
+  <tr>  <tr>
+    <td><a href="https://developer.nulab.com/ja/docs/backlog/api/2/get-rate-limit/">レート制限情報の取得</a></td>
+    <td>getRateLimit</td>
+    <td>GET</td>
+    <td>/api/v2/rateLimit</td>
+  <tr></table>
+  </body>
+  </html>
