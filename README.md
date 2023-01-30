@@ -63,6 +63,10 @@ foreach ($cli->space()->projects(Backlog::PROJECTS_ONLY_MINE) as $prj){
   }
 }
 ```
+自動補完の例
+<div>
+<img width="100%" alt="image" src="https://user-images.githubusercontent.com/55338/215521858-31d7fd22-ddd5-484f-b55f-af12503eb82a.png">
+</div>
 
 ## サンプル
 
