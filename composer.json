@@ -1,5 +1,5 @@
 {
-  "name": "takuya/php-backlog-api-client",
+  "name": "takuya/php-nulab-backlog-api-client",
   "description": "Access to Nulab Backlog Api.",
   "type": "library",
   "license": "GPL-3.0-or-later",
