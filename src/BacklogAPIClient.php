@@ -11,9 +11,23 @@ class BacklogAPIClient {
   use BacklogAPIv2Methods;
   use CacherTrait;
   
+  protected RequestRateLimiter $limiter;
+  
   public function __construct( protected $space,
                                protected $key,
                                protected $tld = 'com', ) {
+    $this->limiter = new RequestRateLimiter();
+  }
+  
+  public function enableRateLimiter() {
+    $this->limiter->enableRateLimitWaiting();
+  }
+  
+  public function disableRateLimiter() {
+    $this->limiter->disableRateLimitWaiting();
+  }
+  public function getRateLimiterInfo(){
+    return $this->limiter->getRateLimitInfo();
   }
   
   /**
@@ -46,8 +60,10 @@ class BacklogAPIClient {
   
   protected function send_request( $method, $path, $opts ) {
     try {
+      $this->limiter->waitForRateLimit();
       $client = new Client(['base_uri' => $this->base_uri()]);
       $res = $client->request($method, $path, $opts);
+      $this->limiter->parseRateLimit($res);
       
       return $res;
     } catch (ClientException $e) {

@@ -177,4 +177,16 @@ class Backlog {
     
     return $issue->id;
   }
+  
+  public function rate_limit() {
+    $info = $this->api->getRateLimiterInfo();
+    $at = ( new \DateTimeImmutable(
+      'now', new \DateTimeZone('Asia/Tokyo')) )->setTimestamp($info['X-RateLimit-Reset']);
+    
+    return [
+      'rate-limit-will-all-reset' => $at->format('c'),
+      'rate-limit-per-minute'     => $info['X-RateLimit-Limit'],
+      'rate-limit-count-remains'  => $info['X-RateLimit-Remaining'],
+    ];
+  }
 }
