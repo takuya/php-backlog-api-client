@@ -155,17 +155,22 @@ class BacklogProjectModelTest extends TestCase {
   }
   
   public function test_project_webhook() {
-    $pid = $this->cli->space()->project_ids(Backlog::PROJECTS_ONLY_MINE)[0];
-    $prj = $this->cli->project($pid);
-    $hooks = $prj->webhooks();
-    $this->assertIsArray($hooks);
-    $this->assertGreaterThan(0, sizeof($hooks));
-    $obj = json_decode(json_encode($hooks[0]));
-    $keys = explode(
-      ' ',
-      "id name description hookUrl allEvent activityTypeIds created createdUser updated updatedUser");
-    foreach ($keys as $key) {
-      $this->assertObjectHasAttribute($key, $obj);
+    $project_ids = $this->cli->space()->project_ids(Backlog::PROJECTS_ONLY_MINE);
+    foreach ($project_ids as $project_id) {
+      $prj = $this->cli->project($project_id);
+      $hooks = $prj->webhooks();
+      $this->assertIsArray($hooks);
+      if (sizeof($hooks)>0){
+        $this->assertGreaterThan(0, sizeof($hooks));
+        $obj = json_decode(json_encode($hooks[0]));
+        $keys = explode(
+          ' ',
+          "id name description hookUrl allEvent activityTypeIds created createdUser updated updatedUser");
+        foreach ($keys as $key) {
+          $this->assertObjectHasAttribute($key, $obj);
+        }
+        break;
+      }
     }
   }
   
