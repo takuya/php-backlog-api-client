@@ -10,7 +10,7 @@ class BacklogRateLimitTest extends TestCase {
   protected Backlog $cli;
   
   public function test_get_api_rate_limit() {
-    $this->cli->space()->projects();
+    $this->cli->space()->projects(Backlog::PROJECTS_ONLY_MINE);
     $ret = $this->cli->rate_limit();
     $this->assertArrayHasKey("rate-limit-will-all-reset",$ret);
     $this->assertArrayHasKey("rate-limit-per-minute",$ret);
