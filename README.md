@@ -71,13 +71,13 @@ foreach ($cli->space()->projects(Backlog::PROJECTS_ONLY_MINE) as $prj){
 ## サンプル
 
 
-APIはバックログを開いてアドレスを見ながら使うと楽です。
+APIはバックログを開いてアドレスを見ながら使います。
 
-課題コメントを開いたときのアドレスが次のときは、KEYがわかります。
+課題コメントを開いたときのアドレスは次のようになっています。
 ```
 https://example.backlog.com/view/MYPRJ-40#comment-8408
 ```
-上記のアドレスから次のようなことが読み取れます。
+アドレスから次の情報が読み取れます。
 ```json
 {
   "スペースKey":"example",
@@ -86,7 +86,17 @@ https://example.backlog.com/view/MYPRJ-40#comment-8408
   "コメントID": "8408"
 }
 ```
+
+|         URL(path)          |   値   |   Apiでの引数表記    |    呼び方     |
+|:--------------------------:|:-----:|:--------------:|:----------:|
+| /**MYPRJ**-40#comment-8408 | MYPRJ | ProjectIdOrKey | ProjectKey |
+| /MYPRJ-**40**#comment-8408 |  40   |  IssueIdOrKey  |  IssueKey  |
+| /MYPRJ-40#comment-**8408** | 8409  |   CommentId    | CommentId  |
+
+APIドキュメントに`ProjectIdOrKey`と書かれた場合は、 ProjectId Or ProjectKey を意味しています。`ProjectKey`と`ProjectId`とは１対１対応のようです。
 上記の情報を使ってAPIにアクセスします。
+
+たとえば、以下のように使います。
 ```php
 <?php
 // API呼び出し
@@ -101,6 +111,21 @@ $cli->getProject("MYPRJ");
 $cli->getIssue("MYPRJ-40");
 
 ```
+
+
+基本的に、`Key`より`ID`アクセスが楽ちんです。
+
+なぜなら、リクエスト引数へIDsを指定で検索するAPIが殆どだからです。たとえばパラメータ`projectIds[]`や`IssueIds[]`などです。
+
+このためにID と Key を相互に変換するメソッドを作成してあります。
+```php
+<?php
+use Takuya\BacklogApiClient\Backlog;
+$cli = new Backlog($space, $key);
+$project_id = $cli->projectIdByKeyName("MYPRJ");
+```
+
+
 
 ## api 一覧
 
