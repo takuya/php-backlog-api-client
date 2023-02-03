@@ -8,7 +8,7 @@ class User extends BaseModel {
   public string  $userId;
   public string  $name;
   public int     $roleType;
-  public string  $lang;
+  public ?string  $lang;
   public string  $mailAddress;
   public ?object $nulabAccount;
   public string  $keyword;
