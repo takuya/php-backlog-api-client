@@ -51,9 +51,12 @@ class BacklogProjectModelTest extends TestCase {
   
   public function test_project_custom_fields() {
     $project_ids = $this->cli->space()->project_ids(Backlog::PROJECTS_ONLY_MINE);
+    $this->assertIsArray($project_ids);
     // issue types
     foreach ($project_ids as $project_id) {
-      foreach ($this->cli->project($project_id)->custom_fields() as $cf) {
+      $cf_list = $this->cli->project($project_id)->custom_fields();
+      $this->assertIsArray($cf_list);
+      foreach ($cf_list as $cf) {
         $this->assertEquals(CustomField::class, get_class($cf));
         $this->assertIsInt($cf->id);
         $this->assertIsInt($cf->displayOrder);
@@ -149,6 +152,21 @@ class BacklogProjectModelTest extends TestCase {
     // icon
     $project = $this->cli->project($project_ids[0]);
     $this->assertNotFalse(imagecreatefromstring($project->icon()));
+  }
+  
+  public function test_project_webhook() {
+    $pid = $this->cli->space()->project_ids(Backlog::PROJECTS_ONLY_MINE)[0];
+    $prj = $this->cli->project($pid);
+    $hooks = $prj->webhooks();
+    $this->assertIsArray($hooks);
+    $this->assertGreaterThan(0, sizeof($hooks));
+    $obj = json_decode(json_encode($hooks[0]));
+    $keys = explode(
+      ' ',
+      "id name description hookUrl allEvent activityTypeIds created createdUser updated updatedUser");
+    foreach ($keys as $key) {
+      $this->assertObjectHasAttribute($key, $obj);
+    }
   }
   
   protected function setUp():void {

@@ -16,20 +16,29 @@ class BacklogIssueModelTest extends TestCase {
   protected Backlog $cli;
   
   public function test_get_issue_has_parent() {
+    // 有料プランのみ。
     $q = ['parentChild' => Issue::PARENT_CHILD['子課題'], 'count' => 1];
-    $issue = $this->cli->findIssues(['query_options' => $q])[0];
-    $parentIssue = $issue->parentIssue();
-    $this->assertEquals($issue->parentIssueId, $parentIssue->id);
+    $sub_issues = $this->cli->findIssues(['query_options' => $q]);
+    $this->assertIsArray($sub_issues);
+    if (sizeof($sub_issues)){
+      $issue = $sub_issues[0];
+      $parentIssue = $issue->parentIssue();
+      $this->assertEquals($issue->parentIssueId, $parentIssue->id);
+    }
   }
   
   public function test_get_issue_has_child() {
     $q = ['parentChild' => Issue::PARENT_CHILD['親課題'], 'count' => 1];
-    $issue = $this->cli->findIssues(['query_options' => $q])[0];
-    $q = ['parentIssueId' => [$issue->id], 'count' => 20];
-    $sub_issue_list = $this->cli->findIssues(['query_options' => $q]);
-    foreach ($sub_issue_list as $sub_issue) {
-      $this->assertTrue($sub_issue->isChildIssue());
-      $this->assertEquals($sub_issue->parentIssueId, $issue->id);
+    $parent_issues = $this->cli->findIssues(['query_options' => $q]);
+    $this->assertIsArray($parent_issues);
+    if (sizeof($parent_issues)){//有料プランのみ
+      $issue = $parent_issues[0];
+      $q = ['parentIssueId' => [$issue->id], 'count' => 20];
+      $sub_issue_list = $this->cli->findIssues(['query_options' => $q]);
+      foreach ($sub_issue_list as $sub_issue) {
+        $this->assertTrue($sub_issue->isChildIssue());
+        $this->assertEquals($sub_issue->parentIssueId, $issue->id);
+      }
     }
   }
   
@@ -37,6 +46,7 @@ class BacklogIssueModelTest extends TestCase {
     foreach ($this->cli->space()->projects(Backlog::PROJECTS_ONLY_MINE) as $project) {
       foreach ($project->issues() as $issue) {
         foreach ($issue->comments() as $comment) {
+          $this->assertIsArray($comment->notifications);
           if( sizeof($comment->notifications) == 0 ) {
             continue;
           }
@@ -52,7 +62,7 @@ class BacklogIssueModelTest extends TestCase {
     }
   }
   
-  public function test_get_shared_file_of_isseue() {
+  public function test_get_shared_file_of_issue() {
     $ret = $this->cli->findIssues(['query_options' => ['sharedFile' => 'true', 'count' => 1]]);
     // これはバックログ上ではただのリンクです。
     $this->assertEquals(SharedFile::class, get_class($ret[0]->sharedFiles[0]));

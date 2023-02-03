@@ -10,6 +10,7 @@ use Takuya\BacklogApiClient\Models\Space;
 use Takuya\BacklogApiClient\Models\Issue;
 use Takuya\BacklogApiClient\Models\Project;
 use Takuya\BacklogApiClient\Models\ProjectTeam;
+use Takuya\BacklogApiClient\Models\NulabAccount;
 
 class BacklogModelTest extends TestCase {
   
@@ -30,6 +31,16 @@ class BacklogModelTest extends TestCase {
     $this->assertObjectHasAttribute('spaceKey', $ret);
     $this->assertEquals(Space::class, get_class($ret));
   }
+
+  public function test_get_user_nulab_account(){
+    $user=$this->cli->space()->users()[0];
+    $nulab_account = $user->nulabAccount;
+    $this->assertEquals(NulabAccount::class,get_class($nulab_account));
+    $obj = json_decode(json_encode($nulab_account));
+    $this->assertObjectHasAttribute('name',$obj);
+    $this->assertObjectHasAttribute('nulabId',$obj);
+    $this->assertObjectHasAttribute('uniqueId',$obj);
+  }
   
   public function test_get_project() {
     $project_id = $this->cli->space()->project_ids(Backlog::PROJECTS_ONLY_MINE)[0];
@@ -46,15 +57,19 @@ class BacklogModelTest extends TestCase {
         break;
       }
     }
-    $team = $teams[0];
-    $this->assertIsArray($team->members);
-    $this->assertObjectHasAttribute('name', $team);
-    $this->assertObjectHasAttribute('id', $team);
-    $this->assertObjectHasAttribute('created', $team);
-    $this->assertEquals(ProjectTeam::class, get_class($team));
-    $user = $team->members[0];
-    $this->assertEquals(User::class, get_class($user));
-    $this->assertEquals(json_encode($team), json_encode($this->cli->team($team->id)));
+    if (sizeof($teams)){
+      $team = $teams[0];
+      $this->assertIsArray($team->members);
+      $this->assertObjectHasAttribute('name', $team);
+      $this->assertObjectHasAttribute('id', $team);
+      $this->assertObjectHasAttribute('created', $team);
+      $this->assertEquals(ProjectTeam::class, get_class($team));
+      $user = $team->members[0];
+      $this->assertEquals(User::class, get_class($user));
+      $this->assertEquals(json_encode($team), json_encode($this->cli->team($team->id)));
+    }else{
+      $this->assertIsArray($teams);
+    }
   }
   
   public function test_get_project_by_ProjectIdOrKey() {
