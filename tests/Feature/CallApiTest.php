@@ -89,16 +89,17 @@ class CallApiTest extends TestCase {
     // 添付ファイルは、
     // 単体取得と一覧取得で、同じものが得られ無い。結果が異なる。めんどくさい。
     // 単体取得はファイルの中身が、一覧取得は、メタ情報が得られる。
+    // 無料プランでは、添付ファイルは１個まで。
     $list = $this->cli->getIssueList(['count' => 100]);
-    $id_has_child = null;
+    $issue_id_has_attachment = null;
     foreach ($list as $e) {
-      if( sizeof($e->attachments) > 1 ) {
-        $id_has_child = $e->id;
+      if( sizeof($e->attachments) > 0 ) {
+        $issue_id_has_attachment = $e->id;
         break;
       }
     }
-    $list = $this->cli->getListOfIssueAttachments($id_has_child, ['count' => 100, 'order' => 'asc']);
-    $attachment = $this->cli->getIssueAttachment($id_has_child, $list[0]->id);
+    $list = $this->cli->getListOfIssueAttachments($issue_id_has_attachment);
+    $attachment = $this->cli->getIssueAttachment($issue_id_has_attachment, $list[0]->id);
     $this->assertNotEquals($attachment, $list[0]);
     $this->assertObjectHasAttribute('name', $list[0]);
     $this->assertObjectHasAttribute('size', $list[0]);
