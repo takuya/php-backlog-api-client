@@ -121,10 +121,16 @@ composer require takuya/php-nulab-backlog-api-client
 ## Development
 インストールしてテストして開発。
 ```sh
+## clone
 git clone git@github.com:takuya/php-nulab-backlog-api-client.git
 cd php-nulab-backlog-api-client
 composer install
+## generate api from backlog WebSite.
 composer run-script gen_api_methods
+## Test api methods.
+export backlog_api_key='YOUR_API_KEY'
+export backlog_space='xxxspace'
 composer run-script test
+## test some test case
 php vendor/bin/phpunit --filter get_space
 ```
