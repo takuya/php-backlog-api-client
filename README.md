@@ -12,7 +12,10 @@ $cli = new BacklogAPIClient($space, $key);
 $cli->getSpace();
 $cli->getIssue(['query_options'=>['projectIds'=>[1,2,3],'count'=>100]]);
 $cli->getComment("PRJ-234",1)
-
+```
+spaceId はURLを入れます。
+```php
+$space='http://xxx-your-space.backlog.xxx'
 ```
 ## 提供するクラス
 ２つのクラスファイルを提供しています。
