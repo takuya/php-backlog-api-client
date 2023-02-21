@@ -14,6 +14,7 @@ trait ListUpModelClas {
     $list = array_map(fn($e)=>str_replace('.php','',$e),$list);
     $list = array_map(fn($e)=>str_replace('/','\\',$e),$list);
     $list = array_map(fn($e)=>$ref->getNamespaceName().'\\'.$e,$list);
+    $list = array_filter($list,fn($e)=>!(new \ReflectionClass($e))->isAbstract());
     return $list;
   }
   
