@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature;
+namespace tests\Unit\Model;
 
 use Takuya\BacklogApiClient\Backlog;
 use Takuya\BacklogApiClient\Models\Wiki\History;
 use Takuya\BacklogApiClient\Models\Wiki\Page as WikiPage;
 use Takuya\BacklogApiClient\Models\Wiki\WikiPageAttachment;
 
-class BacklogProjectWikiModelTest extends TestCaseBacklogModelTest {
+class BacklogProjectWikiModelTest extends TestCaseBacklogModels {
   
   
   public function test_get_wiki_pages_in_a_project() {

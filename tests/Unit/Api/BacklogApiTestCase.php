@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Unit;
+namespace tests\Unit\Api;
 
-use Tests\TestCase;
+use tests\TestCase;
 use Takuya\BacklogApiClient\BacklogAPIClient;
 
-class TestCaseBacklogApiTest extends TestCase {
+class BacklogApiTestCase extends TestCase {
   protected BacklogAPIClient $cli;
   protected function setUp():void {
     parent::setUp();

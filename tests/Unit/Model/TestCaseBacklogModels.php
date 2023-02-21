@@ -1,12 +1,11 @@
 <?php
 
-namespace Tests\Feature;
+namespace tests\Unit\Model;
 
 use Tests\TestCase;
 use Takuya\BacklogApiClient\Backlog;
-use Tests\assertions\PropertyAssertions;
 
-class TestCaseBacklogModelTest extends TestCase {
+class TestCaseBacklogModels extends TestCase {
   protected Backlog $cli;
   
   protected function setUp():void {

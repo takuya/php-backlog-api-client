@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Feature;
+namespace tests\Unit\Model;
 
 use Takuya\BacklogApiClient\Backlog;
 
-class BacklogRateLimitTest extends TestCaseBacklogModelTest {
+class BacklogRateLimitTest extends TestCaseBacklogModels {
   
   
   public function test_get_api_rate_limit () {

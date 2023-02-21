@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\assertions;
+namespace tests\assertions;
 
 trait PropertyAssertions  {
   public static function assertPropIsExists($prop_name,$obj){

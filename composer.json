@@ -11,7 +11,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests/"
+      "tests\\": "tests/"
     },
     "files": [
       "src/helpers/domain_name_utils.php"

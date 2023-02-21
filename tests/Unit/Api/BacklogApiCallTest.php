@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Unit;
+namespace tests\Unit\Api;
 
 
 
-class CallModelTest extends TestCaseBacklogApiTest {
+class BacklogApiCallTest extends BacklogApiTestCase {
   
   
   public function test_call_api_get_space() {

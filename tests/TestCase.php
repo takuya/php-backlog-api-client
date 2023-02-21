@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests;
+namespace tests;
 
 
-use Tests\assertions\PropertyAssertions;
-use Tests\assertions\ArrayAssertions;
+use tests\assertions\PropertyAssertions;
+use tests\assertions\ArrayAssertions;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase {
   use PropertyAssertions;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\assertions;
+namespace tests\assertions;
 
 trait ArrayAssertions {
   public static function assertArrayHasKeyOfList(array $keys, $array){

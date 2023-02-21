@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace tests\Unit\Model;
 
 use RuntimeException;
 use Takuya\BacklogApiClient\Backlog;
@@ -11,7 +11,7 @@ use Takuya\BacklogApiClient\Models\Project;
 use Takuya\BacklogApiClient\Models\ProjectTeam;
 use Takuya\BacklogApiClient\Models\NulabAccount;
 
-class BacklogModelTest extends TestCaseBacklogModelTest {
+class BacklogModelTest extends TestCaseBacklogModels {
   
   
   public function test_get_user_and_user_icon() {

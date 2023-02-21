@@ -1,8 +1,7 @@
 <?php
 
-namespace Tests\Feature;
+namespace tests\Unit\Model;
 
-use Tests\TestCase;
 use Takuya\BacklogApiClient\Backlog;
 use Takuya\BacklogApiClient\Models\User;
 use Takuya\BacklogApiClient\Models\Status;
@@ -13,7 +12,7 @@ use Takuya\BacklogApiClient\Models\DiskUsage;
 use Takuya\BacklogApiClient\Models\IssueType;
 use Takuya\BacklogApiClient\Models\CustomField;
 
-class BacklogProjectModelTest extends TestCaseBacklogModelTest {
+class BacklogProjectModelTest extends TestCaseBacklogModels {
   
   
   public function test_project_model_attributes() {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace tests\Unit\Model;
 
 use Takuya\BacklogApiClient\Backlog;
 use Takuya\BacklogApiClient\Models\User;
@@ -10,7 +10,7 @@ use Takuya\BacklogApiClient\Models\SharedFile;
 use Takuya\BacklogApiClient\Models\Notification;
 use Takuya\BacklogApiClient\Models\IssueAttachment;
 
-class BacklogIssueModelTest extends TestCaseBacklogModelTest {
+class BacklogIssueModelTest extends TestCaseBacklogModels {
   
   
   public function test_get_issue_has_parent () {
