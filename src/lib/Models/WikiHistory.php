@@ -1,6 +1,6 @@
 <?php
 
-namespace Takuya\BacklogApiClient\Models\Wiki;
+namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\Models\BaseModel;
 
@@ -12,7 +12,7 @@ use Takuya\BacklogApiClient\Models\BaseModel;
  * @property-read object $createdUser
  * @property-read string $created
  */
-class History extends BaseModel {
+class WikiHistory extends BaseModel {
   
   public int    $pageId;
   public int    $version;

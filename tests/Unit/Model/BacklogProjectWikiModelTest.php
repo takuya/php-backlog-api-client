@@ -3,9 +3,9 @@
 namespace tests\Unit\Model;
 
 use Takuya\BacklogApiClient\Backlog;
-use Takuya\BacklogApiClient\Models\Wiki\History;
-use Takuya\BacklogApiClient\Models\Wiki\Page as WikiPage;
-use Takuya\BacklogApiClient\Models\Wiki\WikiPageAttachment;
+use Takuya\BacklogApiClient\Models\WikiHistory;
+use Takuya\BacklogApiClient\Models\WikiPage as WikiPage;
+use Takuya\BacklogApiClient\Models\WikiPageAttachment;
 
 class BacklogProjectWikiModelTest extends TestCaseBacklogModels {
   
@@ -54,7 +54,7 @@ class BacklogProjectWikiModelTest extends TestCaseBacklogModels {
           continue;
         }
         $ret = $wiki_page->histories();
-        $this->assertEquals(History::class, get_class($ret[0]));
+        $this->assertEquals(WikiHistory::class, get_class($ret[0]));
         $this->assertHasProperties(['content','version','createdUser'],$ret[0]);
         break 2;
       }

@@ -8,7 +8,7 @@ use Takuya\BacklogApiClient\Models\Issue;
 use Takuya\BacklogApiClient\Models\Space;
 use Takuya\BacklogApiClient\Models\Project;
 use Takuya\BacklogApiClient\Models\ProjectTeam;
-use Takuya\BacklogApiClient\Models\Wiki\Page as WikiPage;
+use Takuya\BacklogApiClient\Models\WikiPage as WikiPage;
 use DateTimeZone;
 use DateTimeImmutable;
 

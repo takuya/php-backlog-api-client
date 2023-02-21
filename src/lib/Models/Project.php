@@ -43,13 +43,13 @@ class Project extends BaseModel {
   }
   
   /**
-   * @return array|Wiki\Page[]
+   * @return array|WikiPage[]
    */
   public function wiki_pages() {
-    /** @var Wiki\Page[] */
+    /** @var WikiPage[] */
     $list = [];
     foreach ($this->api->getWikiPageList(['projectIdOrKey' => $this->id]) as $w) {
-      $list[] = $this->api(Wiki\Page::class, 'getWikiPage', ['wikiId' => $w->id], $this);
+      $list[] = $this->api(WikiPage::class, 'getWikiPage', ['wikiId' => $w->id], $this);
     }
     
     return $list;

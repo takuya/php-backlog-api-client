@@ -1,6 +1,6 @@
 <?php
 
-namespace Takuya\BacklogApiClient\Models\Wiki;
+namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\Models\Attachment;
 
