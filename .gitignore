@@ -2,6 +2,7 @@
 vendor/
 cache/
 
+env.txt
 env.sh
 env2.sh
 composer.lock
