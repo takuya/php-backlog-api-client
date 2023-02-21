@@ -10,9 +10,7 @@ class TestCaseBacklogModels extends TestCase {
   
   protected function setUp():void {
     parent::setUp();
-    $key = getenv('backlog_api_key');
-    $space = getenv('backlog_space');
-    $this->cli = new Backlog($space, $key);
+    $this->cli = $this->model_client();
   }
   
 }

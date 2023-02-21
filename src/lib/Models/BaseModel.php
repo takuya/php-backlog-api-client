@@ -4,10 +4,13 @@ namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\BacklogAPIClient;
 use Takuya\BacklogApiClient\Models\Traits\ApiMapping;
+use Takuya\BacklogApiClient\Models\Traits\ModelObjectConvert;
+use Takuya\BacklogApiClient\Models\Wiki\ChangeLog;
 
 class BaseModel {
   
   use ApiMapping;
+  use ModelObjectConvert;
   
   public int $id;
   protected ?BaseModel $parent;

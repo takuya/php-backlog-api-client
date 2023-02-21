@@ -31,6 +31,9 @@ class Space extends BaseModel {
       function ( $id ) { return $this->api->into_class(Project::class, 'getProject', ['projectIdOrKey' => $id]); },
       $this->project_ids($all));
   }
+  public function my_projects(){
+    return $this->projects(Backlog::PROJECTS_ONLY_MINE);
+  }
   
   /**
    * @return array|Project[]
