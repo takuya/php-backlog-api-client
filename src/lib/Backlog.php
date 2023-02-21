@@ -9,10 +9,8 @@ use Takuya\BacklogApiClient\Models\Space;
 use Takuya\BacklogApiClient\Models\Project;
 use Takuya\BacklogApiClient\Models\ProjectTeam;
 use Takuya\BacklogApiClient\Models\Wiki\Page as WikiPage;
-use function Takuya\Utils\assert_str_is_domain;
-use function Takuya\Utils\sub_domain;
-use function Takuya\Utils\base_domain;
-use function Takuya\Utils\parent_domain;
+use DateTimeZone;
+use DateTimeImmutable;
 
 /**
  * Nulab Backlog Api v2. PHP Library for reading , structural data access.
@@ -32,12 +30,12 @@ class Backlog {
    * @param string $tld   default is 'com'. if your space is "https://xxx.backlog.jp/" enter "jp"
    */
   public function __construct ( string $spaceId_or_url, string $key ) {
-    $this->api = new BacklogAPIClient(  $spaceId_or_url, $key);
+    $this->api = new BacklogAPIClient( $spaceId_or_url, $key );
   }
   
   /**
    * @param int|string $wikiId
-   * @return \Takuya\BacklogApiClient\Models\Wiki\Page
+   * @return WikiPage
    */
   public function wiki ( $wikiId ) {
     $res = $this->api->getWikiPage( $wikiId );
@@ -47,20 +45,20 @@ class Backlog {
   
   /**
    * @param int|string $projectIdOrKey
-   * @return \Takuya\BacklogApiClient\Models\Project
+   * @return Project
    */
   public function project ( $projectIdOrKey ) {
     /** @var Project $p */
-    $p = $this->api->into_class(Project::class, 'getProject', ['projectIdOrKey' => $projectIdOrKey]);
+    $p = $this->api->into_class( Project::class, 'getProject', ['projectIdOrKey' => $projectIdOrKey] );
     
     return $p;
   }
   
   /**
    * @param int|string $userId
-   * @return \Takuya\BacklogApiClient\Models\Star[]
+   * @return Star[]
    */
-  public function stars( $userId ) {
+  public function stars ( $userId ) {
     /** @var Star[] $list */
     $list = [];
     $limit = 100;
@@ -68,24 +66,24 @@ class Backlog {
     do {
       $q = ['userId' => $userId, 'query_options' => ['count' => $limit, 'order' => 'asc', 'minId' => $offset]];
       /** @var Star[] $result */
-      $result = $this->api->into_class(Star::class, 'getReceivedStarList', $q);
-      if( ! empty($result) ) {
-        array_push($list, ...$result);
-        $last = end($result);
+      $result = $this->api->into_class( Star::class, 'getReceivedStarList', $q );
+      if ( !empty( $result ) ) {
+        array_push( $list, ...$result );
+        $last = end( $result );
         $offset = $last->id;
       }
-    } while(sizeof($result) == $limit);
+    } while ( sizeof( $result ) == $limit );
     
     return $list;
   }
   
   /**
    * @param int|string $issueIdOrKey
-   * @return \Takuya\BacklogApiClient\Models\Issue
+   * @return Issue
    */
-  public function issue( $issueIdOrKey ) {
+  public function issue ( $issueIdOrKey ) {
     /** @var Issue $iss */
-    $iss = $this->api->into_class(Issue::class, 'getIssue', ['issueIdOrKey' => $issueIdOrKey]);
+    $iss = $this->api->into_class( Issue::class, 'getIssue', ['issueIdOrKey' => $issueIdOrKey] );
     
     return $iss;
   }
@@ -94,16 +92,16 @@ class Backlog {
    * @param int $allow_all Backlog::PROJECTS_ALL or Backlog::PROJECTS_ONLY_MINE
    * @return array|Project[]
    */
-  public function projects( $allow_all = Backlog::PROJECTS_ONLY_MINE ) {
-    return $this->space()->projects($allow_all);
+  public function projects ( $allow_all = Backlog::PROJECTS_ONLY_MINE ) {
+    return $this->space()->projects( $allow_all );
   }
   
   /**
-   * @return \Takuya\BacklogApiClient\Models\Space
+   * @return Space
    */
-  public function space() {
+  public function space () {
     /** @var Space $sp */
-    $sp = $this->api->into_class(Space::class, 'getSpace');
+    $sp = $this->api->into_class( Space::class, 'getSpace' );
     
     return $sp;
   }
@@ -112,9 +110,9 @@ class Backlog {
    * @param $team_id
    * @return ProjectTeam
    */
-  public function team( $team_id ) {
+  public function team ( $team_id ) {
     /** @var ProjectTeam $team */
-    $team = $this->api->into_class(ProjectTeam::class, 'getTeam', ['teamId' => $team_id]);
+    $team = $this->api->into_class( ProjectTeam::class, 'getTeam', ['teamId' => $team_id] );
     
     return $team;
   }
@@ -122,21 +120,21 @@ class Backlog {
   /**
    * @return User|null
    */
-  public function findUser( string $keyword ) {
-    $keyword = preg_quote($keyword);
+  public function findUser ( string $keyword ) {
+    $keyword = preg_quote( $keyword );
     /** @var User[] $users */
     $users = $this->users();
     $search_data = array_map(
       fn( $u ) => [
-        'id'   => $u->id,
-        'text' => implode(',', [$u->id, $u->name, preg_quote($u->userId), $u->keyword, $u->mailAddress]),
+        'id' => $u->id,
+        'text' => implode( ',', [$u->id, $u->name, preg_quote( $u->userId ), $u->keyword, $u->mailAddress] ),
       ],
-      $users);
-    foreach ($search_data as $e) {
-      if( preg_match("/$keyword/", $e['text']) ) {
-        $r = array_filter($users, fn( $u ) => $u->id == $e['id']);
+      $users );
+    foreach ( $search_data as $e ) {
+      if ( preg_match( "/$keyword/", $e['text'] ) ) {
+        $r = array_filter( $users, fn( $u ) => $u->id == $e['id'] );
         
-        return array_shift($r);
+        return array_shift( $r );
       }
     }
     
@@ -146,7 +144,7 @@ class Backlog {
   /**
    * @return array|User[]
    */
-  public function users() {
+  public function users () {
     return $this->space()->users();
   }
   
@@ -158,16 +156,16 @@ class Backlog {
    * $cli->findIssues(['query_options'=>['attachment'=>'true']]);
    * <code>
    */
-  public function findIssues( $query_options = [] ) {
-    return $this->api->into_class(Issue::class, 'getIssueList', $query_options);
+  public function findIssues ( $query_options = [] ) {
+    return $this->api->into_class( Issue::class, 'getIssueList', $query_options );
   }
   
   /**
    * @param string $projectKey_to_search
    * @return int id of project
    */
-  public function projectIdByKeyName( string $projectKey_to_search ) {
-    $proj = $this->api->getProject($projectKey_to_search);
+  public function projectIdByKeyName ( string $projectKey_to_search ) {
+    $proj = $this->api->getProject( $projectKey_to_search );
     
     return $proj->id;
   }
@@ -176,21 +174,21 @@ class Backlog {
    * @param string $issue_key_to_search
    * @return int id of issue
    */
-  public function issueIdByKeyName( string $issue_key_to_search ) {
-    $issue = $this->api->getIssue($issue_key_to_search);
+  public function issueIdByKeyName ( string $issue_key_to_search ) {
+    $issue = $this->api->getIssue( $issue_key_to_search );
     
     return $issue->id;
   }
   
-  public function rate_limit() {
+  public function rate_limit () {
     $info = $this->api->getRateLimiterInfo();
-    $at = ( new \DateTimeImmutable(
-      'now', new \DateTimeZone('Asia/Tokyo')) )->setTimestamp($info['X-RateLimit-Reset']);
+    $at = ( new DateTimeImmutable(
+      'now', new DateTimeZone( 'Asia/Tokyo' ) ) )->setTimestamp( $info['X-RateLimit-Reset'] );
     
     return [
-      'rate-limit-will-all-reset' => $at->format('c'),
-      'rate-limit-per-minute'     => $info['X-RateLimit-Limit'],
-      'rate-limit-count-remains'  => $info['X-RateLimit-Remaining'],
+      'rate-limit-will-all-reset' => $at->format( 'c' ),
+      'rate-limit-per-minute' => $info['X-RateLimit-Limit'],
+      'rate-limit-count-remains' => $info['X-RateLimit-Remaining'],
     ];
   }
 }
