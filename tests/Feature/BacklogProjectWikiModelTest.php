@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use Takuya\BacklogApiClient\Backlog;
 use Takuya\BacklogApiClient\Models\Wiki\History;
 use Takuya\BacklogApiClient\Models\Wiki\Page as WikiPage;

@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use RuntimeException;
 use Takuya\BacklogApiClient\Backlog;
 use Takuya\BacklogApiClient\Models\User;
