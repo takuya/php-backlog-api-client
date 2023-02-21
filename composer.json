@@ -7,15 +7,15 @@
   "autoload": {
     "psr-4": {
       "Takuya\\BacklogApiClient\\": "src/lib"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "tests\\": "tests/"
     },
     "files": [
       "src/helpers/domain_name_utils.php"
     ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "tests\\": "tests/"
+    }
   },
   "authors": [
     {
