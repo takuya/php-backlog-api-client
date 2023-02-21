@@ -9,8 +9,8 @@ class BaseModel {
   
   use ApiMapping;
   
-  public int                 $id;
-  protected ?BaseModel       $parent;
+  public ?int $id;
+  protected ?BaseModel $parent;
   protected BacklogAPIClient $api;
   
   /**
