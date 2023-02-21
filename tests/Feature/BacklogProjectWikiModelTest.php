@@ -18,10 +18,7 @@ class BacklogProjectWikiModelTest extends TestCaseBacklogModelTest {
       }
       $ret = $project->wiki_pages();
       $this->assertEquals(WikiPage::class, get_class($ret[0]));
-      $this->assertPropIsExists('createdUser', $ret[0]);
-      $this->assertPropIsExists('created', $ret[0]);
-      $this->assertPropIsExists('name', $ret[0]);
-      $this->assertPropIsExists('content', $ret[0]);
+      $this->assertHasProperties(['createdUser','created','name','content'],$ret[0]);
       break;
     }
   }
@@ -31,17 +28,14 @@ class BacklogProjectWikiModelTest extends TestCaseBacklogModelTest {
       if( ! $project->useWiki ) {
         continue;
       }
-      $ret = $project->wiki_pages();
-      foreach ($project->wiki_pages() as $wiki_page) {
+      $pages = $project->wiki_pages();
+      foreach ($pages as $wiki_page) {
         if( sizeof($wiki_page->attachments) < 1 ) {
           continue;
         }
         $this->assertIsArray($wiki_page->attachments);
         $this->assertEquals(WikiPageAttachment::class, get_class($wiki_page->attachments[0]));
-        $this->assertPropIsExists('created', $wiki_page->attachments[0]);
-        $this->assertPropIsExists('createdUser', $wiki_page->attachments[0]);
-        $this->assertPropIsExists('name', $wiki_page->attachments[0]);
-        $this->assertPropIsExists('size', $wiki_page->attachments[0]);
+        $this->assertHasProperties(['created','createdUser','name','size'],$wiki_page->attachments[0]);
         //
         $file = $wiki_page->attachments[0];
         $this->assertEquals($file->size, strlen($file->getContent()));
@@ -62,9 +56,7 @@ class BacklogProjectWikiModelTest extends TestCaseBacklogModelTest {
         }
         $ret = $wiki_page->histories();
         $this->assertEquals(History::class, get_class($ret[0]));
-        $this->assertPropIsExists('content', $ret[0]);
-        $this->assertPropIsExists('version', $ret[0]);
-        $this->assertPropIsExists('createdUser', $ret[0]);
+        $this->assertHasProperties(['content','version','createdUser'],$ret[0]);
         break 2;
       }
     }
