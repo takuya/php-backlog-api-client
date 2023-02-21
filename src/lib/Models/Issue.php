@@ -21,7 +21,7 @@ class Issue extends BaseModel {
   public object  $issueType;
   public string  $summary;
   public string  $description;
-  public         $resolution;
+  public ?object  $resolution;//
   public object  $priority;
   public object  $status;
   public ?object $assignee;

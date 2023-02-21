@@ -6,6 +6,7 @@ use RuntimeException;
 
 /**
  * @property-read int     $id
+ * @property-read int     $projectId
  * @property-read string  $type "directory" or "file"
  * @property-read string  $dir
  * @property-read string  $name
@@ -18,6 +19,7 @@ use RuntimeException;
 class SharedFile extends BaseModel {
   
   public int     $id;
+  public int     $projectId;
   public string  $type;
   public string  $dir;
   public string  $name;

@@ -12,7 +12,8 @@ class CustomField extends BaseModel {
   public const TYPE_SELECT_MULTI  = 6;
   public const TYPE_CHECKBOX      = 7;
   public const TYPE_RADIO_BUTTON  = 8;
-  public int    $typeId;
+  public int $projectId;
+  public int $typeId;
   public int    $version;
   public string $name;
   public string $description;

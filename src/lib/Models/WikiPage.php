@@ -2,10 +2,6 @@
 
 namespace Takuya\BacklogApiClient\Models;
 
-use Takuya\BacklogApiClient\Models\User;
-use Takuya\BacklogApiClient\Models\BaseModel;
-use Takuya\BacklogApiClient\Models\SharedFile;
-
 /**
  * @property-read int                  $id
  * @property-read int                  $projectId
@@ -21,16 +17,31 @@ use Takuya\BacklogApiClient\Models\SharedFile;
  * @property-read string               $updated
  */
 class WikiPage extends BaseModel {
+  public int $id;
+  public int $projectId;
+  public string $name;
+  public string $content;
+  /** @var WikiTag[] */
+  public array $tags;
+  /** @var WikiPageAttachment[] */
+  public ?array $attachments;
+  public ?array $sharedFile;
+  public array $stars;
+  public object $createdUser;
+  public string $created;
+  public object $updatedUser;
+  public string $updated;
+  
   
   /*
    * @return array| Tag[]
    */
-  public function tags() {
+  public function tags () {
     return $this->api(
       WikiTag::class,
       'getWikiPageTagList',
       ['query_options' => ['projectIdOrKey' => $this->parent->id]],
-      $this);
+      $this );
   }
   
   /*

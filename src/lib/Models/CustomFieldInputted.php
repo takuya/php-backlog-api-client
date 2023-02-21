@@ -11,8 +11,9 @@ namespace Takuya\BacklogApiClient\Models;
 
 class CustomFieldInputted extends BaseModel {
   
-  public int    $id;
-  public int    $fieldTypeId;
+  public int $id;
+  public int $issueId;
+  public int $fieldTypeId;
   public string $name;
   /** @var object{ id: int, name: string,displayOrder: int } */
   public $value;

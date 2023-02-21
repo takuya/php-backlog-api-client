@@ -2,7 +2,7 @@
 
 namespace Takuya\BacklogApiClient\Models;
 
-class Attachment extends BaseModel {
+abstract  class Attachment extends BaseModel {
   
   public int    $id;
   public string $name;
@@ -24,7 +24,5 @@ class Attachment extends BaseModel {
   /**
    * @return string
    */
-  public function getContent():string {
-    return "";
-  }
+  abstract public function getContent():string;
 }
