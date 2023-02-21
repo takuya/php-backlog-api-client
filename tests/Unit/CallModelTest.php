@@ -1,13 +1,11 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
-use Tests\TestCase;
-use Takuya\BacklogApiClient\BacklogAPIClient;
 
-class CallApiTest extends TestCase {
+
+class CallModelTest extends TestCaseBacklogApiTest {
   
-  protected BacklogAPIClient $cli;
   
   public function test_call_api_get_space() {
     $ret = $this->cli->getSpace();
@@ -22,9 +20,7 @@ class CallApiTest extends TestCase {
     $userList = $this->cli->getUserList();
     $this->assertIsArray($userList);
     $this->assertGreaterThan(0, sizeof($userList));
-    $this->assertObjectHasAttribute('id', $userList[0]);
-    $this->assertObjectHasAttribute('userId', $userList[0]);
-    $this->assertObjectHasAttribute('name', $userList[0]);
+    $this->assertHasProperties(['id','userId','name'],$userList[0]);
     $user = $this->cli->getUser($userList[0]->id);
     $this->assertEquals($user, $userList[0]);
   }
@@ -32,9 +28,7 @@ class CallApiTest extends TestCase {
   public function test_api_project_list_and_project() {
     $list = $this->cli->getProjectList();
     $this->assertGreaterThan(0, sizeof($list));
-    $this->assertObjectHasAttribute('id', $list[0]);
-    $this->assertObjectHasAttribute('projectKey', $list[0]);
-    $this->assertObjectHasAttribute('name', $list[0]);
+    $this->assertHasProperties(['id','projectKey','name'],$list[0]);
     $entry = $this->cli->getProject($list[0]->id);
     $this->assertEquals($entry->id, $list[0]->id);
   }
@@ -101,15 +95,8 @@ class CallApiTest extends TestCase {
     $list = $this->cli->getListOfIssueAttachments($issue_id_has_attachment);
     $attachment = $this->cli->getIssueAttachment($issue_id_has_attachment, $list[0]->id);
     $this->assertNotEquals($attachment, $list[0]);
-    $this->assertObjectHasAttribute('name', $list[0]);
-    $this->assertObjectHasAttribute('size', $list[0]);
+    $this->assertHasProperties(['name','size'],$list[0]);
     $this->assertEquals($list[0]->size, strlen($attachment));
   }
   
-  protected function setUp():void {
-    parent::setUp();
-    $key = getenv('backlog_api_key');
-    $space = getenv('backlog_space');
-    $this->cli = new BacklogAPIClient($space, $key);
-  }
 }

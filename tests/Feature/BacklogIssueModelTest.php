@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use Takuya\BacklogApiClient\Backlog;
 use Takuya\BacklogApiClient\Models\User;
 use Takuya\BacklogApiClient\Models\Issue;
@@ -11,23 +10,22 @@ use Takuya\BacklogApiClient\Models\SharedFile;
 use Takuya\BacklogApiClient\Models\Notification;
 use Takuya\BacklogApiClient\Models\IssueAttachment;
 
-class BacklogIssueModelTest extends TestCase {
+class BacklogIssueModelTest extends TestCaseBacklogModelTest {
   
-  protected Backlog $cli;
   
-  public function test_get_issue_has_parent() {
+  public function test_get_issue_has_parent () {
     // 有料プランのみ。
     $q = ['parentChild' => Issue::PARENT_CHILD['子課題'], 'count' => 1];
-    $sub_issues = $this->cli->findIssues(['query_options' => $q]);
-    $this->assertIsArray($sub_issues);
-    if (sizeof($sub_issues)){
+    $sub_issues = $this->cli->findIssues( ['query_options' => $q] );
+    $this->assertIsArray( $sub_issues );
+    if ( sizeof( $sub_issues ) ) {
       $issue = $sub_issues[0];
       $parentIssue = $issue->parentIssue();
       $this->assertEquals($issue->parentIssueId, $parentIssue->id);
     }
   }
   
-  public function test_get_issue_has_child() {
+    public function test_get_issue_has_child() {
     $q = ['parentChild' => Issue::PARENT_CHILD['親課題'], 'count' => 1];
     $parent_issues = $this->cli->findIssues(['query_options' => $q]);
     $this->assertIsArray($parent_issues);
@@ -81,19 +79,12 @@ class BacklogIssueModelTest extends TestCase {
       foreach ($project->issues() as $issue) {
         foreach ($issue->comments() as $comment) {
           $this->assertEquals(Comment::class, get_class($comment));
-          $this->assertObjectHasAttribute('content', $comment);
-          $this->assertObjectHasAttribute('changeLog', $comment);
-          $this->assertObjectHasAttribute('createdUser', $comment);
+          $this->assertPropIsExists('content', $comment);
+          $this->assertPropIsExists('changeLog', $comment);
+          $this->assertPropIsExists('createdUser', $comment);
           break 3;
         }
       }
     }
-  }
-  
-  protected function setUp():void {
-    parent::setUp();
-    $key = getenv('backlog_api_key');
-    $space = getenv('backlog_space');
-    $this->cli = new Backlog($space, $key);
   }
 }

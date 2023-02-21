@@ -9,6 +9,10 @@ use Takuya\BacklogApiClient\Models\Space;
 use Takuya\BacklogApiClient\Models\Project;
 use Takuya\BacklogApiClient\Models\ProjectTeam;
 use Takuya\BacklogApiClient\Models\Wiki\Page as WikiPage;
+use function Takuya\Utils\assert_str_is_domain;
+use function Takuya\Utils\sub_domain;
+use function Takuya\Utils\base_domain;
+use function Takuya\Utils\parent_domain;
 
 /**
  * Nulab Backlog Api v2. PHP Library for reading , structural data access.
@@ -18,7 +22,7 @@ use Takuya\BacklogApiClient\Models\Wiki\Page as WikiPage;
  */
 class Backlog {
   
-  public const PROJECTS_ALL       = true;
+  public const PROJECTS_ALL = true;
   public const PROJECTS_ONLY_MINE = false;
   protected BacklogAPIClient $api;
   
@@ -27,25 +31,25 @@ class Backlog {
    * @param string $key   api key for user ( not a OAUTH key )
    * @param string $tld   default is 'com'. if your space is "https://xxx.backlog.jp/" enter "jp"
    */
-  public function __construct( string $space, string $key, string $tld = 'com', ) {
-    $this->api = new BacklogAPIClient($space, $key, $tld);
+  public function __construct ( string $spaceId_or_url, string $key ) {
+    $this->api = new BacklogAPIClient(  $spaceId_or_url, $key);
   }
   
   /**
    * @param int|string $wikiId
    * @return \Takuya\BacklogApiClient\Models\Wiki\Page
    */
-  public function wiki( $wikiId ) {
-    $res = $this->api->getWikiPage($wikiId);
+  public function wiki ( $wikiId ) {
+    $res = $this->api->getWikiPage( $wikiId );
     
-    return new WikiPage($res, $this->api, $this->project($res->projectId));
+    return new WikiPage( $res, $this->api, $this->project( $res->projectId ) );
   }
   
   /**
    * @param int|string $projectIdOrKey
    * @return \Takuya\BacklogApiClient\Models\Project
    */
-  public function project( $projectIdOrKey ) {
+  public function project ( $projectIdOrKey ) {
     /** @var Project $p */
     $p = $this->api->into_class(Project::class, 'getProject', ['projectIdOrKey' => $projectIdOrKey]);
     

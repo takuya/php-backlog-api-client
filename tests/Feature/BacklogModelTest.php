@@ -12,13 +12,10 @@ use Takuya\BacklogApiClient\Models\Project;
 use Takuya\BacklogApiClient\Models\ProjectTeam;
 use Takuya\BacklogApiClient\Models\NulabAccount;
 
-class BacklogModelTest extends TestCase {
+class BacklogModelTest extends TestCaseBacklogModelTest {
   
-  protected Backlog $cli;
   
   public function test_get_user_and_user_icon() {
-    
-    
     foreach ($this->cli->space()->users() as $user) {
       $icon = $user->icon();
       $this->assertNotFalse(imagecreatefromstring($icon));
@@ -28,8 +25,8 @@ class BacklogModelTest extends TestCase {
   
   public function test_get_space() {
     $ret = $this->cli->space();
-    $this->assertObjectHasAttribute('spaceKey', $ret);
     $this->assertEquals(Space::class, get_class($ret));
+    $this->assertNotEmpty($ret->spaceKey);
   }
 
   public function test_get_user_nulab_account(){
@@ -37,15 +34,15 @@ class BacklogModelTest extends TestCase {
     $nulab_account = $user->nulabAccount;
     $this->assertEquals(NulabAccount::class,get_class($nulab_account));
     $obj = json_decode(json_encode($nulab_account));
-    $this->assertObjectHasAttribute('name',$obj);
-    $this->assertObjectHasAttribute('nulabId',$obj);
-    $this->assertObjectHasAttribute('uniqueId',$obj);
+    $this->assertTrue(property_exists($obj,'name'));
+    $this->assertTrue(property_exists($obj,'nulabId'));
+    $this->assertTrue(property_exists($obj,'uniqueId'));
   }
   
   public function test_get_project() {
     $project_id = $this->cli->space()->project_ids(Backlog::PROJECTS_ONLY_MINE)[0];
     $ret = $this->cli->project($project_id);
-    $this->assertObjectHasAttribute('projectKey', $ret);
+    $this->assertPropIsExists('projectKey', $ret);
     $this->assertEquals(Project::class, get_class($ret));
   }
   
@@ -60,9 +57,9 @@ class BacklogModelTest extends TestCase {
     if (sizeof($teams)){
       $team = $teams[0];
       $this->assertIsArray($team->members);
-      $this->assertObjectHasAttribute('name', $team);
-      $this->assertObjectHasAttribute('id', $team);
-      $this->assertObjectHasAttribute('created', $team);
+      $this->assertPropIsExists('name', $team);
+      $this->assertPropIsExists('id', $team);
+      $this->assertPropIsExists('created', $team);
       $this->assertEquals(ProjectTeam::class, get_class($team));
       $user = $team->members[0];
       $this->assertEquals(User::class, get_class($user));
@@ -97,7 +94,7 @@ class BacklogModelTest extends TestCase {
   public function test_get_issue_in_project() {
     $project_id = $this->cli->space()->project_ids(Backlog::PROJECTS_ONLY_MINE)[0];
     $ret = $this->cli->project($project_id)->issues()[0];
-    $this->assertObjectHasAttribute('issueKey', $ret);
+    $this->assertPropIsExists('issueKey', $ret);
     $this->assertEquals(Issue::class, get_class($ret));
   }
   
@@ -112,10 +109,4 @@ class BacklogModelTest extends TestCase {
     $this->assertEquals(json_encode($users[0]), json_encode($this->cli->findUser($users[0]->userId)));
   }
   
-  protected function setUp():void {
-    parent::setUp();
-    $key = getenv('backlog_api_key');
-    $space = getenv('backlog_space');
-    $this->cli = new Backlog($space, $key);
-  }
 }

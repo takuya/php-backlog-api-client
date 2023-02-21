@@ -5,6 +5,10 @@ namespace Takuya\BacklogApiClient;
 use RuntimeException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use function Takuya\Utils\assert_str_is_domain;
+use function Takuya\Utils\sub_domain;
+use function Takuya\Utils\base_domain;
+use function Takuya\Utils\parent_domain;
 
 class BacklogAPIClient {
   
@@ -12,12 +16,26 @@ class BacklogAPIClient {
   use CacherTrait;
   
   protected RequestRateLimiter $limiter;
+  protected string $space;
+  protected string $tld;
   
-  public function __construct( protected $space,
-                               protected $key,
-                               protected $tld = 'com', ) {
+  public function __construct( protected  $spaceId_or_url, protected $key) {
+    [$this->space,$this->tld] = $this->validateSpaceId( $spaceId_or_url);
     $this->limiter = new RequestRateLimiter();
   }
+  protected function validateSpaceId ( string $spaceId_or_url ): array {
+    if ( str_starts_with( $spaceId_or_url, 'http' ) ) {
+      $spaceId_or_url = parse_url( $spaceId_or_url )['host'];
+    }
+    if ( assert_str_is_domain( $spaceId_or_url ) ) {
+      $space_id = sub_domain( $spaceId_or_url );
+      $tld = parent_domain( base_domain( $spaceId_or_url ), false );
+    }
+    $space_id = $space_id ?? $spaceId_or_url;
+    $tld = $tld ?? 'com';
+    return [$space_id, $tld];
+  }
+  
   
   public function enableRateLimiter() {
     $this->limiter->enableRateLimitWaiting();

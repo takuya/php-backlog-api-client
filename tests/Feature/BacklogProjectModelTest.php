@@ -13,9 +13,8 @@ use Takuya\BacklogApiClient\Models\DiskUsage;
 use Takuya\BacklogApiClient\Models\IssueType;
 use Takuya\BacklogApiClient\Models\CustomField;
 
-class BacklogProjectModelTest extends TestCase {
+class BacklogProjectModelTest extends TestCaseBacklogModelTest {
   
-  protected Backlog $cli;
   
   public function test_project_model_attributes() {
     $project_id = $this->cli->space()->project_ids(Backlog::PROJECTS_ONLY_MINE)[0];
@@ -25,7 +24,7 @@ class BacklogProjectModelTest extends TestCase {
       ." useWiki useFileSharing useWikiTreeView useSubversion useGit"
       ." useOriginalImageSizeAtWiki textFormattingRule archived displayOrder useDevAttributes";
     foreach (preg_split('/\s/i', $attrs) as $name) {
-      $this->assertObjectHasAttribute($name, $project);
+      $this->assertPropIsExists($name, $project);
     }
   }
   
@@ -167,17 +166,10 @@ class BacklogProjectModelTest extends TestCase {
           ' ',
           "id name description hookUrl allEvent activityTypeIds created createdUser updated updatedUser");
         foreach ($keys as $key) {
-          $this->assertObjectHasAttribute($key, $obj);
+          $this->assertPropIsExists($key, $obj);
         }
         break;
       }
     }
-  }
-  
-  protected function setUp():void {
-    parent::setUp();
-    $key = getenv('backlog_api_key');
-    $space = getenv('backlog_space');
-    $this->cli = new Backlog($space, $key);
   }
 }
