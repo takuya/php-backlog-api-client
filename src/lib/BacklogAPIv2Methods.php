@@ -1136,7 +1136,7 @@ trait BacklogAPIv2Methods {
   * @return array{id: integer,projectId: integer,name: string,content: string,tags: array,attachments: array,sharedFiles: array,stars: array,createdUser: object,created: string,updatedUser: object,updated: string}
   * @link https://developer.nulab.com/ja/docs/backlog/api/2/get-wiki-page/
   */
-  public function getWikiPage($wikiId){
+  public function   getWikiPage($wikiId){
     return $this->call_api('GET', "/api/v2/wikis/$wikiId" );
   }
 
