@@ -9,9 +9,6 @@ function cache_path($file){
   }
   return $cache_dir.$file;
 }
-function dump(...$args){
-  var_dump($args);
-}
 
 function resolve_path( $target ) {
   //cleanup
