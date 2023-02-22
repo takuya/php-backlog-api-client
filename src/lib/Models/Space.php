@@ -30,6 +30,27 @@ class Space extends BaseModel {
   }
   
   /**
+   * @return Priority[]
+   */
+  public function priorities(){
+    return $this->api->into_class(Priority::class,'getPriorityList');
+  }
+  
+  /**
+   * @return Resolution[]
+   */
+  public function resolutions(){
+    return $this->api->into_class(Resolution::class,'getResolutionList');
+  }
+  
+  /**
+   * @return Licence
+   */
+  public function licence(){
+    return $this->api->into_class(Licence::class,'getLicence');
+  }
+  
+  /**
    * @return array|Project[]
    */
   public function projects( $all = Backlog::PROJECTS_ALL ) {
