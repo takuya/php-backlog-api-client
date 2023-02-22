@@ -3,7 +3,8 @@
 namespace Takuya\BacklogApiClient\Models;
 
 class WikiSharedFiles extends BaseModel {
-  public int $projectId;
+  public int    $id;
+  public int    $projectId;
   public string $type;
   public string $dir;
   public string $name;

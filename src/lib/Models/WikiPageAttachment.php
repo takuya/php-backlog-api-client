@@ -5,6 +5,8 @@ namespace Takuya\BacklogApiClient\Models;
 use Takuya\BacklogApiClient\Models\Attachment;
 
 class WikiPageAttachment extends Attachment {
+  // これ、要らないかも。
+  public int     $id;
   public ?int $wikiId;
   public string $name;
   public int $size;

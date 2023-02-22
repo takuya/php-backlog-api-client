@@ -17,8 +17,8 @@ namespace Takuya\BacklogApiClient\Models;
  * @property-read string               $updated
  */
 class WikiPage extends BaseModel {
-  public int $id;
-  public int $projectId;
+  public int   $id;
+  public int   $projectId;
   public string $name;
   public string $content;
   /** @var WikiTag[] */

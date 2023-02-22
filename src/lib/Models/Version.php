@@ -14,6 +14,7 @@ namespace Takuya\BacklogApiClient\Models;
  */
 class Version extends BaseModel {
   
+  public int     $id;
   public int     $projectId;
   public string  $name;
   public ?string $description;
