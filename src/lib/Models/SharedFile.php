@@ -26,7 +26,7 @@ class SharedFile extends BaseModel {
   public ?string $size;
   public object  $createdUser;
   public string  $created;
-  public ?string $updatedUser;
+  public ?object $updatedUser;
   public ?string $updated;
   
   public function isDir() {
