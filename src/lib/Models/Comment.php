@@ -4,12 +4,13 @@ namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\Models\Traits\HasID;
 use Takuya\BacklogApiClient\Models\Traits\HasProjectId;
+use Takuya\BacklogApiClient\Models\Traits\HasIssueId;
 
 class Comment extends BaseModel {
   
   use HasID;
   use HasProjectId;
-  public int $issueId;
+  use HasIssueId;
   public ?string $content;
   public ?array  $changeLog;
   /** @var object|\Takuya\BacklogApiClient\Models\User */
@@ -18,6 +19,6 @@ class Comment extends BaseModel {
   public string $updated;
   /** @var array | \Takuya\BacklogApiClient\Models\Star[] */
   public array $stars;
-  /** @var array | \Takuya\BacklogApiClient\Models\Notification */
+  /** @var array | \Takuya\BacklogApiClient\Models\CommentNotification */
   public array $notifications;
 }

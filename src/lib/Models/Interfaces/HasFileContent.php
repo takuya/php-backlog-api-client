@@ -2,6 +2,6 @@
 
 namespace Takuya\BacklogApiClient\Models\Interfaces;
 
-interface HasContent {
+interface HasFileContent {
   public function getContent():string;
 }

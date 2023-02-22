@@ -2,6 +2,7 @@
 
 namespace Takuya\BacklogApiClient\Models\Traits;
 
-trait HasID {
-  public int $id;
+trait RelateToProject {
+  public ?int $project_id;
+  
 }

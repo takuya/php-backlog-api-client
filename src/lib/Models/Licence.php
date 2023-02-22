@@ -2,7 +2,10 @@
 
 namespace Takuya\BacklogApiClient\Models;
 
+use Takuya\BacklogApiClient\Models\Traits\RelateToSpace;
+
 class Licence extends BaseModel {
+  use RelateToSpace;
   public string $active;
   public string $attachmentLimit;
   public string $attachmentLimitPerFile;

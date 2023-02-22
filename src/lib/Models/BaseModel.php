@@ -44,7 +44,7 @@ class BaseModel {
       ['attachments', IssueAttachment::class],
       ['sharedFiles', SharedFile::class],
       ['customFields', CustomFieldInputted::class],
-      ['notifications', Notification::class],
+      ['notifications', CommentNotification::class],
     ];
     foreach ($mapping as $e) {
       property_exists($this, $e[0]) && $this->remapping_to_model($e[0], $e[1]);

@@ -2,6 +2,6 @@
 
 namespace Takuya\BacklogApiClient\Models\Traits;
 
-trait HasID {
-  public int $id;
+trait RelateToSpace {
+  public ?string $space_key;
 }

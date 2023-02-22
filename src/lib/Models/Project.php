@@ -4,10 +4,13 @@ namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\Models\Interfaces\HasIcon;
 use Takuya\BacklogApiClient\Models\Traits\HasID;
+use Takuya\BacklogApiClient\Models\Traits\ProjectAttrs;
+use Takuya\BacklogApiClient\Models\Traits\RelateToSpace;
 
-class Project extends BaseModel implements HasIcon {
+class Project extends BaseModel implements HasIcon, ProjectAttrs {
   
   use HasID;
+  use RelateToSpace;
   public string $projectKey;
   public string $name;
   public bool   $chartEnabled;

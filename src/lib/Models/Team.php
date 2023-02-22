@@ -4,11 +4,12 @@ namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\Models\Interfaces\HasIcon;
 use Takuya\BacklogApiClient\Models\Traits\HasID;
+use Takuya\BacklogApiClient\Models\Traits\RelateToSpace;
 
 class Team extends BaseModel implements HasIcon {
   
   use HasID;
-  public ?string $space_key;
+  use RelateToSpace;
   public string  $name;
   public array   $members;
   public int     $displayOrder;

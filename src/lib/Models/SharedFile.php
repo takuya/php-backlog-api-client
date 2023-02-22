@@ -3,7 +3,7 @@
 namespace Takuya\BacklogApiClient\Models;
 
 use RuntimeException;
-use Takuya\BacklogApiClient\Models\Interfaces\HasContent;
+use Takuya\BacklogApiClient\Models\Interfaces\HasFileContent;
 use Takuya\BacklogApiClient\Models\Traits\HasID;
 use Takuya\BacklogApiClient\Models\Traits\HasProjectId;
 
@@ -19,7 +19,7 @@ use Takuya\BacklogApiClient\Models\Traits\HasProjectId;
  * @property-read ?string $updatedUser
  * @property-read ?string $updated
  */
-class SharedFile extends BaseModel implements HasContent {
+class SharedFile extends BaseModel implements HasFileContent {
   
   use HasID;
   use HasProjectId;

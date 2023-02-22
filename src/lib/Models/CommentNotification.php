@@ -3,6 +3,8 @@
 namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\Models\Traits\HasID;
+use Takuya\BacklogApiClient\Models\Traits\RelateToIssue;
+use Takuya\BacklogApiClient\Models\Traits\RelateToComment;
 
 /**
  * @property-read int    $id
@@ -11,7 +13,7 @@ use Takuya\BacklogApiClient\Models\Traits\HasID;
  * @property-read object $user
  * @property-read bool   $resourceAlreadyRead
  */
-class Notification extends BaseModel {
+class CommentNotification extends BaseModel {
   
   /**
    * 連番に欠番あり。
@@ -32,6 +34,8 @@ class Notification extends BaseModel {
     'プルリクエストの更新'     => 13,
   ];
   use HasID;
+  use RelateToIssue;
+  use RelateToComment;
   public bool   $alreadyRead;
   public int    $reason;
   public object $user;

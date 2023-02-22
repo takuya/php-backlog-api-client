@@ -2,10 +2,10 @@
 
 namespace Takuya\BacklogApiClient\Models;
 
-use Takuya\BacklogApiClient\Models\Interfaces\HasContent;
+use Takuya\BacklogApiClient\Models\Interfaces\HasFileContent;
 use Takuya\BacklogApiClient\Models\Traits\HasID;
 
-abstract class Attachment extends BaseModel implements HasContent{
+abstract class Attachment extends BaseModel implements HasFileContent{
   
   use HasID;
   public string $name;

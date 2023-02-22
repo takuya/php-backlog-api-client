@@ -2,6 +2,6 @@
 
 namespace Takuya\BacklogApiClient\Models\Traits;
 
-trait HasID {
-  public int $id;
+trait RelateToWikiPage {
+  public ?int $wikiId;
 }
