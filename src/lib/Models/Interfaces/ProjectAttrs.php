@@ -1,6 +1,6 @@
 <?php
 
-namespace Takuya\BacklogApiClient\Models\Traits;
+namespace Takuya\BacklogApiClient\Models\Interfaces;
 
 use Takuya\BacklogApiClient\Models\Team;
 
