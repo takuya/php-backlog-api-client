@@ -44,7 +44,7 @@ class Issue extends BaseModel {
   /**
    * @var array | IssueAttachment[]
    */
-  public array $attachments;
+  public ?array $attachments;
   /**
    * @var array | SharedFile[]
    */
