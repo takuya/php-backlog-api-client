@@ -15,4 +15,5 @@ class Status extends BaseModel {
   public int    $projectId;
   public string $name;
   public string $color;
+  public int    $displayOrder;
 }
