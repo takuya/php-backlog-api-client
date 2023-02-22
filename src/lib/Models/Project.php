@@ -56,10 +56,10 @@ class Project extends BaseModel {
   }
   
   /**
-   * @return array|\Takuya\BacklogApiClient\Models\ProjectTeam[]
+   * @return array|\Takuya\BacklogApiClient\Models\Team[]
    */
   public function teams() {
-    return $this->api(ProjectTeam::class, 'getProjectTeamList', ['projectIdOrKey' => $this->id], $this);
+    return $this->api(Team::class, 'getProjectTeamList', ['projectIdOrKey' => $this->id], $this);
   }
   
   /**

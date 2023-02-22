@@ -8,7 +8,7 @@ use Takuya\BacklogApiClient\Models\User;
 use Takuya\BacklogApiClient\Models\Space;
 use Takuya\BacklogApiClient\Models\Issue;
 use Takuya\BacklogApiClient\Models\Project;
-use Takuya\BacklogApiClient\Models\ProjectTeam;
+use Takuya\BacklogApiClient\Models\Team;
 use Takuya\BacklogApiClient\Models\NulabAccount;
 
 class BacklogModelTest extends TestCaseBacklogModels {
@@ -59,7 +59,7 @@ class BacklogModelTest extends TestCaseBacklogModels {
       $this->assertPropIsExists('name', $team);
       $this->assertPropIsExists('id', $team);
       $this->assertPropIsExists('created', $team);
-      $this->assertEquals(ProjectTeam::class, get_class($team));
+      $this->assertEquals(Team::class, get_class($team));
       $user = $team->members[0];
       $this->assertEquals(User::class, get_class($user));
       $this->assertEquals(json_encode($team), json_encode($this->cli->team($team->id)));

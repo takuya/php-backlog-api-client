@@ -4,6 +4,7 @@ namespace Takuya\BacklogApiClient\Models;
 
 class Comment extends BaseModel {
   
+  public int $id;
   public ?int $projectId;
   public int $issueId;
   public ?string $content;

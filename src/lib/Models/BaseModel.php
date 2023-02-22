@@ -13,7 +13,6 @@ class BaseModel {
   use ModelObjectConvert;
   use ListUpModelClas;
   
-  public int $id;
   protected ?BaseModel $parent;
   protected BacklogAPIClient $api;
   

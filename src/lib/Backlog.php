@@ -7,7 +7,7 @@ use Takuya\BacklogApiClient\Models\User;
 use Takuya\BacklogApiClient\Models\Issue;
 use Takuya\BacklogApiClient\Models\Space;
 use Takuya\BacklogApiClient\Models\Project;
-use Takuya\BacklogApiClient\Models\ProjectTeam;
+use Takuya\BacklogApiClient\Models\Team;
 use Takuya\BacklogApiClient\Models\WikiPage as WikiPage;
 use DateTimeZone;
 use DateTimeImmutable;
@@ -108,11 +108,11 @@ class Backlog {
   
   /**
    * @param $team_id
-   * @return ProjectTeam
+   * @return Team
    */
   public function team ( $team_id ) {
-    /** @var ProjectTeam $team */
-    $team = $this->api->into_class( ProjectTeam::class, 'getTeam', ['teamId' => $team_id] );
+    /** @var Team $team */
+    $team = $this->api->into_class( Team::class, 'getTeam', ['teamId' => $team_id] );
     
     return $team;
   }

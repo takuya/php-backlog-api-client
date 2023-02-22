@@ -22,6 +22,12 @@ class Space extends BaseModel {
   public function users() {
     return $this->api->into_class(User::class, 'getUserList');
   }
+  /**
+   * @return array|\Takuya\BacklogApiClient\Models\Team[]
+   */
+  public function teams(){
+    return $this->api->into_class(Team::class,'getListOfTeams',['query_options'=>['count'=>100]]);
+  }
   
   /**
    * @return array|Project[]

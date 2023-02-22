@@ -2,11 +2,11 @@
 
 namespace Takuya\BacklogApiClient\Models;
 
-abstract  class Attachment extends BaseModel {
+abstract class Attachment extends BaseModel {
   
-  public int    $id;
+  public int $id;
   public string $name;
-  public int    $size;
+  public int $size;
   /**
    * @var object|\Takuya\BacklogApiClient\Models\User
    */
@@ -17,8 +17,8 @@ abstract  class Attachment extends BaseModel {
    * @param ?string $filename
    * @return int
    */
-  public function download( string $filename = null ):int {
-    return file_put_contents($filename ?? $this->name, $this->getContent());
+  public function download ( string $filename = null ): int {
+    return file_put_contents( $filename ?? $this->name, $this->getContent() );
   }
   
   /**

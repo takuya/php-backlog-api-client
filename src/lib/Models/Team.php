@@ -2,8 +2,9 @@
 
 namespace Takuya\BacklogApiClient\Models;
 
-class ProjectTeam extends BaseModel {
+class Team extends BaseModel {
   
+  public int     $id;
   public int     $projectId;
   public string  $name;
   public array   $members;
