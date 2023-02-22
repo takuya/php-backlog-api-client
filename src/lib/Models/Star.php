@@ -11,9 +11,11 @@ namespace Takuya\BacklogApiClient\Models;
 * @property-read string $created;
 */
 
+use Takuya\BacklogApiClient\Models\Traits\HasID;
+
 class Star extends BaseModel {
   
-  public int     $id;
+  use HasID;
   public ?string $comment;
   public string  $url;
   public string  $title;

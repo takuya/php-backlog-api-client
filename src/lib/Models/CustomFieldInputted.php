@@ -9,9 +9,11 @@ namespace Takuya\BacklogApiClient\Models;
 * @property-read object{ id: int, name: string,displayOrder: int } $value;
 */
 
+use Takuya\BacklogApiClient\Models\Traits\HasID;
+
 class CustomFieldInputted extends BaseModel {
   
-  public int $id;
+  use HasID;
   public int $issueId;
   public int $fieldTypeId;
   public string $name;

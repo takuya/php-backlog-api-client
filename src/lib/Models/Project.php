@@ -2,9 +2,12 @@
 
 namespace Takuya\BacklogApiClient\Models;
 
-class Project extends BaseModel {
+use Takuya\BacklogApiClient\Models\Interfaces\HasIcon;
+use Takuya\BacklogApiClient\Models\Traits\HasID;
+
+class Project extends BaseModel implements HasIcon {
   
-  public int    $id;
+  use HasID;
   public string $projectKey;
   public string $name;
   public bool   $chartEnabled;

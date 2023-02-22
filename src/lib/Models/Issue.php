@@ -3,6 +3,7 @@
 namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\BacklogAPIClient;
+use Takuya\BacklogApiClient\Models\Traits\HasID;
 
 class Issue extends BaseModel {
   
@@ -14,7 +15,7 @@ class Issue extends BaseModel {
     "親課題でも子課題でもない課題" => 3,
     "親課題"            => 4,
   ];
-  public int     $id;
+  use HasID;
   public int     $projectId;
   public string  $issueKey;
   public int     $keyId;

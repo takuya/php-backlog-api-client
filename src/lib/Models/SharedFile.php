@@ -3,6 +3,8 @@
 namespace Takuya\BacklogApiClient\Models;
 
 use RuntimeException;
+use Takuya\BacklogApiClient\Models\Interfaces\HasContent;
+use Takuya\BacklogApiClient\Models\Traits\HasID;
 
 /**
  * @property-read int     $id
@@ -16,9 +18,9 @@ use RuntimeException;
  * @property-read ?string $updatedUser
  * @property-read ?string $updated
  */
-class SharedFile extends BaseModel {
+class SharedFile extends BaseModel implements HasContent {
   
-  public int     $id;
+  use HasID;
   public int     $projectId;
   public string  $type;
   public string  $dir;
@@ -29,7 +31,7 @@ class SharedFile extends BaseModel {
   public ?object $updatedUser;
   public ?string $updated;
   
-  public function isDir() {
+  public function isDir(): bool {
     return $this->type == "directory";
   }
   
@@ -41,7 +43,7 @@ class SharedFile extends BaseModel {
     return $this->api->getFile($this->parent->id, $this->id);
   }
   
-  public function isFile() {
+  public function isFile(): bool {
     return $this->type == "file";
   }
 }

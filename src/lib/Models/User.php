@@ -2,9 +2,12 @@
 
 namespace Takuya\BacklogApiClient\Models;
 
-class User extends BaseModel {
+use Takuya\BacklogApiClient\Models\Interfaces\HasIcon;
+use Takuya\BacklogApiClient\Models\Traits\HasID;
+
+class User extends BaseModel implements HasIcon {
   
-  public int     $id;
+  use HasID;
   public string  $userId;
   public string  $name;
   public int     $roleType;
@@ -14,7 +17,7 @@ class User extends BaseModel {
   public string  $keyword;
   public ?string $lastLoginTime;
   
-  public function icon() {
+  public function icon():string {
     return $this->api->getUserIcon($this->id);
   }
 }

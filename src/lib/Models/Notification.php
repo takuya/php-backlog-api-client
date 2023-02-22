@@ -2,6 +2,8 @@
 
 namespace Takuya\BacklogApiClient\Models;
 
+use Takuya\BacklogApiClient\Models\Traits\HasID;
+
 /**
  * @property-read int    $id
  * @property-read bool   $alreadyRead
@@ -29,7 +31,7 @@ class Notification extends BaseModel {
     'プルリクエストの追加'     => 12,
     'プルリクエストの更新'     => 13,
   ];
-  public int    $id;
+  use HasID;
   public bool   $alreadyRead;
   public int    $reason;
   public object $user;

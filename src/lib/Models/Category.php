@@ -2,9 +2,11 @@
 
 namespace Takuya\BacklogApiClient\Models;
 
+use Takuya\BacklogApiClient\Models\Traits\HasID;
+
 class Category extends BaseModel {
   
-  public int $id;
+  use HasID;
   public ?int $projectId;
   public string $name;
   public int    $displayOrder;

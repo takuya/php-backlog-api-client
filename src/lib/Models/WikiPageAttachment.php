@@ -3,10 +3,11 @@
 namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\Models\Attachment;
+use Takuya\BacklogApiClient\Models\Traits\HasID;
 
 class WikiPageAttachment extends Attachment {
-  // これ、要らないかも。
-  public int     $id;
+
+  use HasID;
   public ?int $wikiId;
   public string $name;
   public int $size;

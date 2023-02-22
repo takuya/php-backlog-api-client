@@ -2,9 +2,12 @@
 
 namespace Takuya\BacklogApiClient\Models;
 
-class Team extends BaseModel {
+use Takuya\BacklogApiClient\Models\Interfaces\HasIcon;
+use Takuya\BacklogApiClient\Models\Traits\HasID;
+
+class Team extends BaseModel implements HasIcon {
   
-  public int     $id;
+  use HasID;
   public ?string $space_key;
   public string  $name;
   public array   $members;
