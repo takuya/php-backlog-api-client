@@ -5,7 +5,7 @@ namespace Takuya\BacklogApiClient\Models;
 class Team extends BaseModel {
   
   public int     $id;
-  public int     $projectId;
+  public ?string $space_key;
   public string  $name;
   public array   $members;
   public int     $displayOrder;
