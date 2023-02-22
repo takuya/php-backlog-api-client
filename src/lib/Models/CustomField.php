@@ -22,6 +22,7 @@ class CustomField extends BaseModel {
   public bool   $useIssueType;
   public array  $applicableIssueTypes;
   public int    $displayOrder;
-  public ?bool  $allowAddItem;
-  public ?array $items;
+  public ?bool   $allowAddItem;
+  public ?array  $items;
+  public ?string $allowInput;
 }
