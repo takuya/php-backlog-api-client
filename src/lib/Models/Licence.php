@@ -35,4 +35,17 @@ class Licence extends BaseModel {
   public string $wikiAttachment;
   public string $wikiAttachmentLimitPerFile;
   public string $wikiAttachmentNumLimit;
+  public ?string $paymentId;
+  public ?string $paymentMonth;
+  public ?string $subscribedOn;
+  public ?string $trialExpiryDate;
+  public ?string $initialCosts;
+  public ?string $price;
+  public ?string $licenceKey;
+  public ?string $nulabAppsIntegration;
+  public ?string $issueTemplate;
+  public ?string $createdUserId;
+  public ?string $created;
+  public ?string $updatedUserId;
+  public ?string $updated;
 }
