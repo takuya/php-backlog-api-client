@@ -3,10 +3,11 @@
 namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\Models\Traits\HasID;
+use Takuya\BacklogApiClient\Models\Traits\HasProjectId;
 
 class WikiSharedFiles extends BaseModel {
   use HasID;
-  public int    $projectId;
+  use HasProjectId;
   public string $type;
   public string $dir;
   public string $name;

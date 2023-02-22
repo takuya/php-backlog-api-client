@@ -3,11 +3,12 @@
 namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\Models\Traits\HasID;
+use Takuya\BacklogApiClient\Models\Traits\HasProjectId;
 
 class Comment extends BaseModel {
   
   use HasID;
-  public ?int $projectId;
+  use HasProjectId;
   public int $issueId;
   public ?string $content;
   public ?array  $changeLog;

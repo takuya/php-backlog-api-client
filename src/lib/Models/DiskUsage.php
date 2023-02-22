@@ -2,9 +2,11 @@
 
 namespace Takuya\BacklogApiClient\Models;
 
+use Takuya\BacklogApiClient\Models\Traits\HasProjectId;
+
 class DiskUsage extends BaseModel {
   
-  public int $projectId;
+  use HasProjectId;
   public int $issue;
   public int $wiki;
   public int $file;

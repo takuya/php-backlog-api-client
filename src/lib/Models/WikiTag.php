@@ -3,8 +3,9 @@
 namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\Models\BaseModel;
+use Takuya\BacklogApiClient\Models\Traits\HasProjectId;
 
 class WikiTag extends BaseModel {
-  public int $projectId;
+  use HasProjectId;
   public string $name;
 }

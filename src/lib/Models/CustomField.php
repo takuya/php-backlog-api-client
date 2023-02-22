@@ -3,6 +3,7 @@
 namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\Models\Traits\HasID;
+use Takuya\BacklogApiClient\Models\Traits\HasProjectId;
 
 class CustomField extends BaseModel {
   
@@ -15,7 +16,7 @@ class CustomField extends BaseModel {
   public const TYPE_CHECKBOX      = 7;
   public const TYPE_RADIO_BUTTON  = 8;
   use HasID;
-  public int    $projectId;
+  use HasProjectId;
   public int    $typeId;
   public int    $version;
   public string $name;

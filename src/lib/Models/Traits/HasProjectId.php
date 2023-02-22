@@ -2,7 +2,7 @@
 
 namespace Takuya\BacklogApiClient\Models\Traits;
 
-class OwnerIsProject {
+trait HasProjectId {
   public int $projectId;
   
 }

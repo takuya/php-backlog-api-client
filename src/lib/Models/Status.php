@@ -3,6 +3,7 @@
 namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\Models\Traits\HasID;
+use Takuya\BacklogApiClient\Models\Traits\HasProjectId;
 
 /**
  * @property-read int    $id
@@ -14,7 +15,7 @@ use Takuya\BacklogApiClient\Models\Traits\HasID;
 class Status extends BaseModel {
   
   use HasID;
-  public int    $projectId;
+  use HasProjectId;
   public string $name;
   public string $color;
   public int    $displayOrder;
