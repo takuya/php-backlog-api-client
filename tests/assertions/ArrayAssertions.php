@@ -19,6 +19,8 @@ trait ArrayAssertions {
       );
       
     } );
-  
+  }
+  public function assertArrayIsSubArrayOf( $expected_main_array, $sub_array){
+    self::assertEmpty(array_diff($sub_array,$expected_main_array));
   }
 }

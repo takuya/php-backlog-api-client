@@ -7,7 +7,7 @@ use Takuya\BacklogApiClient\Models\User;
 use Takuya\BacklogApiClient\Models\Issue;
 use Takuya\BacklogApiClient\Models\Comment;
 use Takuya\BacklogApiClient\Models\SharedFile;
-use Takuya\BacklogApiClient\Models\Notification;
+use Takuya\BacklogApiClient\Models\CommentNotification;
 use Takuya\BacklogApiClient\Models\IssueAttachment;
 
 class BacklogIssueModelTest extends TestCaseBacklogModels {
@@ -41,18 +41,21 @@ class BacklogIssueModelTest extends TestCaseBacklogModels {
   }
   
   public function test_get_notification_of_issue_comment() {
-    foreach ($this->cli->space()->projects(Backlog::PROJECTS_ONLY_MINE) as $project) {
-      foreach ($project->issues() as $issue) {
+    $space =$this->cli->space();
+    foreach ( $space->project_ids(Backlog::PROJECTS_ONLY_MINE) as $pid) {
+      $project = $this->cli->project($pid);
+      foreach ($project->issues_ids() as $issue_id) {
+        $issue = $this->cli->issue($issue_id);
         foreach ($issue->comments() as $comment) {
           $this->assertIsArray($comment->notifications);
           if( sizeof($comment->notifications) == 0 ) {
             continue;
           }
-          /** @var Notification $notification */
+          /** @var CommentNotification $notification */
           foreach ($comment->notifications as $notification) {
-            $this->assertEquals(Notification::class, get_class($notification));
+            $this->assertEquals(CommentNotification::class, get_class($notification));
             $this->assertEquals(User::class, get_class($notification->user));
-            $this->assertContains($notification->reason, Notification::REASON);
+            $this->assertContains($notification->reason, CommentNotification::REASON);
           }
           break 3;
         }

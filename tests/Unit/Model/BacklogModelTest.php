@@ -78,8 +78,8 @@ class BacklogModelTest extends TestCaseBacklogModels {
   public function test_get_issue_by_IssueIdOrKey() {
     $issue = null;
     foreach ($this->cli->space()->projects(Backlog::PROJECTS_ONLY_MINE) as $project) {
-      if( sizeof($project->issues()) > 0 ) {
-        $issue = $project->issues()[0];
+      if( sizeof($ids = $project->issues_ids()) > 0 ) {
+        $issue = $this->cli->issue($ids[0]);
         break;
       }
     }
@@ -92,7 +92,7 @@ class BacklogModelTest extends TestCaseBacklogModels {
   
   public function test_get_issue_in_project() {
     $project_id = $this->cli->space()->project_ids(Backlog::PROJECTS_ONLY_MINE)[0];
-    $ret = $this->cli->project($project_id)->issues()[0];
+    $ret = $this->cli->issue($this->cli->project($project_id)->issues_ids()[0]);
     $this->assertPropIsExists('issueKey', $ret);
     $this->assertEquals(Issue::class, get_class($ret));
   }

@@ -3,6 +3,6 @@
 namespace Takuya\BacklogApiClient\Models\Traits;
 
 trait HasIssueId {
-  protected int $issueId;
+  public int $issueId;
   
 }

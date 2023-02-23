@@ -53,18 +53,11 @@ class WikiPage extends BaseModel {
   public function histories() {
     return $this->api(WikiHistory::class, 'getWikiPageHistory', ['wikiId' => $this->id], $this);
   }
-  
-  /**
-   * override
-   * @return void
-   */
-  protected function auto_mapping() {
-    parent::auto_mapping();
+  protected function attribute_mapping_list (): array {
+    $list = parent::attribute_mapping_list();
     $mapping = [
       ['attachments', WikiPageAttachment::class],
     ];
-    foreach ($mapping as $e) {
-      property_exists($this, $e[0]) && $this->remapping_to_model($e[0], $e[1]);
-    }
+    return array_merge($list,$mapping);
   }
 }

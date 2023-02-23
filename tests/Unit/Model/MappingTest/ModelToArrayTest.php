@@ -1,22 +1,19 @@
 <?php
 
-namespace tests\Unit\Model;
+namespace tests\Unit\Model\MappingTest;
+
+use tests\Unit\Model\TestCaseBacklogModels;
+use Takuya\BacklogApiClient\Backlog;
 
 class ModelToArrayTest extends TestCaseBacklogModels {
   
-  public function test_model_to_array () {
+  public function test_to_array_model_in_issue () {
     $space = $this->cli->space();
     $user = $space->users()[0];
-    $project = $space->my_projects()[0];
-    $issue = null;
-    $comment = null;
-    foreach ( $project->issues() as $e ) {
-      if ( sizeof( $e->comments() ) > 0 ) {
-        $issue = $e;
-        $comment = $e->comments()[0];
-        break;
-      }
-    }
+    $project_id = $this->cli->space()->project_ids(Backlog::PROJECTS_ONLY_MINE)[0];
+    $project = $this->cli->project($project_id);
+    $issue = $this->find_issue_has_comments();
+    $comment = $issue->comments()[0];
     //
     $this->assertArrayIsConsitsOfPermitiveType( $space->toArray() );
     $this->assertArrayIsConsitsOfPermitiveType( $user->toArray() );

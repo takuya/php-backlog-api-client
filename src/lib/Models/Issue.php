@@ -40,7 +40,7 @@ class Issue extends BaseModel {
   public object  $updatedUser;
   public string  $updated;
   /**
-   * @var array | CustomFieldInputted[]
+   * @var array| CustomFieldSelectedValue[]
    */
   public array $customFields;
   /**
@@ -51,6 +51,9 @@ class Issue extends BaseModel {
    * @var array | SharedFile[]
    */
   public array $sharedFiles;
+  /**
+   * @var array | Star[]
+   */
   public array $stars;
   
   public function __construct( object $json, BacklogAPIClient $api, BaseModel $parent = null ) {
@@ -86,17 +89,12 @@ class Issue extends BaseModel {
     return $c;
   }
   
-  /**
-   * override
-   * @return void
-   */
-  protected function auto_mapping() {
-    parent::auto_mapping();
+  protected function attribute_mapping_list (): array {
+    $list = parent::attribute_mapping_list();
     $mapping = [
+      ['customFields', CustomFieldSelectedValue::class],
       ['attachments', IssueAttachment::class],
     ];
-    foreach ($mapping as $e) {
-      property_exists($this, $e[0]) && $this->remapping_to_model($e[0], $e[1]);
-    }
+    return array_merge($list,$mapping);
   }
 }

@@ -10,13 +10,12 @@ namespace Takuya\BacklogApiClient\Models;
 */
 
 use Takuya\BacklogApiClient\Models\Traits\HasID;
-use Takuya\BacklogApiClient\Models\Traits\HasIssueId;
+use Takuya\BacklogApiClient\Models\Traits\RelateToIssue;
 
-class CustomFieldInputted extends BaseModel {
+class CustomFieldSelectedValue extends BaseModel {
   
   use HasID;
-  use HasIssueId;
-  
+  use RelateToIssue;
   public int $fieldTypeId;
   public string $name;
   /** @var object{ id: int, name: string,displayOrder: int } */

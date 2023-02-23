@@ -33,12 +33,13 @@ class Project extends BaseModel implements HasIcon, ProjectAttrs {
    * @return \Takuya\BacklogApiClient\Models\Issue[]
    */
   public function issues() {
+    ;
     /** @var Issue[] $list */
     $list = [];
-    foreach ($this->issues_ids() as $issue_id) {
-      $list[] = $this->api(Issue::class, 'getIssue', ['issueIdOrKey' => $issue_id], $this);
+    foreach ( $this->api->getIssueList( ['projectId[]' => $this->id] ) as $obj ) {
+      $list[] = new Issue( (object)$obj, $this->api, $this );
+      //$list[] = $this->api(Issue::class, 'getIssue', ['issueIdOrKey' => $issue_id], $this);
     }
-    
     return $list;
   }
   
@@ -119,7 +120,7 @@ class Project extends BaseModel implements HasIcon, ProjectAttrs {
   }
   
   /**
-   * @return \Takuya\BacklogApiClient\Models\DiskUsage
+   * @return \Takuya\BacklogApiClient\Models\DiskUsage|BaseModel
    */
   public function disk_usage() {
     return $this->api(DiskUsage::class, 'getProjectDiskUsage', ['projectIdOrKey' => $this->id], $this);

@@ -3,5 +3,12 @@
 namespace Takuya\BacklogApiClient\Models\Traits;
 
 trait RelateToIssue {
-  public ?int $issueId;
+  protected ?int $issue_id;
+  public function getIssueId():int{
+    return $this->issue_id;
+  }
+  public function relation($parent=null):void{
+    parent::relation($parent);
+    $this->issue_id = $parent->issueId ?? $parent->id ?? null;
+  }
 }

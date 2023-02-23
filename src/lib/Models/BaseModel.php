@@ -3,13 +3,13 @@
 namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\BacklogAPIClient;
-use Takuya\BacklogApiClient\Models\Traits\ApiMapping;
+use Takuya\BacklogApiClient\Models\Traits\ApiToModelMapping;
 use Takuya\BacklogApiClient\Models\Traits\ModelObjectConvert;
 use Takuya\BacklogApiClient\Models\Traits\ListUpModelClas;
 
 class BaseModel {
   
-  use ApiMapping;
+  use ApiToModelMapping;
   use ModelObjectConvert;
   use ListUpModelClas;
   
@@ -21,35 +21,17 @@ class BaseModel {
    * @param \Takuya\BacklogApiClient\BacklogAPIClient      $api
    * @param \Takuya\BacklogApiClient\Models\BaseModel|null $parent
    */
-  public function __construct( object $json, BacklogAPIClient $api, BaseModel $parent = null ) {
-    $this->mapping($json, $this);
+  public function __construct ( object $json, BacklogAPIClient $api, BaseModel $parent = null ) {
+    $this->mapping( $json, $this );
     $this->api = $api;
-    $this->parent = $parent;
     $this->auto_mapping();
+    $this->relation( $parent );
   }
   
-  /**
-   * クラス名とJSONプロパティ名をDIする。
-   * @return void
-   */
-  protected function auto_mapping() {
-    $mapping = [
-      ['stars', Star::class],
-      ['user', User::class],
-      ['members', User::class],
-      ['presenter', User::class],
-      ['createdUser', User::class],
-      ['updatedUser', User::class],
-      ['nulabAccount', NulabAccount::class],
-      ['attachments', IssueAttachment::class],
-      ['sharedFiles', SharedFile::class],
-      ['customFields', CustomFieldInputted::class],
-      ['notifications', CommentNotification::class],
-    ];
-    foreach ($mapping as $e) {
-      property_exists($this, $e[0]) && $this->remapping_to_model($e[0], $e[1]);
-    }
+  protected function relation ( $parent = null ) {
+    $this->parent = $parent;
   }
+  
   
   /**
    * @param string                                         $into_class

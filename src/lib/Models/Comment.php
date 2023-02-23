@@ -19,6 +19,6 @@ class Comment extends BaseModel {
   public string $updated;
   /** @var array | \Takuya\BacklogApiClient\Models\Star[] */
   public array $stars;
-  /** @var array | \Takuya\BacklogApiClient\Models\CommentNotification */
+  /** @var array | \Takuya\BacklogApiClient\Models\CommentNotification[] */
   public array $notifications;
 }
