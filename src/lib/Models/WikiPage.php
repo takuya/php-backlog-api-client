@@ -52,7 +52,7 @@ class WikiPage extends BaseModel {
         'query_options' => ['order' => 'desc', 'count' => 100],
       ], $this );
   }
-  protected static function attribute_mapping_list (): array {
+  public static function attribute_mapping_list (): array {
     $list = parent::attribute_mapping_list();
     $mapping = [
       ['attachments', WikiPageAttachment::class],

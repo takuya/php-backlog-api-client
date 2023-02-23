@@ -13,7 +13,7 @@ class BaseModel {
   use ModelObjectConvert;
   use ListUpModelClas;
   
-  protected ?BaseModel $parent;
+  protected ?BaseModel $parent;//TODO::消す
   protected BacklogAPIClient $api;
   
   /**

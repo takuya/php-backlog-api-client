@@ -91,7 +91,7 @@ class Issue extends BaseModel {
     return $c;
   }
   
-  protected static function attribute_mapping_list (): array {
+  public static function attribute_mapping_list (): array {
     $list = parent::attribute_mapping_list();
     $mapping = [
       ['customFields', CustomFieldSelectedValue::class],

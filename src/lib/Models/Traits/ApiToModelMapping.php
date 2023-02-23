@@ -47,7 +47,7 @@ trait ApiToModelMapping {
     }
   }
   
-  protected static function attribute_mapping_list(): array {
+  public static function attribute_mapping_list(): array {
     $mapping = [
       ['stars', Star::class],
       ['user', User::class],
