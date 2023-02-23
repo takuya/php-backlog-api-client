@@ -25,10 +25,12 @@ class WikiPage extends BaseModel {
   public string $name;
   public string $content;
   /** @var WikiTag[] */
+  /** @var array|object[] */
   public array $tags;
   /** @var WikiPageAttachment[] */
   public ?array $attachments;
   public ?array $sharedFile;
+  /** @var array | Star[] */
   public array $stars;
   public object $createdUser;
   public string $created;
@@ -37,26 +39,20 @@ class WikiPage extends BaseModel {
   
   
   /*
-   * @return array| Tag[]
-   */
-  public function tags () {
-    return $this->api(
-      WikiTag::class,
-      'getWikiPageTagList',
-      ['query_options' => ['projectIdOrKey' => $this->parent->id]],
-      $this );
-  }
-  
-  /*
    * @return array| History[]
    */
   public function histories() {
-    return $this->api(WikiHistory::class, 'getWikiPageHistory', ['wikiId' => $this->id], $this);
+    return $this->api( WikiHistory::class, 'getWikiPageHistory',
+      [
+        'wikiId' => $this->id,
+        'query_options' => ['order' => 'desc', 'count' => 100],
+      ], $this );
   }
   protected function attribute_mapping_list (): array {
     $list = parent::attribute_mapping_list();
     $mapping = [
       ['attachments', WikiPageAttachment::class],
+      ['tags', WikiTag::class],
     ];
     return array_merge($list,$mapping);
   }

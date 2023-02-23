@@ -56,11 +56,14 @@ class Project extends BaseModel implements HasIcon, ProjectAttrs {
   public function wiki_pages() {
     /** @var WikiPage[] */
     $list = [];
-    foreach ($this->api->getWikiPageList(['projectIdOrKey' => $this->id]) as $w) {
-      $list[] = $this->api(WikiPage::class, 'getWikiPage', ['wikiId' => $w->id], $this);
+    foreach ($this->wiki_page_ids() as $id) {
+      $list[] = $this->api(WikiPage::class, 'getWikiPage', ['wikiId' => $id], $this);
     }
-    
     return $list;
+  }
+  public function wiki_page_ids(){
+    $list = $this->api->getWikiPageList(['projectIdOrKey' => $this->id]);
+    return array_map(fn($w)=>$w->id,$list);
   }
   
   /**

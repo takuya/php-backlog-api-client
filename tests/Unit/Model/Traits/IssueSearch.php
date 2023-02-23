@@ -8,9 +8,10 @@ use Takuya\BacklogApiClient\Models\Issue;
 trait IssueSearch {
   protected function find_issue ( callable $func ,$limit_per_project=3 ) {
     $pids = $this->cli->space()->project_ids( Backlog::PROJECTS_ONLY_MINE );
+    shuffle($pids);
     foreach ( $pids as $pid ) {
       $project = $this->cli->project( $pid );
-      foreach ( array_slice( $project->issues_ids(), $limit_per_project ) as $issue_id ) {
+      foreach ( array_slice( $project->issues_ids(),0, $limit_per_project ) as $issue_id ) {
         $issue = $this->cli->issue( $issue_id );
         if ( $func( $issue ) ) {
           return $issue;
@@ -22,7 +23,7 @@ trait IssueSearch {
     return $this->find_issue( function( Issue $issue ) {return !empty( $issue->comments() ); },5 );
   }
   public function find_issue_has_stars(): ?Issue {
-    return $this->find_issue_has_attribute('stars',3);
+    return $this->find_issue_has_attribute('stars');
   }
   public function find_issue_has_attribute($name): ?Issue {
     return $this->find_issue( function( Issue $issue ) use($name){ return !empty( $issue->$name ); },5 );

@@ -7,7 +7,9 @@ use Takuya\BacklogApiClient\Backlog;
 
 trait ProjectSearch {
   protected function find_project ( callable $condition ) {
-    foreach ( $this->cli->space()->project_ids( Backlog::PROJECTS_ONLY_MINE ) as $id ) {
+    $pids = $this->cli->space()->project_ids( Backlog::PROJECTS_ONLY_MINE );
+    shuffle($pids);
+    foreach ( $pids as $id ) {
       $project = $this->cli->project( $id );
       if ( $condition( $project ) ) {
         return $project;

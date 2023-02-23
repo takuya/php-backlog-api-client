@@ -3,6 +3,7 @@
 namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\Models\BaseModel;
+use Takuya\BacklogApiClient\Models\Traits\RelateToWikiPage;
 
 /**
  * @property-read int    $pageId
@@ -14,6 +15,7 @@ use Takuya\BacklogApiClient\Models\BaseModel;
  */
 class WikiHistory extends BaseModel {
   
+  use RelateToWikiPage;
   public int    $pageId;
   public int    $version;
   public string $name;
