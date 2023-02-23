@@ -20,6 +20,7 @@ class WikiHistory extends BaseModel {
   public int    $version;
   public string $name;
   public string $content;
+  /** @var User  */
   public object $createdUser;
   public string $created;
 }

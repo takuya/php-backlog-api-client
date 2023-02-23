@@ -14,6 +14,7 @@ class Team extends BaseModel implements HasIcon {
   /** @var array | User[] */
   public array   $members;
   public int     $displayOrder;
+  /** @var User  */
   public ?string $createdUser;
   public string  $created;
   public ?string $updatedUser;

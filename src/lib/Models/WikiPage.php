@@ -22,6 +22,7 @@ use Takuya\BacklogApiClient\Models\Traits\HasProjectId;
 class WikiPage extends BaseModel {
   use HasID;
   use HasProjectId;
+  
   public string $name;
   public string $content;
   /** @var WikiTag[] */
@@ -32,8 +33,11 @@ class WikiPage extends BaseModel {
   public ?array $sharedFile;
   /** @var array | Star[] */
   public array $stars;
+  /** @var User */
+  
   public object $createdUser;
   public string $created;
+  /** @var User */
   public object $updatedUser;
   public string $updated;
   

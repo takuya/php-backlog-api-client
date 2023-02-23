@@ -23,7 +23,7 @@ class Issue extends BaseModel {
   public object  $issueType;
   public string  $summary;
   public string  $description;
-  public ?object  $resolution;//
+  public ?object  $resolution;//「解決済み」
   public object  $priority;
   public object  $status;
   public ?object $assignee;
@@ -35,8 +35,10 @@ class Issue extends BaseModel {
   public ?string $estimatedHours;
   public ?string $actualHours;
   public ?string $parentIssueId;
+  /** @var User  */
   public object  $createdUser;
   public string  $created;
+  /** @var User  */
   public object  $updatedUser;
   public string  $updated;
   /**

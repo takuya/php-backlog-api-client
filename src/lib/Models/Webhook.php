@@ -15,7 +15,9 @@ class Webhook extends BaseModel {
   public string $allEvent;
   public array $activityTypeIds;
   public string $created;
+  /** @var User  */
   public object $createdUser;
   public string $updated;
+  /** @var User  */
   public object $updatedUser;
 }
