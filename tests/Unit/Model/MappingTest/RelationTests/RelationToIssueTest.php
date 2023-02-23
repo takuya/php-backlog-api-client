@@ -15,47 +15,6 @@ class RelationToIssueTest extends TestCaseBacklogModels {
   protected array $sample_comment_notifications;
   protected array $sample_issue_custom_filed;
   
-  protected function find_issue_costomFiled_used (): array {
-    if ( !empty( $this->sample_issue_custom_filed ) ) {
-      return $this->sample_issue_custom_filed;
-    }
-    $issue = null;
-    $custom_filed_values = null;
-    $projects = $this->cli->space()->projects( Backlog::PROJECTS_ONLY_MINE );
-    usort( $projects, fn( $a, $b ) => $a->id < $b->id );
-    foreach ( $projects as $project ) {
-      foreach ( array_slice($project->issues_ids(),0,3) as $issue_id ) {
-        $issue = $this->cli->issue($issue_id);
-        $custom_filed_values = $issue->customFields;
-        if ( sizeof( $custom_filed_values ) > 0 ) {
-          break 2;
-        }
-      }
-    }
-    return [$custom_filed_values, $issue];
-  }
-  
-  protected function find_comment_notifications (): array {
-    if ( !empty( $this->sample_comment_notifications ) ) {
-      return $this->sample_comment_notifications;
-    }
-    $issue = null;
-    $notifications = null;
-    $comment = null;
-    foreach ( $this->cli->space()->projects( Backlog::PROJECTS_ONLY_MINE ) as $project ) {
-      foreach ( array_slice($project->issues_ids(),0,5) as $issue_id ) {
-        $issue = $this->cli->issue($issue_id);
-        foreach ( $issue->comments() as $comment ) {
-          $notifications = $comment->notifications;
-          if ( sizeof( $notifications ) > 0 ) {
-            break 3;
-          }
-        }
-      }
-    }
-    return [$notifications, $comment, $issue];
-  }
-  
   public function test_notification_relation_to_issue () {
     $api = $this->api_client();
     /** @var Issue $issue */
@@ -71,6 +30,27 @@ class RelationToIssueTest extends TestCaseBacklogModels {
     );
   }
   
+  protected function find_comment_notifications (): array {
+    if ( !empty( $this->sample_comment_notifications ) ) {
+      return $this->sample_comment_notifications;
+    }
+    $issue = null;
+    $notifications = null;
+    $comment = null;
+    foreach ( $this->cli->space()->projects( Backlog::PROJECTS_ONLY_MINE ) as $project ) {
+      foreach ( array_slice( $project->issues_ids(), 0, 5 ) as $issue_id ) {
+        $issue = $this->cli->issue( $issue_id );
+        foreach ( $issue->comments() as $comment ) {
+          $notifications = $comment->notifications;
+          if ( sizeof( $notifications ) > 0 ) {
+            break 3;
+          }
+        }
+      }
+    }
+    return [$notifications, $comment, $issue];
+  }
+  
   public function test_custom_field_values_relation_to_issue () {
     $api = $this->api_client();
     /** @var Issue $issue */
@@ -83,5 +63,25 @@ class RelationToIssueTest extends TestCaseBacklogModels {
       json_decode( $custom_filed_values[0]->toJson() ),
       $api->getIssue( $issue->id )->customFields[0]
     );
+  }
+  
+  protected function find_issue_costomFiled_used (): array {
+    if ( !empty( $this->sample_issue_custom_filed ) ) {
+      return $this->sample_issue_custom_filed;
+    }
+    $issue = null;
+    $custom_filed_values = null;
+    $projects = $this->cli->space()->projects( Backlog::PROJECTS_ONLY_MINE );
+    usort( $projects, fn( $a, $b ) => $a->id < $b->id );
+    foreach ( $projects as $project ) {
+      foreach ( array_slice( $project->issues_ids(), 0, 3 ) as $issue_id ) {
+        $issue = $this->cli->issue( $issue_id );
+        $custom_filed_values = $issue->customFields;
+        if ( sizeof( $custom_filed_values ) > 0 ) {
+          break 2;
+        }
+      }
+    }
+    return [$custom_filed_values, $issue];
   }
 }

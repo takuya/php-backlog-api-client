@@ -11,6 +11,7 @@ class Team extends BaseModel implements HasIcon {
   use HasID;
   use RelateToSpace;
   public string  $name;
+  /** @var array | User[] */
   public array   $members;
   public int     $displayOrder;
   public ?string $createdUser;

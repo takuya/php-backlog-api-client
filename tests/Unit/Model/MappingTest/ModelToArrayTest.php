@@ -10,8 +10,8 @@ class ModelToArrayTest extends TestCaseBacklogModels {
   public function test_to_array_model_in_issue () {
     $space = $this->cli->space();
     $user = $space->users()[0];
-    $project_id = $this->cli->space()->project_ids(Backlog::PROJECTS_ONLY_MINE)[0];
-    $project = $this->cli->project($project_id);
+    $project_id = $this->cli->space()->project_ids( Backlog::PROJECTS_ONLY_MINE )[0];
+    $project = $this->cli->project( $project_id );
     $issue = $this->find_issue_has_comments();
     $comment = $issue->comments()[0];
     //

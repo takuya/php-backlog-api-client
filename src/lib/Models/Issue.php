@@ -89,7 +89,7 @@ class Issue extends BaseModel {
     return $c;
   }
   
-  protected function attribute_mapping_list (): array {
+  protected static function attribute_mapping_list (): array {
     $list = parent::attribute_mapping_list();
     $mapping = [
       ['customFields', CustomFieldSelectedValue::class],

@@ -6,6 +6,10 @@ use Takuya\BacklogApiClient\Backlog;
 use Takuya\BacklogApiClient\Models\WikiPage;
 
 trait WikiSearch {
+  public function find_wiki_has_history (): ?WikiPage {
+    return $this->find_wiki( function( WikiPage $wiki ) { return !empty( $wiki->histories() ); } );
+  }
+  
   protected function find_wiki ( callable $func, $check_limit_per_project = 10 ) {
     $pids = $this->cli->space()->project_ids( Backlog::PROJECTS_ONLY_MINE );
     shuffle( $pids );
@@ -22,16 +26,12 @@ trait WikiSearch {
     }
   }
   
-  public function find_wiki_has_history (): ?WikiPage {
-    return $this->find_wiki( function( WikiPage $wiki ) { return !empty( $wiki->histories() ); } );
+  public function find_wiki_has_stars (): ?WikiPage {
+    return $this->find_wiki_has_attribute( 'stars' );
   }
   
   public function find_wiki_has_attribute ( $name ): ?WikiPage {
     return $this->find_wiki( function( WikiPage $wiki ) use ( $name ) { return !empty( $wiki->$name ); } );
-  }
-  
-  public function find_wiki_has_stars (): ?WikiPage {
-    return $this->find_wiki_has_attribute( 'stars' );
   }
   
   public function find_wiki_has_attachments (): ?WikiPage {

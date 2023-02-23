@@ -21,6 +21,7 @@ class Star extends BaseModel {
   public ?string $comment;
   public string  $url;
   public string  $title;
+  /** @var User */
   public object  $presenter;
   public string  $created;
 }

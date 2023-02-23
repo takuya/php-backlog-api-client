@@ -8,17 +8,19 @@ use Takuya\BacklogApiClient\Models\Resolution;
 
 class SpaceModelTest extends TestCaseBacklogModels {
   
-  public function test_get_list_of_priorities(){
+  public function test_get_list_of_priorities () {
     $list = $this->cli->space()->priorities();
-    $this->assertInstanceOf(Priority::class,$list[0]);
+    $this->assertInstanceOf( Priority::class, $list[0] );
   }
-  public function test_space_licence(){
+  
+  public function test_space_licence () {
     $licence = $this->cli->space()->licence();
-    $this->assertInstanceOf(Licence::class,$licence);
+    $this->assertInstanceOf( Licence::class, $licence );
   }
-  public function test_space_resolutions(){
+  
+  public function test_space_resolutions () {
     $res = $this->cli->space()->resolutions();
-    $this->assertInstanceOf(Resolution::class,$res[0]);
+    $this->assertInstanceOf( Resolution::class, $res[0] );
   }
   
 }

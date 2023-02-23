@@ -41,13 +41,13 @@ trait ApiToModelMapping {
  * @return void
  */
   protected function auto_mapping (): void {
-    $mapping= $this->attribute_mapping_list();
+    $mapping= static::attribute_mapping_list();
     foreach ($mapping as $e) {
       property_exists($this, $e[0]) && $this->remapping_to_model($e[0], $e[1]);
     }
   }
   
-  protected function attribute_mapping_list(): array {
+  protected static function attribute_mapping_list(): array {
     $mapping = [
       ['stars', Star::class],
       ['user', User::class],
