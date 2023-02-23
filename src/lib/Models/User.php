@@ -15,6 +15,7 @@ class User extends BaseModel implements HasIcon {
   public int     $roleType;
   public ?string  $lang;
   public string  $mailAddress;
+  /** @var NulabAccount */
   public ?object $nulabAccount;
   public string  $keyword;
   public ?string $lastLoginTime;

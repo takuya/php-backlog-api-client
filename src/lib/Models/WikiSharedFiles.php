@@ -12,8 +12,10 @@ class WikiSharedFiles extends BaseModel {
   public string $dir;
   public string $name;
   public string $size;
+  /** @var User  */
   public object $createdUser;
   public string $created;
+  /** @var User  */
   public object $updatedUser;
   public string $updated;
 }
