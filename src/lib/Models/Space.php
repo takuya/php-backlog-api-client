@@ -40,7 +40,7 @@ class Space extends BaseModel {
    * @return Resolution[]
    */
   public function resolutions(){
-    return $this->api->into_class(Resolution::class,'getResolutionList');
+    return $this->api->into_class(Resolution::class,'getResolutionList',[],$this);
   }
   
   /**
