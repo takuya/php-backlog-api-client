@@ -49,8 +49,9 @@ class Backlog {
    */
   public function project ( $projectIdOrKey ) {
     /** @var Project $p */
+    $dummy_parent = new \stdClass();
     $p = $this->api->into_class( Project::class, 'getProject', ['projectIdOrKey' => $projectIdOrKey] );
-    
+    $p->setSpaceKey($this->api->spaceKey());
     return $p;
   }
   

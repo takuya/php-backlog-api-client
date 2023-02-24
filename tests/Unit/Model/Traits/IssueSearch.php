@@ -25,11 +25,11 @@ trait IssueSearch {
   }
   
   public function find_issue_has_stars (): ?Issue {
-    return $this->find_issue_has_attribute( 'stars',5 );
+    return $this->find_issue_has_attribute( 'stars',15 );
   }
   
-  public function find_issue_has_attribute ( $name ): ?Issue {
-    return $this->find_issue( function( Issue $issue ) use ( $name ) { return !empty( $issue->$name ); }, 5 );
+  public function find_issue_has_attribute ( $name, $limit=5 ): ?Issue {
+    return $this->find_issue( function( Issue $issue ) use ( $name ) { return !empty( $issue->$name ); }, $limit );
   }
   
   public function find_issue_has_attachment (): ?Issue {

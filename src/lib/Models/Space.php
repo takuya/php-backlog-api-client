@@ -20,20 +20,20 @@ class Space extends BaseModel {
    * @return array|User[]
    */
   public function users() {
-    return $this->api->into_class(User::class, 'getUserList');
+    return $this->api->into_class(User::class, 'getUserList',[],$this);
   }
   /**
    * @return array|\Takuya\BacklogApiClient\Models\Team[]
    */
   public function teams(){
-    return $this->api->into_class(Team::class,'getListOfTeams',['query_options'=>['count'=>100]]);
+    return $this->api->into_class(Team::class,'getListOfTeams',['query_options'=>['count'=>100]],$this);
   }
   
   /**
    * @return Priority[]
    */
   public function priorities(){
-    return $this->api->into_class(Priority::class,'getPriorityList');
+    return $this->api->into_class(Priority::class,'getPriorityList',[],$this);
   }
   
   /**
@@ -47,7 +47,7 @@ class Space extends BaseModel {
    * @return Licence
    */
   public function licence(){
-    return $this->api->into_class(Licence::class,'getLicence');
+    return $this->api->into_class(Licence::class,'getLicence',[],$this);
   }
   
   /**
@@ -55,7 +55,7 @@ class Space extends BaseModel {
    */
   public function projects( $all = Backlog::PROJECTS_ALL ) {
     return array_map(
-      function ( $id ) { return $this->api->into_class(Project::class, 'getProject', ['projectIdOrKey' => $id]); },
+      function ( $id ) { return $this->api->into_class(Project::class, 'getProject', ['projectIdOrKey' => $id],$this); },
       $this->project_ids($all));
   }
   public function my_projects(){

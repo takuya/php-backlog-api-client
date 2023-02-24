@@ -23,6 +23,10 @@ class BacklogAPIClient {
     [$this->space,$this->tld] = $this->validateSpaceId( $spaceId_or_url);
     $this->limiter = new RequestRateLimiter();
   }
+  public function spaceKey():string{
+    return $this->space;
+  }
+  
   protected function validateSpaceId ( string $spaceId_or_url ): array {
     if ( str_starts_with( $spaceId_or_url, 'http' ) ) {
       $spaceId_or_url = parse_url( $spaceId_or_url )['host'];
