@@ -21,7 +21,7 @@ class Licence extends BaseModel {
   public string $issueLimit;
   public string $licenceTypeId;
   public string $limitDate;
-  public string $nulabAccount;
+  public ?string $nulabAccount;
   public string $parentChildIssue;
   public string $postIssueByMail;
   public string $projectLimit;
