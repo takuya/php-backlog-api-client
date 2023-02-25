@@ -8,7 +8,7 @@ use tests\Unit\Model\Traits\ProjectSearch;
 use tests\Unit\Model\Traits\IssueSearch;
 use tests\Unit\Model\Traits\WikiSearch;
 
-class TestCaseBacklogModels extends TestCase {
+abstract class TestCaseBacklogModels extends TestCase {
   protected Backlog $cli;
   use ProjectSearch;
   use IssueSearch;
