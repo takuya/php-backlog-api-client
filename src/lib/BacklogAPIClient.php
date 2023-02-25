@@ -5,10 +5,10 @@ namespace Takuya\BacklogApiClient;
 use RuntimeException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use function Takuya\Utils\assert_str_is_domain;
 use function Takuya\Utils\sub_domain;
 use function Takuya\Utils\base_domain;
 use function Takuya\Utils\parent_domain;
+use function Takuya\Utils\assert_str_is_domain;
 
 class BacklogAPIClient {
   
@@ -16,27 +16,25 @@ class BacklogAPIClient {
   use CacherTrait;
   
   protected RequestRateLimiter $limiter;
-  protected string $space;
-  protected string $tld;
+  protected string             $space;
+  protected string             $tld;
   
-  public function __construct( protected  $spaceId_or_url, protected $key) {
-    [$this->space,$this->tld] = $this->validateSpaceId( $spaceId_or_url);
+  public function __construct( protected $spaceId_or_url, protected $key ) {
+    [$this->space, $this->tld] = $this->validateSpaceId($spaceId_or_url);
     $this->limiter = new RequestRateLimiter();
   }
-  public function spaceKey():string{
-    return $this->space;
-  }
   
-  protected function validateSpaceId ( string $spaceId_or_url ): array {
-    if ( str_starts_with( $spaceId_or_url, 'http' ) ) {
-      $spaceId_or_url = parse_url( $spaceId_or_url )['host'];
+  protected function validateSpaceId( string $spaceId_or_url ):array {
+    if( str_starts_with($spaceId_or_url, 'http') ) {
+      $spaceId_or_url = parse_url($spaceId_or_url)['host'];
     }
-    if ( assert_str_is_domain( $spaceId_or_url ) ) {
-      $space_id = sub_domain( $spaceId_or_url );
-      $tld = parent_domain( base_domain( $spaceId_or_url ), false );
+    if( assert_str_is_domain($spaceId_or_url) ) {
+      $space_id = sub_domain($spaceId_or_url);
+      $tld = parent_domain(base_domain($spaceId_or_url), false);
     }
     $space_id = $space_id ?? $spaceId_or_url;
     $tld = $tld ?? 'com';
+    
     return [$space_id, $tld];
   }
   
@@ -48,7 +46,8 @@ class BacklogAPIClient {
   public function disableRateLimiter() {
     $this->limiter->disableRateLimitWaiting();
   }
-  public function getRateLimiterInfo(){
+  
+  public function getRateLimiterInfo() {
     return $this->limiter->getRateLimitInfo();
   }
   
