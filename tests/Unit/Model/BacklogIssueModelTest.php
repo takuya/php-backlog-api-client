@@ -12,6 +12,16 @@ use Takuya\BacklogApiClient\Models\IssueAttachment;
 
 class BacklogIssueModelTest extends TestCaseBacklogModels {
   
+  public function test_list_issue_of_project_all_above_default_limit(){
+    foreach ($this->cli->space()->my_projects() as $project) {
+      $ids = $project->issues_ids();
+      if (sizeof($ids)>=100){
+        $ret = array_filter(array_count_values($ids),fn($n)=>$n>1);
+        $this->assertEquals(0,sizeof($ret));
+        break;
+      }
+    }
+  }
   
   public function test_get_issue_has_parent () {
     // 有料プランのみ。
