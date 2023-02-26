@@ -3,6 +3,7 @@
 namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\Backlog;
+use Takuya\Php\GeneratorArrayAccess;
 
 class Space extends BaseModel {
   
@@ -51,12 +52,15 @@ class Space extends BaseModel {
   }
   
   /**
-   * @return array|Project[]
+   * @return Project[]| GeneratorArrayAccess
    */
   public function projects( $all = Backlog::PROJECTS_ALL ) {
-    return array_map(
-      function ( $id ) { return $this->api->into_class(Project::class, 'getProject', ['projectIdOrKey' => $id],$this); },
-      $this->project_ids($all));
+    $generator = (function () use($all){
+      foreach ($this->project_ids($all) as $id ){
+        yield $this->api->into_class(Project::class, 'getProject', ['projectIdOrKey' => $id],$this);
+      }
+    })();
+    return new GeneratorArrayAccess($generator);
   }
   public function my_projects(){
     return $this->projects(Backlog::PROJECTS_ONLY_MINE);

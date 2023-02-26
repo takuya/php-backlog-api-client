@@ -32,7 +32,8 @@
     "php": ">=8.0",
     "guzzlehttp/guzzle": ">=7.5",
     "ext-json": "*",
-    "ext-gd": "*"
+    "ext-gd": "*",
+    "takuya/php-genetator-array-access": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",

@@ -2,16 +2,17 @@
 
 namespace Takuya\BacklogApiClient\Models;
 
-use Takuya\BacklogApiClient\Models\Interfaces\HasIcon;
+use Takuya\Php\GeneratorArrayAccess;
 use Takuya\BacklogApiClient\Models\Traits\HasID;
+use Takuya\BacklogApiClient\Models\Interfaces\HasIcon;
 use Takuya\BacklogApiClient\Models\Traits\RelateToSpace;
 use Takuya\BacklogApiClient\Models\Interfaces\ProjectAttrs;
-
 
 class Project extends BaseModel implements HasIcon, ProjectAttrs {
   
   use HasID;
   use RelateToSpace;
+  
   public string $projectKey;
   public string $name;
   public bool   $chartEnabled;
@@ -30,17 +31,18 @@ class Project extends BaseModel implements HasIcon, ProjectAttrs {
   public int    $useDevAttributes;
   
   /**
-   * @return \Takuya\BacklogApiClient\Models\Issue[]
+   * @return \Takuya\BacklogApiClient\Models\Issue[]|GeneratorArrayAccess|\Iterator
    */
   public function issues() {
-    ;
-    /** @var Issue[] $list */
-    $list = [];
-    foreach ( $this->api->getIssueList( ['projectId[]' => $this->id] ) as $obj ) {
-      $list[] = new Issue( (object)$obj, $this->api, $this );
-      //$list[] = $this->api(Issue::class, 'getIssue', ['issueIdOrKey' => $issue_id], $this);
-    }
-    return $list;
+    $generator = ( function () {
+      foreach ($this->issues_ids() as $issue_id) {
+        $item = $this->api(Issue::class, 'getIssue', ['issueIdOrKey' => $issue_id], $this);
+        /** @var Issue $item */
+        yield $item;
+      }
+    } )();
+    
+    return new GeneratorArrayAccess($generator);
   }
   
   /**
@@ -51,19 +53,25 @@ class Project extends BaseModel implements HasIcon, ProjectAttrs {
   }
   
   /**
-   * @return array|WikiPage[]
+   * @return array|WikiPage[]|\Iterator|GeneratorArrayAccess
    */
   public function wiki_pages() {
-    /** @var WikiPage[] */
-    $list = [];
-    foreach ($this->wiki_page_ids() as $id) {
-      $list[] = $this->api(WikiPage::class, 'getWikiPage', ['wikiId' => $id], $this);
-    }
-    return $list;
+    $generator = ( function () {
+      $list = [];
+      foreach ($this->wiki_page_ids() as $id) {
+        /** @var WikiPage */
+        $wiki_page = $this->api(WikiPage::class, 'getWikiPage', ['wikiId' => $id], $this);
+        yield $wiki_page;
+      }
+    } )();
+    
+    return new GeneratorArrayAccess($generator);
   }
-  public function wiki_page_ids(){
+  
+  public function wiki_page_ids() {
     $list = $this->api->getWikiPageList(['projectIdOrKey' => $this->id]);
-    return array_map(fn($w)=>$w->id,$list);
+    
+    return array_map(fn( $w ) => $w->id, $list);
   }
   
   /**
