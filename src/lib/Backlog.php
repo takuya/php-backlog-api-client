@@ -192,4 +192,8 @@ class Backlog {
       'rate-limit-count-remains' => $info['X-RateLimit-Remaining'],
     ];
   }
+  public function setLogging(bool $enable,$logger=null){
+    $enable ? $this->api->enableLogging():$this->api->disableLogging();
+    $logger && $this->api->setLogger($logger);
+  }
 }

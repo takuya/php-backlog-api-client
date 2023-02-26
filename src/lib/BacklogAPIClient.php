@@ -14,6 +14,7 @@ class BacklogAPIClient {
   
   use BacklogAPIv2Methods;
   use CacherTrait;
+  use LoggerTrait;
   
   protected RequestRateLimiter $limiter;
   protected string             $space;
@@ -74,6 +75,7 @@ class BacklogAPIClient {
         }
       }
     }
+    
     return compact('spaceKey', 'action', 'projectId', 'projectKey', 'wiki');
   }
   
@@ -125,6 +127,7 @@ class BacklogAPIClient {
     try {
       $this->limiter->waitForRateLimit();
       $client = new Client(['base_uri' => $this->base_uri()]);
+      $this->log([$method, $path, $opts],'debug');
       $res = $client->request($method, $path, $opts);
       $this->limiter->parseRateLimit($res);
       
