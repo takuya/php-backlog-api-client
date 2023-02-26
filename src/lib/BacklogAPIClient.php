@@ -61,8 +61,8 @@ class BacklogAPIClient {
         $wiki = ['page' => $a[3],];
       }
       if( preg_match('|/alias/([^/]+)/([^/]+)|', $path, $m) ) {
-        $action='alias/wiki';
-        $projectKey=null;
+        $action = 'alias/wiki';
+        $projectKey = null;
         $wiki = ['id' => $m[2],];
       }
     } else {
