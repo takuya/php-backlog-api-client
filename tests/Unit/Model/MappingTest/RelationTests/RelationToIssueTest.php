@@ -1,14 +1,14 @@
 <?php
 
-namespace tests\Unit\Model\ProjectRelationTests;
+namespace tests\Unit\Model\MappingTest\RelationTests;
 
-use tests\Unit\Model\TestCaseBacklogModels;
 use Takuya\BacklogApiClient\Backlog;
 use Takuya\BacklogApiClient\Models\Issue;
+use tests\Unit\Model\TestCaseBacklogModels;
 use Takuya\BacklogApiClient\Models\Comment;
 use Takuya\BacklogApiClient\Models\CommentNotification;
-use Takuya\BacklogApiClient\Models\CustomFieldSelectedValue;
 use Takuya\BacklogApiClient\Models\Traits\RelateToIssue;
+use Takuya\BacklogApiClient\Models\CustomFieldSelectedValue;
 
 class RelationToIssueTest extends TestCaseBacklogModels {
   
@@ -71,9 +71,11 @@ class RelationToIssueTest extends TestCaseBacklogModels {
     }
     $issue = null;
     $custom_filed_values = null;
-    $projects = $this->cli->space()->projects( Backlog::PROJECTS_ONLY_MINE );
-    usort( $projects, fn( $a, $b ) => $a->id < $b->id );
-    foreach ( $projects as $project ) {
+    $project_ids = $this->cli->space()->project_ids( Backlog::PROJECTS_ONLY_MINE );
+    usort( $project_ids, fn( $a, $b ) => $a <=> $b );
+    shuffle($project_ids);
+    foreach ( $project_ids as $project_id ) {
+      $project = $this->cli->project($project_id);
       foreach ( array_slice( $project->issues_ids(), 0, 3 ) as $issue_id ) {
         $issue = $this->cli->issue( $issue_id );
         $custom_filed_values = $issue->customFields;
