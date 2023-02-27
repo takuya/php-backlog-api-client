@@ -43,7 +43,7 @@ class SharedFile extends BaseModel implements HasFileContent {
       throw new RuntimeException('Directory');
     }
     
-    return $this->api->getFile($this->parent->id, $this->id);
+    return $this->api->getFile($this->projectId, $this->id);
   }
   
   public function isFile(): bool {

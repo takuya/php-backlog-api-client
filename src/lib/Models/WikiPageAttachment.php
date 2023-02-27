@@ -16,6 +16,6 @@ class WikiPageAttachment extends Attachment {
   
   
   public function getContent():string {
-    return $this->api->getWikiPageAttachment($this->parent->id, $this->id);
+    return $this->api->getWikiPageAttachment($this->wiki_id, $this->id);
   }
 }

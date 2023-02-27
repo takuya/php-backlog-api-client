@@ -7,13 +7,12 @@ use Takuya\BacklogApiClient\Models\Traits\ApiToModelMapping;
 use Takuya\BacklogApiClient\Models\Traits\ModelObjectConvert;
 use Takuya\BacklogApiClient\Models\Traits\ListUpModelClas;
 
-class BaseModel {
+abstract class BaseModel {
   
   use ApiToModelMapping;
   use ModelObjectConvert;
   use ListUpModelClas;
   
-  protected ?BaseModel $parent;//TODO::消す
   protected BacklogAPIClient $api;
   
   /**
@@ -27,10 +26,7 @@ class BaseModel {
     $this->auto_mapping();
     $this->relation( $parent );
   }
-  
-  protected function relation ( $parent = null ) {
-    $this->parent = $parent;
-  }
+  protected function relation ( $parent = null ): void{}
   
   
   /**

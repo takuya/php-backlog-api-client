@@ -9,9 +9,11 @@ use Takuya\BacklogApiClient\Models\NulabAccount;
 use Takuya\BacklogApiClient\Models\IssueAttachment;
 use Takuya\BacklogApiClient\Models\SharedFile;
 use Takuya\BacklogApiClient\Models\CommentNotification;
+use Takuya\BacklogApiClient\Models\BaseModel;
 
 trait ApiToModelMapping {
   
+  protected ?BaseModel $parent;//TODO::消す
   /**
    * @param object $json   Json Result Object by json_decode
    * @param object $target target object copy to.
