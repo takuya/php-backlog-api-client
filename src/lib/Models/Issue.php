@@ -106,6 +106,6 @@ class Issue extends BaseModel {
       ['customFields', CustomFieldSelectedValue::class],
       ['attachments', IssueAttachment::class],
     ];
-    return array_merge($list,$mapping);
+    return array_unique(array_merge($list,$mapping),SORT_REGULAR);
   }
 }
