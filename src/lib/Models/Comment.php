@@ -8,11 +8,14 @@ use Takuya\BacklogApiClient\Models\Traits\HasIssueId;
 use Takuya\BacklogApiClient\Models\User;
 use Takuya\BacklogApiClient\Models\Star;
 use Takuya\BacklogApiClient\Models\CommentNotification;
+use Takuya\BacklogApiClient\Models\Traits\HasStar;
+
 class Comment extends BaseModel {
   
   use HasID;
   use HasProjectId;
   use HasIssueId;
+  use HasStar;
   public ?string $content;
   public ?array  $changeLog;
   /** @var object|User */

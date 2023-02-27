@@ -4,6 +4,7 @@ namespace Takuya\BacklogApiClient\Models;
 
 use Takuya\BacklogApiClient\Models\Traits\HasID;
 use Takuya\BacklogApiClient\Models\Traits\HasProjectId;
+use Takuya\BacklogApiClient\Models\Traits\HasStar;
 
 /**
  * @property-read int                  $id
@@ -22,6 +23,7 @@ use Takuya\BacklogApiClient\Models\Traits\HasProjectId;
 class WikiPage extends BaseModel {
   use HasID;
   use HasProjectId;
+  use HasStar;
   
   public string $name;
   public string $content;

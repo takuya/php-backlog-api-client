@@ -5,6 +5,7 @@ namespace Takuya\BacklogApiClient\Models;
 use Takuya\BacklogApiClient\BacklogAPIClient;
 use Takuya\BacklogApiClient\Models\Traits\HasID;
 use Takuya\BacklogApiClient\Models\Traits\HasProjectId;
+use Takuya\BacklogApiClient\Models\Traits\HasStar;
 
 class Issue extends BaseModel {
   
@@ -18,6 +19,7 @@ class Issue extends BaseModel {
   ];
   use HasID;
   use HasProjectId;
+  use HasStar;
   public string  $issueKey;
   public int     $keyId;
   public object  $issueType;
@@ -63,9 +65,6 @@ class Issue extends BaseModel {
   }
   public function hasAttachment(){
     return !empty($this->attachments);
-  }
-  public function hasStar(){
-    return !empty($this->stars);
   }
   public function hasCustomField(){
     return !empty($this->customFields);
