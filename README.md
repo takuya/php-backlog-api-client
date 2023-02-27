@@ -134,6 +134,9 @@ $project_id = $cli->projectIdByKeyName("MYPRJ");
 
 APIの名前とメソッド名と実際のAPIの対応表を`api.html`に用意しています。
 
+## 日付と時刻
+
+BacklogのAPIは `created` / `updated` で日付が返されます。すべてUTCのようです。
 
 ## インストール via github
 ```sh
