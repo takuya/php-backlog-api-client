@@ -34,7 +34,6 @@ class CommentNotification extends BaseModel {
     'プルリクエストの更新'     => 13,
   ];
   use HasID;
-  use RelateToIssue;
   use RelateToComment;
   public bool   $alreadyRead;
   public int    $reason;

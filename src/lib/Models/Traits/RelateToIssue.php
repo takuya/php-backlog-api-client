@@ -9,6 +9,6 @@ trait RelateToIssue {
   }
   public function relation($parent=null):void{
     parent::relation($parent);
-    $this->issue_id = $parent->issueId ?? $parent->id ?? null;
+    $this->issue_id = $parent->issueId ?? $parent->issue_id?? $parent->id ?? null;
   }
 }

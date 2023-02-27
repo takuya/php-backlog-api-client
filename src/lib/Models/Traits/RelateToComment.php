@@ -16,5 +16,4 @@ trait RelateToComment {
     parent::relation($parent);
     $this->commentId = $parent->commentId ?? $parent->id ?? null;
   }
-  
 }
