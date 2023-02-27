@@ -24,6 +24,6 @@ class Comment extends BaseModel {
   public string $updated;
   /** @var array | Star[] */
   public array $stars;
-  /** @var array | CommentNotification[] */
+    /** @var array | CommentNotification[] */
   public array $notifications;
 }
