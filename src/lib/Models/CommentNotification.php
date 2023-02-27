@@ -5,6 +5,7 @@ namespace Takuya\BacklogApiClient\Models;
 use Takuya\BacklogApiClient\Models\Traits\HasID;
 use Takuya\BacklogApiClient\Models\Traits\RelateToIssue;
 use Takuya\BacklogApiClient\Models\Traits\RelateToComment;
+use Takuya\BacklogApiClient\Models\Traits\RelateToProject;
 
 /**
  * @property-read int    $id
@@ -34,9 +35,9 @@ class CommentNotification extends BaseModel {
     'プルリクエストの更新'     => 13,
   ];
   use HasID;
-  use RelateToComment;
   public bool   $alreadyRead;
   public int    $reason;
   public object $user;
   public bool   $resourceAlreadyRead;
+  
 }
