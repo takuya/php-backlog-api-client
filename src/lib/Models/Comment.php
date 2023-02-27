@@ -13,7 +13,6 @@ use Takuya\BacklogApiClient\Models\Traits\HasStar;
 class Comment extends BaseModel {
   
   use HasID;
-  use HasProjectId;
   use HasIssueId;
   use HasStar;
   public ?string $content;
