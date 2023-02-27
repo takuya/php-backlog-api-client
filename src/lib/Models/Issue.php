@@ -61,6 +61,15 @@ class Issue extends BaseModel {
   public function __construct( object $json, BacklogAPIClient $api, BaseModel $parent = null ) {
     parent::__construct($json, $api, $parent);
   }
+  public function hasAttachment(){
+    return !empty($this->attachments);
+  }
+  public function hasStar(){
+    return !empty($this->stars);
+  }
+  public function hasCustomField(){
+    return !empty($this->customFields);
+  }
   
   /**
    * @return \Takuya\BacklogApiClient\Models\Issue|null
