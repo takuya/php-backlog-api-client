@@ -78,6 +78,17 @@ class BacklogIssueModelTest extends TestCaseBacklogModels {
     // これはバックログ上ではただのリンクです。
     $this->assertEquals( SharedFile::class, get_class( $ret[0]->sharedFiles[0] ) );
   }
+  public function test_get_list_of_issue_attachments_is_useless(){
+    // バックログAPIの課題添付ファイルの一覧のAPIが存在意義のないことを証明する。
+    $issue = $this->find_issue_has_attachment();
+    $issue_id = $issue->id;
+    $api=$this->api_client();
+    $api_result_issue_attachment = $api->getListOfIssueAttachments($issue_id);
+    $api_result_issue = $api->getIssue($issue_id);
+    $this->assertEquals(json_decode($issue->toJson())->{'attachments'}, $api_result_issue_attachment );
+    $this->assertEquals(json_decode($issue->toJson())->{'attachments'}, $api_result_issue->{'attachments'} );
+    $this->assertEquals($api_result_issue->{'attachments'}, $api_result_issue_attachment );
+  }
   
   public function test_get_attachment_of_issue () {
     $issues = $this->cli->findIssues( ['query_options' => ['attachment' => 'true', 'count' => 1]] );
