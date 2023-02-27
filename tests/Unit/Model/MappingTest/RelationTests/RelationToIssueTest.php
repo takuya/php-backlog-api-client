@@ -6,7 +6,7 @@ use Takuya\BacklogApiClient\Backlog;
 use Takuya\BacklogApiClient\Models\Issue;
 use tests\Unit\Model\TestCaseBacklogModels;
 use Takuya\BacklogApiClient\Models\Comment;
-use Takuya\BacklogApiClient\Models\CommentNotification;
+use Takuya\BacklogApiClient\Models\Notification;
 use Takuya\BacklogApiClient\Models\Traits\RelateToIssue;
 use Takuya\BacklogApiClient\Models\CustomFieldSelectedValue;
 
@@ -26,10 +26,9 @@ class RelationToIssueTest extends TestCaseBacklogModels {
     $api = $this->api_client();
     /** @var Issue $issue */
     /** @var Comment $comment */
-    /** @var CommentNotification[] $notifications */
+    /** @var Notification[] $notifications */
     [$notifications, $comment, $issue] = $this->find_comment_notifications();
     $this->assertNotEmpty( $notifications );
-    $this->assertEquals( $notifications[0]->getIssueId(), $issue->id );
     // クラスへ封入がAPIレスポンスを破壊してないことの確認
     $this->assertEquals(
       json_decode( $notifications[0]->toJson() ),

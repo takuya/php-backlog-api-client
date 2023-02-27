@@ -14,7 +14,7 @@ use Takuya\BacklogApiClient\Models\Traits\RelateToProject;
  * @property-read object $user
  * @property-read bool   $resourceAlreadyRead
  */
-class CommentNotification extends BaseModel {
+class Notification extends BaseModel {
   
   /**
    * 連番に欠番あり。

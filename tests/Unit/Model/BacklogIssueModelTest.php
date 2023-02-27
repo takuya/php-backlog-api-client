@@ -7,7 +7,7 @@ use Takuya\BacklogApiClient\Models\User;
 use Takuya\BacklogApiClient\Models\Issue;
 use Takuya\BacklogApiClient\Models\Comment;
 use Takuya\BacklogApiClient\Models\SharedFile;
-use Takuya\BacklogApiClient\Models\CommentNotification;
+use Takuya\BacklogApiClient\Models\Notification;
 use Takuya\BacklogApiClient\Models\IssueAttachment;
 
 class BacklogIssueModelTest extends TestCaseBacklogModels {
@@ -61,11 +61,11 @@ class BacklogIssueModelTest extends TestCaseBacklogModels {
           if ( sizeof( $comment->notifications ) == 0 ) {
             continue;
           }
-          /** @var CommentNotification $notification */
+          /** @var Notification $notification */
           foreach ( $comment->notifications as $notification ) {
-            $this->assertEquals( CommentNotification::class, get_class( $notification ) );
+            $this->assertEquals( Notification::class, get_class( $notification ) );
             $this->assertEquals( User::class, get_class( $notification->user ) );
-            $this->assertContains( $notification->reason, CommentNotification::REASON );
+            $this->assertContains( $notification->reason, Notification::REASON );
           }
           break 3;
         }

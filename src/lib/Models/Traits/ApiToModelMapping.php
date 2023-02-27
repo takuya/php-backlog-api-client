@@ -8,7 +8,7 @@ use Takuya\BacklogApiClient\Models\User;
 use Takuya\BacklogApiClient\Models\NulabAccount;
 use Takuya\BacklogApiClient\Models\IssueAttachment;
 use Takuya\BacklogApiClient\Models\SharedFile;
-use Takuya\BacklogApiClient\Models\CommentNotification;
+use Takuya\BacklogApiClient\Models\Notification;
 use Takuya\BacklogApiClient\Models\BaseModel;
 
 trait ApiToModelMapping {
@@ -61,7 +61,7 @@ trait ApiToModelMapping {
       ['nulabAccount', NulabAccount::class],
       ['attachments', IssueAttachment::class],
       ['sharedFiles', SharedFile::class],
-      ['notifications', CommentNotification::class],
+      ['notifications', Notification::class],
     ];
     return $mapping;
   }
