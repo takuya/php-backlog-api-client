@@ -14,6 +14,13 @@ class RelationToIssueTest extends TestCaseBacklogModels {
   
   protected array $sample_comment_notifications;
   protected array $sample_issue_custom_filed;
+  public function test_issue_attachment_relation_to_issue(){
+    $issue = $this->find_issue_has_attachment();
+    foreach ( $issue->attachments as $attachment ) {
+      $this->assertIsInt($attachment->id);
+      $this->assertEquals($attachment->getIssueId(), $issue->id);
+    }
+  }
   
   public function test_notification_relation_to_issue () {
     $api = $this->api_client();
