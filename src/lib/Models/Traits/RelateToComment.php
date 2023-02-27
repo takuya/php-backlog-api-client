@@ -12,4 +12,9 @@ trait RelateToComment {
   public function getCommentId (): ?int {
     return $this->commentId;
   }
+  public function relation($parent=null):void{
+    parent::relation($parent);
+    $this->commentId = $parent->commentId ?? $parent->id ?? null;
+  }
+  
 }
