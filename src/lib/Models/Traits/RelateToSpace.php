@@ -6,7 +6,7 @@ trait RelateToSpace {
   protected ?string $space_key;
   
   public function getSpaceKey (): ?string {
-    return $this->space_key;
+    return $this->space_key ?? null;
   }
   
   public function setSpaceKey ( $key ) {
