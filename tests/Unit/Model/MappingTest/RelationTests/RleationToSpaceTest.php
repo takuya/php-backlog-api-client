@@ -14,16 +14,16 @@ class RleationToSpaceTest extends TestCaseBacklogModels {
     $space = $this->cli->space();
     //
     $res = $space->disk_usage();
-    $this->assertEquals( $space->spaceKey, $res->getSpaceKey());
+    $this->assertEquals( $space->spaceKey, $res->getSpaceKey() );
     //
     $res = $space->resolutions();
-    $this->assertEquals( $space->spaceKey, $res[0]->getSpaceKey());
+    $this->assertEquals( $space->spaceKey, $res[0]->getSpaceKey() );
     //
     $project = $space->my_projects()[0];
-    $this->assertEquals( $space->spaceKey, $project->getSpaceKey());
+    $this->assertEquals( $space->spaceKey, $project->getSpaceKey() );
     //
-    $pid = $space->project_ids(Backlog::PROJECTS_ONLY_MINE)[0];
-    $this->assertEquals( $space->spaceKey, $this->cli->project($pid)->getSpaceKey());
+    $pid = $space->project_ids( Backlog::PROJECTS_ONLY_MINE )[0];
+    $this->assertEquals( $space->spaceKey, $this->cli->project( $pid )->getSpaceKey() );
     //
     $prios = $space->priorities();
     $this->assertEquals( $space->spaceKey, $prios[0]->getSpaceKey());
