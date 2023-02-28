@@ -44,8 +44,8 @@ class WikiPage extends BaseModel {
   public string $updated;
   
   
-  /*
-   * @return array|\Takuya\BacklogApiClient\Models\WikiHistory[]
+  /**
+   * @return array|WikiHistory[]
    */
   public function histories() {
     return $this->api( WikiHistory::class, 'getWikiPageHistory',
