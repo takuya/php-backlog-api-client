@@ -17,7 +17,6 @@ use Takuya\BacklogApiClient\Models\Traits\RelateToUser;
 class Star extends BaseModel {
   
   use HasID;
-  use RelateToUser;
   public ?string $comment;
   public string  $url;
   public string  $title;
