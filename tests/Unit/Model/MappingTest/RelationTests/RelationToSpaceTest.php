@@ -7,8 +7,6 @@ use Takuya\BacklogApiClient\Backlog;
 
 class RelationToSpaceTest extends TestCaseBacklogModels {
   
-  protected array $sample_webhooks;
-  
 
   public function test_relation_to_space () {
     $space = $this->cli->space();
