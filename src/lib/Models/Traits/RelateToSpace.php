@@ -14,6 +14,6 @@ trait RelateToSpace {
   public function relation($parent=null):void{
     parent::relation($parent);
     $this->space_key = null;
-    $this->space_key = $this->space_key ?? $parent?->spaceKey ?? null;
+    $this->space_key = $this->spaceKey ?? $parent->space_key ?? $parent?->spaceKey ?? null;
   }
 }
