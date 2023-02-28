@@ -5,7 +5,7 @@ namespace tests\Unit\Model\ProjectRelationTests;
 use tests\Unit\Model\TestCaseBacklogModels;
 use Takuya\BacklogApiClient\Backlog;
 
-class RleationToSpaceTest extends TestCaseBacklogModels {
+class RelationToSpaceTest extends TestCaseBacklogModels {
   
   protected array $sample_webhooks;
   
