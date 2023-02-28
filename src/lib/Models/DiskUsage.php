@@ -16,4 +16,6 @@ class DiskUsage extends BaseModel {
   public int $git;
   public int $gitLFS;
   public int $pullRequest;
+  public ?int $capacity;
+  public ?array $details;
 }

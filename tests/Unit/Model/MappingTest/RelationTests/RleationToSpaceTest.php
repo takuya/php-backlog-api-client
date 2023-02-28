@@ -12,6 +12,10 @@ class RleationToSpaceTest extends TestCaseBacklogModels {
 
   public function test_relation_to_space () {
     $space = $this->cli->space();
+    //
+    $res = $space->disk_usage();
+    $this->assertEquals( $space->spaceKey, $res->getSpaceKey());
+    //
     $res = $space->resolutions();
     $this->assertEquals( $space->spaceKey, $res[0]->getSpaceKey());
     //

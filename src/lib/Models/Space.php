@@ -18,6 +18,12 @@ class Space extends BaseModel {
   public string $updated;
   
   /**
+   * @return DiskUsage
+   */
+  public function disk_usage(){
+    return $this->api->into_class(DiskUsage::class,'getSpaceDiskUsage',[],$this);
+  }
+  /**
    * @return array|User[]
    */
   public function users() {
