@@ -20,4 +20,5 @@ class CustomFieldSelectedValue extends BaseModel {
   public string $name;
   /** @var object{ id: int, name: string,displayOrder: int } */
   public $value;
+  public $other_value;
 }
