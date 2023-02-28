@@ -45,7 +45,7 @@ class WikiPage extends BaseModel {
   
   
   /*
-   * @return array| History[]
+   * @return array| WikiHistory[]
    */
   public function histories() {
     return $this->api( WikiHistory::class, 'getWikiPageHistory',
