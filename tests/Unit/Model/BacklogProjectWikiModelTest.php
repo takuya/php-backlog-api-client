@@ -21,7 +21,7 @@ class BacklogProjectWikiModelTest extends TestCaseBacklogModels {
       }
     }
     if (empty($project)){
-      throw new \RuntimeException('Wikiタグが付与されたプロジェクトがありません。作成してください。');
+      throw new \RuntimeException('Wiki:タグが付与されたプロジェクトウィキがありません。作成してください。');
     }
     $this->assertIsArray($tags);
     $this->assertNotEmpty($tags);
