@@ -32,7 +32,7 @@ class WikiPage extends BaseModel {
   public array $tags;
   /** @var WikiPageAttachment[] */
   public ?array $attachments;
-  public ?array $sharedFile;
+  public ?array $sharedFiles;
   /** @var array | Star[] */
   public array $stars;
   /** @var User */
