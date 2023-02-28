@@ -6,9 +6,27 @@ use Takuya\BacklogApiClient\Backlog;
 use Takuya\BacklogApiClient\Models\WikiHistory;
 use Takuya\BacklogApiClient\Models\WikiPage as WikiPage;
 use Takuya\BacklogApiClient\Models\WikiPageAttachment;
+use Takuya\BacklogApiClient\Models\WikiTag;
 
 class BacklogProjectWikiModelTest extends TestCaseBacklogModels {
   
+  public function test_get_wiki_tag_list () {
+    
+    $project = null;
+    $tags = null;
+    foreach ( $this->cli->space()->my_projects() as $project ) {
+      $tags = $project->wiki_tags();
+      if(sizeof($tags)>0){
+        break;
+      }
+    }
+    if (empty($project)){
+      throw new \RuntimeException('Wikiタグが付与されたプロジェクトがありません。作成してください。');
+    }
+    $this->assertIsArray($tags);
+    $this->assertNotEmpty($tags);
+    $this->assertIsClass(WikiTag::class,$tags[0]);
+  }
   
   public function test_get_wiki_pages_in_a_project () {
     foreach ( $this->cli->space()->projects( Backlog::PROJECTS_ONLY_MINE ) as $project ) {

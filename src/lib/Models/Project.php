@@ -75,6 +75,17 @@ class Project extends BaseModel implements HasIcon, ProjectAttrs {
   }
   
   /**
+   * @return WikiTag[]
+   */
+  public function wiki_tags(){
+    return $this->api( WikiTag::class,
+      'getWikiPageTagList',
+      ['query_options'=>['projectIdOrKey' => $this->id]],
+      $this
+    );
+  }
+  
+  /**
    * @return array|\Takuya\BacklogApiClient\Models\Team[]
    */
   public function teams() {
