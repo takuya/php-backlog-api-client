@@ -358,8 +358,8 @@ trait BacklogAPIv2Methods {
   * @return array{id: integer,projectKey: string,name: string,chartEnabled: boolean,useResolvedForChart: boolean,subtaskingEnabled: boolean,projectLeaderCanEditProjectLeader: boolean,useWiki: boolean,useFileSharing: boolean,useWikiTreeView: boolean,useOriginalImageSizeAtWiki: boolean,useSubversion: boolean,useGit: boolean,textFormattingRule: string,archived: boolean,displayOrder: integer,useDevAttributes: boolean}
   * @link https://developer.nulab.com/ja/docs/backlog/api/2/add-project/
   */
-  public function addProject(){
-    return $this->call_api('POST', "/api/v2/projects" );
+  public function addProject($query_options=['name'=>'','key'=>'']){
+    return $this->call_api('POST', "/api/v2/projects",$query_options );
   }
 
   /**
