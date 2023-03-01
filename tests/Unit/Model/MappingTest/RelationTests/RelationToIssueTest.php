@@ -65,10 +65,12 @@ class RelationToIssueTest extends TestCaseBacklogModels {
     $this->assertNotEmpty( $custom_filed_values );
     $this->assertClassHasTrait( RelateToIssue::class, $issue->customFields[0] );
     $this->assertEquals( $custom_filed_values[0]->getIssueId(), $issue->id );
-    $this->assertEquals(
-      json_decode( $custom_filed_values[0]->toJson() ),
-      $api->getIssue( $issue->id )->customFields[0]
-    );
+    
+    $custom_field = $api->getIssue( $issue->id )->customFields[0];
+    $a = json_decode($custom_filed_values[0]->toJson());
+    unset($a->{'other_value'});// あったりなかったりするので、テスト対象から除外する。
+    $b = $custom_field;
+    $this->assertEquals($b, $a);
   }
   
   protected function find_issue_costomFiled_used (): array {
