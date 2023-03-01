@@ -98,5 +98,11 @@ class BacklogApiCallTest extends BacklogApiTestCase {
     $this->assertHasProperties(['name','size'],$list[0]);
     $this->assertEquals($list[0]->size, strlen($attachment));
   }
+  public function test_issue_search_by_issue_id(){
+    $issue_a = $this->api_client()->getIssueList(['count'=>1])[0];
+    $issue_b = $this->api_client()->getIssueList(['projectId'=>[$issue_a->projectId]])[0];
+    $this->assertEquals($issue_b->id,$issue_a->id);
+    $this->assertEquals($issue_b,$issue_a);
+  }
   
 }

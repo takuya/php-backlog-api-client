@@ -18,7 +18,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
   public function api_client(){
     $key = getenv('backlog_api_key');
     $space = getenv('backlog_space');
-    return new BacklogAPIClient($space, $key);
+    $api = new BacklogAPIClient($space, $key);
+    $api->enableLogging();
+    return $api;
   }
   public function model_client(){
     $key = getenv('backlog_api_key');
