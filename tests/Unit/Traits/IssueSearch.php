@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\Unit\Model\Traits;
+namespace tests\Unit\Traits;
 
 use Takuya\BacklogApiClient\Backlog;
 use Takuya\BacklogApiClient\Models\Issue;
@@ -11,12 +11,13 @@ trait IssueSearch {
   }
   
   protected function find_issue ( callable $func, $limit_per_project = 3 ) {
-    $pids = $this->cli->space()->project_ids( Backlog::PROJECTS_ONLY_MINE );
+    $cli = $this->model_client();
+    $pids = $cli->space()->project_ids( Backlog::PROJECTS_ONLY_MINE );
     shuffle( $pids );
     foreach ( $pids as $pid ) {
-      $project = $this->cli->project( $pid );
+      $project = $cli->project( $pid );
       foreach ( array_slice( $project->issues_ids(), 0, $limit_per_project ) as $issue_id ) {
-        $issue = $this->cli->issue( $issue_id );
+        $issue = $cli->issue( $issue_id );
         if ( $func( $issue ) ) {
           return $issue;
         }
@@ -50,5 +51,28 @@ trait IssueSearch {
       return !empty( $issue->assignee ) && !empty( $issue->updated );
     } );
   }
+  
+  public function find_issue_has_star_comment () {
+    return $this->find_issue( function( Issue $issue ) {
+      foreach ( $issue->comments() as $comment ) {
+        if ( $comment->hasStar() ) {
+          return true;
+        }
+      }
+      return false;
+    }, 5 );
+  }
+  
+  public function find_issue_has_comment_notify () {
+    return $this->find_issue( function( Issue $issue ) {
+      foreach ( $issue->comments() as $comment ) {
+        if ( sizeof( $comment->notifications ) > 0 ) {
+          return true;
+        }
+      }
+      return false;
+    }, 5 );
+  }
+  
   
 }

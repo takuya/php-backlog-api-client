@@ -8,6 +8,8 @@ use tests\assertions\ArrayAssertions;
 use Takuya\BacklogApiClient\BacklogAPIClient;
 use Takuya\BacklogApiClient\Backlog;
 use tests\assertions\ClassAssertsions;
+use Takuya\BacklogApiClient\Backup\BacklogArchiver;
+use Takuya\BacklogApiClient\Backup\ArchiveService\ArchiveDump;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase {
   use PropertyAssertions;
@@ -23,4 +25,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
     $space = getenv('backlog_space');
     return new Backlog($space, $key);
   }
+  public function archiver_client () {
+    return new BacklogArchiver(new ArchiveDump('/dev/null'));
+  }
+  
 }

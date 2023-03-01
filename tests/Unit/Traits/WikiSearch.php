@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\Unit\Model\Traits;
+namespace tests\Unit\Traits;
 
 use Takuya\BacklogApiClient\Backlog;
 use Takuya\BacklogApiClient\Models\WikiPage;
@@ -11,14 +11,15 @@ trait WikiSearch {
   }
   
   protected function find_wiki ( callable $func, $check_limit_per_project = 10 ) {
-    $pids = $this->cli->space()->project_ids( Backlog::PROJECTS_ONLY_MINE );
+    $cli = $this->model_client();
+    $pids = $cli->space()->project_ids( Backlog::PROJECTS_ONLY_MINE );
     shuffle( $pids );
     foreach ( $pids as $pid ) {
-      $project = $this->cli->project( $pid );
-      // プロジェクトごとにだいたい同じ使われ方なので、
-      // 見つからない場合同じプロジェクト内部を探し回るだけ無駄。
+      $project = $cli->project( $pid );
+      // プロジェクトごとに使われ方に特徴があり
+      // 見つからない場合に同プロジェクト内部を探し回るだけ無駄。
       foreach ( array_slice( $project->wiki_page_ids(), 0, $check_limit_per_project ) as $wiki_id ) {
-        $wiki = $this->cli->wiki( $wiki_id );
+        $wiki = $cli->wiki( $wiki_id );
         if ( $func( $wiki ) ) {
           return $wiki;
         }

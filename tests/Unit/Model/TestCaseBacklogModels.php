@@ -4,9 +4,9 @@ namespace tests\Unit\Model;
 
 use Tests\TestCase;
 use Takuya\BacklogApiClient\Backlog;
-use tests\Unit\Model\Traits\ProjectSearch;
-use tests\Unit\Model\Traits\IssueSearch;
-use tests\Unit\Model\Traits\WikiSearch;
+use tests\Unit\Traits\ProjectSearch;
+use tests\Unit\Traits\IssueSearch;
+use tests\Unit\Traits\WikiSearch;
 
 abstract class TestCaseBacklogModels extends TestCase {
   protected Backlog $cli;
