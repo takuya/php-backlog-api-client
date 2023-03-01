@@ -3,7 +3,7 @@
   "description": "Access to Nulab Backlog Api.",
   "type": "library",
   "license": "GPL-3.0-or-later",
-  "version": "0.1",
+  "version": "1.0.0",
   "autoload": {
     "psr-4": {
       "Takuya\\BacklogApiClient\\": "src/lib"
