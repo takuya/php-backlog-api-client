@@ -113,9 +113,17 @@ class BacklogAPIClient {
     throw new RuntimeException('failed to mapping');
   }
   
-  public function call_api( $method, $path, $query = [] ) {
-    $query = array_merge_recursive(['apiKey' => $this->key], $query);
-    $res = $this->send_request($method, $path, ['query' => $query]);
+  public function call_api( $method, $path, $query = null, $params=null) {
+    $key = ['apiKey' => $this->key];
+    $query = array_merge_recursive($key, $query??[]);
+    $options = ['query' => $query];
+    //
+    if(!empty($params['form_params'])||!empty($params['multipart'])){
+      $options = array_merge_recursive($options,$params);
+    }else if(!empty($params)){
+      $options = ['query' => $query,'form_params'=>$params];
+    }
+    $res = $this->send_request($method, $path,$options );
     if( str_contains($res->getHeader("Content-Type")[0], 'json') ) {
       return json_decode($res->getBody()->getContents());
     }
@@ -134,6 +142,9 @@ class BacklogAPIClient {
       return $res;
     } catch (ClientException $e) {
       dump($e->getRequest()->getUri()->__toString(), $e->getResponse()->getBody()->getContents());
+      $r = $e->getRequest()->getBody();
+      $r->rewind();
+      dump(urldecode($r->getContents()));
       throw $e;
       // return $e->getResponse();
     }

@@ -2,7 +2,7 @@
 
 namespace Takuya\BacklogApiDocScraping;
 
-require_once 'helpers.php';
+require_once __DIR__.'/../../../vendor/autoload.php';
 class BacklogDocToClass {
   
   public static function cache_path($file){
@@ -18,8 +18,10 @@ class BacklogDocToClass {
     $ret = $self->api_list_json();
     $class_def = $self->generate_class_def($ret);
     $html = $self->render_table($ret);
-    file_put_contents(__DIR__.'/../../../api.html', $html);
-    file_put_contents(__DIR__.'/../../../src/BacklogAPIv2Methods.php', $class_def);
+    file_put_contents(__DIR__.'/BacklogAPIv2Methods.php',$class_def);
+  
+    //file_put_contents(__DIR__.'/../../../api.html', $html);
+    //file_put_contents(__DIR__.'/../../../src/BacklogAPIv2Methods.php', $class_def);
     return 0;
   }
   protected function api_list_json() {
@@ -113,6 +115,18 @@ class BacklogDocToClass {
       }, iterator_to_array($trs));
       $info['query_args'] = $args;
     }
+    // リクエスト・パラメタ
+    $table = $xpath->evaluate('//h2[contains(@id,"リクエストパラ") or contains(@id,"query-para")]/following-sibling::table[1]/tbody');
+    if( sizeof($table) > 0 ) {
+      $trs = $xpath->evaluate('./tr', $table[0]);
+      $args = array_map(function ( $tr ) use ( $xpath ) {
+        $tds = $xpath->evaluate('./td', $tr);
+        $tds = array_map(fn( $e ) => $e->textContent, iterator_to_array($tds));
+        return $tds;
+      }, iterator_to_array($trs));
+      $info['request_args'] = $args;
+    }
+    
     $info['doc_url'] = $url;
     $info['kebab'] = basename(parse_url($url)['path']);
     $info['Camel'] = kababToCamel($info['kebab']);
@@ -145,7 +159,7 @@ class BacklogDocToClass {
     return $ret;
     
   }
-  protected function generate_class_def( $ret){
+  protected function generate_class_def($ret){
     $method_definitions = [];
     foreach ($ret as $item) {
       $method_definitions[]=$this->doc_to_method($item);
@@ -163,13 +177,19 @@ class BacklogDocToClass {
     return $class_def;
   }
   protected function doc_to_method($info){
-    
+
     $http_meth= $info->method;
     $http_path = $info->path;
     $doc_url = $info->doc_url;
     dump($doc_url);
     $name = $info->Camel;
-    
+  
+
+    if ($name == 'postAttachmentFile'){
+      $info->request_args=[['multipart[]','','']];
+    }
+  
+  
     $res_shape = $this->response_sample_to_array_shape($info->response);
     $path_params = [];
     if (str_contains($info->path,':')){
@@ -179,21 +199,58 @@ class BacklogDocToClass {
       $http_path = str_replace(':','$',$http_path);
     }
   
-    
-    $func_args = implode(',',array_filter([...($path_params),!empty($info->query_args) ? '$query_options=[]':null]));
+    $request_args_shape= '';
+    $func_args = $path_params;
+    if (!empty($info->request_args)){
+      
+      $assoc = $info->request_args;
+      $assoc = array_map(fn($e)=>$e[0],$assoc);
+      $assoc = array_map(fn($e)=>preg_replace('/[^A-z]/','',$e),$assoc);
+      $assoc = array_map(fn($e)=>"'${e}'=>null",$assoc);
+      $assoc = array_map(fn($e)=>str_replace("[]'=>null","'=>[]",$e),$assoc);
+      if ($name == 'postAttachmentFile') {// マルチパート
+        $assoc = ["'multipart'=>['name'=>'','filename'=>'','contents'=>'',]"];
+      }
+      $func_args[] = str_replace('{assoc}',implode(', ',$assoc),'$params=[{assoc}]');
+      
+      
+      $array_shape = $assoc;
+      $array_shape = array_map(fn($e)=>str_replace("'",'',$e),$array_shape);
+      $array_shape = array_map(fn($e)=>preg_split('/=>/',$e),$array_shape);
+      $array_shape = array_map(function($e){$e[1]=$e[1]=='null'?null:$e[1];return $e;},$array_shape);
+      $array_shape = array_map(function($e){$e[1]=$e[1]=='[]'?[]:$e[1];return $e;},$array_shape);
+      $array_shape = array_combine(array_map(fn($e)=>$e[0],$array_shape),array_map(fn($e)=>$e[1],$array_shape));
+      $request_args_shape =  $this->response_sample_to_array_shape((object)$array_shape);
+      if ($name == 'postAttachmentFile'){
+        $request_args_shape = "array{ multipart: array{name: string,filename:string,contents:string}}";
+      }
+    }else if(!empty($info->query_args)){
+      $func_args[] ='$query_options=[]';
+    }
+    $func_args = implode(', ', array_filter($func_args));
+    dump($func_args);
     $func_def = [];
     $func_def[] = "/**";
     $func_def[] = "*  {$info->title}";
     $func_def[] = "*";
     foreach ($path_params as $path_param){
-      $func_def[] = !empty($path_param) ? "* @params string|int $path_param":null;
+      $func_def[] = !empty($path_param) ? "* @param string|int $path_param":null;
     }
-    $func_def[] = isset($info->query_args) ? '* @params array $query_options':null;
+    $func_def[] = !empty($info->query_args) ? '* @param array $query_options':null;
+    $func_def[] = !empty($info->request_args) ? "* @param $request_args_shape \$params":null;
     $func_def[] = "* @return {$res_shape}";
     $func_def[] = "* @link {$info->doc_url}";
     $func_def[] = "*/";
     $func_def[] = "public function $name($func_args){";
-    $func_def[] = "  return \$this->call_api('{$http_meth}', \"{$http_path}\"".(!empty($info->query_args) ? ',$query_options':'')." );";
+    if (!empty($info->query_args)){
+      $func_body = sprintf( '  return $this->call_api("%s", "%s", $query_options );', $http_meth,$http_path, );
+    }
+    else if (!empty($info->request_args)){
+      $func_body = sprintf( '  return $this->call_api("%s", "%s",[], $params );', $http_meth,$http_path, );
+    }else{
+      $func_body = sprintf( '  return $this->call_api("%s", "%s" );', $http_meth,$http_path, );
+    }
+    $func_def[] = $func_body;
     $func_def[] = "}";
     $func_def = array_filter($func_def);
     $func_def = "  ".implode(PHP_EOL."  ",$func_def);
@@ -217,10 +274,12 @@ class BacklogDocToClass {
   protected function convert_object_to_array_shape($obj){
     $shape = (array)$obj;
     $shape = array_map('gettype',$shape);
+    $shape=  array_combine(array_keys($shape),array_map(fn($e)=>$e=='NULL'?'?string':$e,$shape));
     $shape = json_encode($shape);
     $shape = str_replace('"','',$shape);
     $shape = str_replace(':',': ',$shape);
-    $shape = 'array'.$shape;
+    $shape = str_replace(',',', ',$shape);
+    $shape = is_array($obj)?'array':'object'.$shape;
     return $shape;
   }
   protected function render_table( $docs ) {
