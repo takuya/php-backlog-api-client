@@ -173,3 +173,25 @@ composer run-script test
 ## test some test case
 php vendor/bin/phpunit --filter get_space
 ```
+
+## サンプル
+
+更新をするときのサンプル
+### 画像の投稿のサンプル
+画像を投稿して、画像を貼り付けたコメントを作る。
+```php
+$api = new BacklogAPIClient($space, $key);
+$part = [
+  'name'=>"file",
+  'contents' => file_get_contents(__DIR__.'/../../../../sample.jpg'),
+  "filename"=>"sample.jpg"
+];
+$param = ['multipart' => [$part]];
+$ret = $api->postAttachmentFile($param);
+$params = [
+  'content'=>"画像を貼り付ける\nサブスクに気をつけて\n![image][sample.jpg]\n",
+  'attachmentId[]'=>$ret->id,
+];
+$ret = $api->addComment($key,$params);
+```
+
