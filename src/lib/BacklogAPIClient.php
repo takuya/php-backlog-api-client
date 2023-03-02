@@ -114,21 +114,32 @@ class BacklogAPIClient {
   }
   
   public function call_api( $method, $path, $query = null, $params=null) {
+    $method = strtoupper($method);
     $key = ['apiKey' => $this->key];
-    $query = array_merge_recursive($key, $query??[]);
-    $options = ['query' => $query];
-    //
-    if(!empty($params['form_params'])||!empty($params['multipart'])){
-      $options = array_merge_recursive($options,$params);
-    }else if(!empty($params)){
-      $options = ['query' => $query,'form_params'=>$params];
+    $options = ['query' => $key ];
+
+    if ('GET'==$method && !empty($query)){
+      $query = array_merge_recursive($key, $query??[]);
+      $options = ['query' => $this->http_build_query($query)];
+    }else if (in_array($method,['POST','PUT','PATCH','DELETE'] )&& !empty($params)){
+      if (!empty($params['multipart'])){
+        $options = array_merge_recursive($options,$params);
+      }else{
+        $options['body'] = $this->http_build_query($params['form_params']??$params);
+      }
     }
+    //
     $res = $this->send_request($method, $path,$options );
     if( str_contains($res->getHeader("Content-Type")[0], 'json') ) {
       return json_decode($res->getBody()->getContents());
     }
     
     return $res->getBody()->getContents();
+  }
+  protected function http_build_query($data,$numeric_prefix=false,$arg_separator=null,$encoding_type=PHP_QUERY_RFC3986){
+    $str = http_build_query($data,$numeric_prefix,$arg_separator=null,$encoding_type);
+    $str = preg_replace('/%5B(?:[0-9]|[1-9][0-9]+)%5D=/', '%5B%5D=', $str);
+    return $str;
   }
   
   protected function send_request( $method, $path, $opts ) {

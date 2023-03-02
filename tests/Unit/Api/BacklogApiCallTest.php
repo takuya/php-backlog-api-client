@@ -104,5 +104,21 @@ class BacklogApiCallTest extends BacklogApiTestCase {
     $this->assertEquals($issue_b->id,$issue_a->id);
     $this->assertEquals($issue_b,$issue_a);
   }
-  
+
+  public function test_query_parameter_has_array(){
+    $api = $this->api_client();
+    $projects  = $this->api_client()->getProjectList();
+    shuffle($projects);
+    foreach ( $projects as $project ) {
+      $list = $api->getIssueList(['projectId'=>[$project->id],'count'=>20]);
+      if (sizeof($list)>0){
+        break;
+      }
+    }
+    $this->assertEquals($project->id, $list[0]->projectId);
+    $source_ids = array_slice(array_map(fn($e)=>$e->id,$list),0,2);
+    $result = $api->getIssueList(['id'=>$source_ids]);
+    $result_ids = array_slice(array_map(fn($e)=>$e->id,$result),0,2);
+    $this->assertEquals($source_ids,$result_ids);
+  }
 }
