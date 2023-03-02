@@ -46,7 +46,6 @@ class BacklogAPIClient {
     preg_match('|^/([^/]+)|', $path, $m);
     $top_dir = $m[1] ?? null;
     $action = $top_dir ?? '';
-    // dump([$action,preg_match('|^(.+)\.action$|',$action,$m)>0,$m]);
     if( preg_match('|^(.+)\.action$|', $action, $m) > 0 ) {
       $action = $m[1];
       preg_match('/project.?id=([^&]+)/i', parse_url($url)['query'], $m);
@@ -152,12 +151,13 @@ class BacklogAPIClient {
       
       return $res;
     } catch (ClientException $e) {
-      dump($e->getRequest()->getUri()->__toString(), $e->getResponse()->getBody()->getContents());
-      $r = $e->getRequest()->getBody();
-      $r->rewind();
-      dump(urldecode($r->getContents()));
+      $this->log($e->getRequest()->getUri()->__toString());
+      $this->log($e->getResponse()->getBody()->getContents());
+      //$r = $e->getRequest()->getBody();
+      //$r->rewind();
+      //dump(urldecode($r->getContents()));
       throw $e;
-      // return $e->getResponse();
+       //return $e->getResponse();
     }
   }
   

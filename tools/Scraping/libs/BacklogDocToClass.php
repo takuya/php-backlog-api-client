@@ -18,10 +18,10 @@ class BacklogDocToClass {
     $ret = $self->api_list_json();
     $class_def = $self->generate_class_def($ret);
     $html = $self->render_table($ret);
-    file_put_contents(__DIR__.'/BacklogAPIv2Methods.php',$class_def);
+    //file_put_contents(__DIR__.'/BacklogAPIv2Methods.php',$class_def);
   
-    //file_put_contents(__DIR__.'/../../../api.html', $html);
-    //file_put_contents(__DIR__.'/../../../src/BacklogAPIv2Methods.php', $class_def);
+    file_put_contents(__DIR__.'/api.html', $html);
+    file_put_contents(__DIR__.'/../../../src/BacklogAPIv2Methods.php', $class_def);
     return 0;
   }
   protected function api_list_json() {

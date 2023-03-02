@@ -16,10 +16,5 @@ class HttpBuildQueryTest extends TestCase {
     $this->assertStringContainsString('names[]=', urldecode($ret));
     $this->assertStringContainsString('あ[0]=', urldecode($ret));
   }
-  //public function test_guzzle_http(){
-  //  $cli = new Client(['base_uri' => 'http://localhost:8080']);
-  //  $ret = $cli->request('GET','/?b[]=1',['query'=>'a=1']);
-  //  dd($ret->getBody()->getContents());
-  //}
   
 }
