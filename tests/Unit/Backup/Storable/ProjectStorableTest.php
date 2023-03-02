@@ -17,7 +17,7 @@ class ProjectStorableTest extends TestCase {
     $names = array_merge( $names, ['icon', 'users', 'teams', 'spaceKey'] );
     //
     $this->assertArrayIsSameValues( $names, array_keys( $arr ) );
-    $this->assertIsArrayOfString( $arr['users'] );
+    $this->assertIsArrayOfInt( $arr['users'] );
     $this->assertNotEmpty( $arr['users'] );
     $this->assertIsArray( $arr['teams'] );
     $this->assertIsArrayOfInt( $arr['teams'] );

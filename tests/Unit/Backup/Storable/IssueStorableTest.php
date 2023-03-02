@@ -25,9 +25,8 @@ class IssueStorableTest extends TestCase {
     $this->assertIsArrayOfInt($arr['category']);
     $this->assertIsInt($arr['issueType']);
     $this->assertIsInt($arr['status']);
-    $this->assertIsString($arr['createdUser']);
-    $this->assertIsString($arr['assignee']);
-    
+    $this->assertIsInt($arr['createdUser']);
+    $this->assertIsInt($arr['assignee']);
   }
   
   public function test_issue_storable(): void {

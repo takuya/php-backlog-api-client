@@ -36,7 +36,7 @@ class BacklogArchiver {
     return $arr;
   }
   
-  protected function filterAttrUser ( $arr, $class ) {
+  protected function filterUserAttrs ( $arr, $class ) {
     $map = $class::attribute_mapping_list();
     $userAttrNames = array_map( fn( $e ) => $e[0], array_filter( $map, fn( $e ) => str_ends_with( $e[1], 'User' ) ) );
     $userArrayAttrNames = array_filter( $userAttrNames, fn( $str ) => $str == StrTool::plural( $str ) );
@@ -46,10 +46,10 @@ class BacklogArchiver {
         $arr[$k] = $v['nulabId'] ?? null;
       }
       if ( in_array( $k, $userArrayAttrNames ) ) {
-        $arr[$k] = array_map( fn( $e ) => $e["userId"], $v );
+        $arr[$k] = array_map( fn( $e ) => $e["id"], $v );
       }
       if ( in_array( $k, $userAttrNames ) ) {
-        $arr[$k] = $v["userId"] ?? null;
+        $arr[$k] = $v["id"] ?? null;
       }
     }
   
@@ -69,7 +69,7 @@ class BacklogArchiver {
     return $arr;
   }
   protected function filterAttr( $arr, $class ) {
-    $arr = $this->filterAttrUser($arr, $class);
+    $arr = $this->filterUserAttrs($arr, $class);
     $arr = $this->filterAttribnutes($arr,$class, 'attachments');
     $arr = $this->filterAttribnutes($arr,$class, 'stars');
     $arr = $this->filterAttribnutes($arr,$class, 'sharedFiles');
@@ -124,7 +124,7 @@ class BacklogArchiver {
     if( $this->hasInterface($obj, ProjectAttrs::class) ) {
       /** @var ProjectAttrs $obj */
       $cols['teams'] = array_map(fn( $e ) => $e->id, $obj->teams());
-      $cols['users'] = array_map(fn( $e ) => $e->userId, $obj->users());
+      $cols['users'] = array_map(fn( $e ) => $e->id, $obj->users());
     }
     
     return $cols;
