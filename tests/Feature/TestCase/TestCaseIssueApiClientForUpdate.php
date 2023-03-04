@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\Feature\API\TestCase;
+namespace tests\Feature\TestCase;
 
 class TestCaseIssueApiClientForUpdate extends TestCaseProjectApiClientForUpdate {
   
@@ -46,8 +46,8 @@ class TestCaseIssueApiClientForUpdate extends TestCaseProjectApiClientForUpdate 
       'description' => 'API経由で課題を作成しますー担当もします。',
       'issueTypeId' => $this->findIssueTypeId()->id,
       'priorityId' => 2,
-      'notifiedUserId' => [$this->findAdminUser()->id],
-      'assigneeId' => $this->findAdminUser()->id,
+      'notifiedUserId' => [$this->myUserId()],
+      'assigneeId' => $this->myUserId(),
     ];
     $ret = $this->api->addIssue( $params );
     $this->issue_id = $ret->id;

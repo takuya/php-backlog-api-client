@@ -2,7 +2,7 @@
 
 namespace tests\Feature\API;
 
-use tests\Feature\API\TestCase\TestCaseIssueApiClientForUpdate;
+use tests\Feature\TestCase\TestCaseIssueApiClientForUpdate;
 
 class ApiClientCrudIssueTest extends TestCaseIssueApiClientForUpdate {
   //class ApiClientCrudIssueTest extends TestCaseProjectApiClientForUpdate {

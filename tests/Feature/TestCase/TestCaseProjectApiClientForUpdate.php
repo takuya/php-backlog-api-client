@@ -1,9 +1,9 @@
 <?php
 
-namespace tests\Feature\API\TestCase;
+namespace tests\Feature\TestCase;
 
 use tests\TestCase;
-use tests\Feature\API\Trait\EntitySearch;
+use tests\Feature\TestCase\Trait\EntitySearch;
 
 class TestCaseProjectApiClientForUpdate extends TestCase {
   protected $project_id = null;
@@ -19,7 +19,7 @@ class TestCaseProjectApiClientForUpdate extends TestCase {
     $this->api->disableLogging();
   }
   protected function sample_jpeg_file(){
-    $sample_filename = realpath(__DIR__.'/../../../sample-data/sample.jpg');
+    $sample_filename = realpath(__DIR__.'/../../sample-data/sample.jpg');
     return [
       'name' => basename($sample_filename),
       'content'=> file_get_contents($sample_filename)
