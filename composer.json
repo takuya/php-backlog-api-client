@@ -10,7 +10,9 @@
     },
     "files": [
       "src/helpers/domain_name_utils.php",
-      "src/helpers/StrTool.php"
+      "src/helpers/StrTool.php",
+      "src/helpers/array_utils.php"
+
     ]
   },
   "autoload-dev": {
