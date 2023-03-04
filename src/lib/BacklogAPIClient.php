@@ -205,6 +205,7 @@ class BacklogAPIClient {
   }
   
   protected function list_all( $method, $q = [] ) {
+    // TODO:GENERATOR にする。課題が１０００件あると１０回もリクエストがおきる。
     $params = &$q[sizeof($q) - 1];
     $limit = $params['count'];
     $params['offset'] = ! empty($params['offset']) ? $params['offset'] : 0;
