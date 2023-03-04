@@ -9,6 +9,8 @@ use function Takuya\Utils\sub_domain;
 use function Takuya\Utils\base_domain;
 use function Takuya\Utils\parent_domain;
 use function Takuya\Utils\assert_str_is_domain;
+use League\Flysystem\WebDAV\WebDAVAdapter;
+use League\Flysystem\Filesystem;
 
 class BacklogAPIClient {
   
@@ -23,6 +25,36 @@ class BacklogAPIClient {
   public function __construct( protected $spaceId_or_url, protected $key ) {
     [$this->space, $this->tld] = $this->validateSpaceId($spaceId_or_url);
     $this->limiter = new RequestRateLimiter();
+  }
+  public function addSharedFile($projectId,$path,$content, $userName=null,$password=null){
+    $user = $userName ?? getenv('BACKLOG_USER');
+    $pass = $password ?? getenv('BACKLOG_PASS');
+    $client = new \Sabre\DAV\Client([
+      'baseUri' => $this->getDavAddress($projectId),
+      'userName' => $user,
+      'password' => $pass
+    ]);
+    $adapter = new WebDAVAdapter($client);
+    $filesystem = new Filesystem($adapter);
+    $filesystem->write($path,$content);
+  }
+  public function getSharedFileId( $projectId,$path ){
+    $list = $this->getListOfSharedFiles($projectId,'');
+    foreach ( $list as $item ) {
+      if ($path == $item->dir.DIRECTORY_SEPARATOR.$item->name){
+        return $item->id;
+      }
+    }
+    return null;
+  }
+  public function getDavAddress(int|string $project_id_or_key){
+    $key = null;
+    if (is_int($project_id_or_key)){
+      $key = $this->getProject($project_id_or_key)->projectKey;
+    }else{
+      $key = $project_id_or_key;
+    }
+    return sprintf('%s/dav/%s/',$this->base_uri(),$key);
   }
   
   protected function validateSpaceId( string $spaceId_or_url ):array {
