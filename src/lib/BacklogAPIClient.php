@@ -161,7 +161,7 @@ class BacklogAPIClient {
     }
     //
     $res = $this->send_request($method, $path,$options );
-    if( str_contains($res->getHeader("Content-Type")[0], 'json') ) {
+    if( str_contains($res->getHeader("Content-Type")[0] ?? '', 'json') ) {
       return json_decode($res->getBody()->getContents());
     }
     
