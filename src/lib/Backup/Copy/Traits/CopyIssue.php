@@ -9,6 +9,7 @@ trait CopyIssue {
   use CopyComment;
   
   public function copyIssueList($src_project_id,$dst_project_id){
+    // TODO カスタムフィールド
     foreach ( $this->src_cli->issue_ids($src_project_id) as $issue_id ) {
       $this->copyIssue($issue_id,$dst_project_id);
     }
