@@ -53,24 +53,25 @@ trait CopyIssue {
     $custom_fields = array_filter($custom_fields,fn($c)=>!empty($c->value));
     $data = [];
     foreach ( $custom_fields as $idx => $cf ) {
-      dump($map);
-      dump($cf);
       $data[$idx] = [];
       $data[$idx]['id'] =  $map[$cf->id];
-      //$data[$idx]['value'] =match ($cf->fieldTypeId){
-      //  1,2,3,4 => ,
-      //};
+      $data[$idx]['value'] =match ($cf->fieldTypeId){
+        1,2,3,4,8 => $cf->value,
+        6,7 => array_column($cf->value,'id'),
+      };
       if (!empty($cf->other_value)){
         $data[$idx]['other_value'] = $cf->value;
       }
       
     }
-    foreach ( $data as $id=>$entry ) {
+    
+    foreach ( $data as $idx=>$entry ) {
       $id = $entry['id'];
       $data["customField_{$id}"]=$entry['value'];
       if (!empty($entry['other_value'])){
         $data["customField_{$id}_otherValue"]=$entry['other_value'];
       }
+      unset($data[$idx]);
     }
     
     return $data;
