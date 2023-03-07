@@ -11,6 +11,7 @@ use function Takuya\Utils\parent_domain;
 use function Takuya\Utils\assert_str_is_domain;
 use League\Flysystem\WebDAV\WebDAVAdapter;
 use League\Flysystem\Filesystem;
+use function Takuya\Utils\array_map_with_key;
 
 class BacklogAPIClient {
   
@@ -167,10 +168,29 @@ class BacklogAPIClient {
     
     return $res->getBody()->getContents();
   }
-  protected function http_build_query($data,$numeric_prefix=false,$arg_separator=null,$encoding_type=PHP_QUERY_RFC3986){
-    $str = http_build_query($data,$numeric_prefix,$arg_separator=null,$encoding_type);
-    $str = preg_replace('/%5B(?:[0-9]|[1-9][0-9]+)%5D=/', '%5B%5D=', $str);
-    return $str;
+  protected function http_build_query($data,$numeric_prefix=false,$arg_separator=null,$encoding_type=PHP_QUERY_RFC3986) {
+    // custom field は複数キーが許可される。
+    $cust_array = array_filter( $data, fn( $v, $k ) => preg_match( '/custom/', $k ) && is_array( $v ),
+      ARRAY_FILTER_USE_BOTH );
+    if ( sizeof( $cust_array ) > 0 ) {
+      $cf_list = '&'.join( '&',
+          array_map_with_key( $cust_array, function( $k, $values ) {
+            return join( '&', array_map( fn( $v ) => sprintf( "%s=%s", urldecode( $k ), urlencode( $v ) ), $values ) );
+          } ) );
+    }else{
+      $cf_list = '';
+    }
+  
+    // bool値が name=1 になるのを避けて、 name=true にする。
+    array_walk_recursive( $data, function( &$v ) {
+      if ( is_bool( $v ) ) {
+        $v = json_encode( $v );
+      }
+    } );
+    // 配列が name[0]=value になるのを避けて、name[]=value にする
+    $str = http_build_query( $data, $numeric_prefix, $arg_separator = null, $encoding_type );
+    $str = preg_replace( '/%5B(?:[0-9]|[1-9][0-9]+)%5D=/', '%5B%5D=', $str );
+    return $str.$cf_list;
   }
   
   protected function send_request( $method, $path, $opts ) {
