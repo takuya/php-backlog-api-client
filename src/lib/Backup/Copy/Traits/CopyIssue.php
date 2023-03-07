@@ -111,10 +111,12 @@ trait CopyIssue {
   
   protected function addUserInfoIntoBody ( object $issue_api_result ) {
     $issue = $issue_api_result;
+
+    $TZ = new \DateTimeZone('Asia/Tokyo');
     $creator = $issue->createdUser->name;
-    $created = substr( $issue->created, 0, 10 ).' '.substr( $issue->created, 11, 5 );
+    $created = (new \DateTime($issue->created))->setTimezone($TZ)->format('Y-m-d H:i');
     $updator = $issue->updatedUser->name;
-    $updated = substr( $issue->updated, 0, 10 ).' '.substr( $issue->created, 11, 5 );
+    $updated = (new \DateTime($issue->updated))->setTimezone($TZ)->format('Y-m-d H:i');
     // 失われる情報を本文に残す
     $footer = sprintf( <<<EOS
       

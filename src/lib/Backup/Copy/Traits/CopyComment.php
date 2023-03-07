@@ -31,8 +31,10 @@ trait CopyComment {
   
   public function addUserInfoIntoCommentHead ( $comment ) {
     $creator = $comment->createdUser->name;
-    $created = substr( $comment->created, 0, 10 ).' '.substr( $comment->created, 11, 5 );
-    // 失われる情報を本文に残す
+
+    $TZ = new \DateTimeZone('Asia/Tokyo');
+    $created = (new \DateTime( $comment->created))->setTimezone($TZ)->format('Y-m-d H:i');
+   // 失われる情報を本文に残す
     $header = sprintf( <<<EOS
       %s / %s
       ----
