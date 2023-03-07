@@ -7,6 +7,7 @@ use function Takuya\Utils\array_select;
 trait CopyMilestone {
   
   public function copyProjectMileStone ( $src_project_id, $dst_project_id ) {
+    $src_dst_id_mapping =[];
     $keys = ["name", "description", "startDate", "releaseDueDate"];
     $getIssueTypeByUniq = function( $project_id, $api) use ( $keys ) {
       $ret = $api->getVersionMilestoneList( $project_id );

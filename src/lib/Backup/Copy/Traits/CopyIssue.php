@@ -15,22 +15,18 @@ trait CopyIssue {
   }
   public function copyIssue ( $src_issue_id, $dst_project_id ) {
     // ただし、コメント・課題の作成者はAPIの制限で変更が不可能。
+    // TODO CreatedUserに応じてAPIキーを切り替える。
     $src_issue = $this->src_cli->getIssue( $src_issue_id );
-    // ユーザー・種別・マイルストーンを一致させる。
-    $file_ids = $this->getIdMapping( 'sharedFiles' );
-    $user_ids = $this->getIdMapping( 'userIds' );
-    $type_ids = $this->getIdMapping( 'typeIds' );
-    $version_ids = $this->getIdMapping( 'versionIds' );
-    
-    
+    $user_ids = $this->getIdMapping( 'userIds' );//TODO ユーザの一致
+  
+  
     // 課題をコピー
     $data = $this->formatIssue( $src_issue );
-    $data = $this->remapiId( $data, 'issueTypeId', $type_ids );
-    $data = $this->remapiId( $data, 'versionsId', $version_ids );
     $data['projectId'] = $dst_project_id;
     $dst_issue = $this->dst_cli->addIssue( $data );
+    
     // 共有ファイルをリンクし直し
-    $this->copyLinkSharedFiles( $src_issue, $dst_issue, $file_ids );
+    $this->copyLinkSharedFiles( $src_issue, $dst_issue, $this->getIdMapping( 'sharedFiles' ) );
     // 添付ファイルをコピー
     $this->copyIssueAttachments( $src_issue, $dst_issue );
     // 課題の状態を更新して合わせる。
@@ -47,12 +43,41 @@ trait CopyIssue {
     // TODO 変数依存を切る。メソッドを作ってメソッド内部で、API取得して比較する。
     return $this->id_mapping[$name];
   }
-  
-  protected function formatIssue ( object $issue_api_result, $add_user_name = true,$assignee ='' ) {
+  public function remapCustomFieldKeys($issue,$idMap){
+    if (empty($issue->customFields)){
+      return [];
+    }
+    $map = $idMap;
+    $custom_fields = $issue->customFields;
+    $custom_fields = array_filter($custom_fields,fn($c)=>!empty($c->value));
+    $data = [];
+    foreach ( $custom_fields as $idx => $cf ) {
+      dump($map);
+      dump($cf);
+      $data[$idx] = [];
+      $data[$idx]['id'] =  $map[$cf->id];
+      //$data[$idx]['value'] =match ($cf->fieldTypeId){
+      //  1,2,3,4 => ,
+      //};
+      if (!empty($cf->other_value)){
+        $data[$idx]['other_value'] = $cf->value;
+      }
+      
+    }
+    foreach ( $data as $id=>$entry ) {
+      $id = $entry['id'];
+      $data["customField_{$id}"]=$entry['value'];
+      if (!empty($entry['other_value'])){
+        $data["customField_{$id}_otherValue"]=$entry['other_value'];
+      }
+    }
+    
+    return $data;
+  }
+  protected function remapIssueKeys( object $issue_api_result, $add_user_name = true){
     if ( $add_user_name ) {
       $issue_api_result = $this->addUserInfoIntoBody( $issue_api_result );
     }
-    
     $issue = (array)$issue_api_result;
     $keys = [
       //'id',
@@ -103,10 +128,26 @@ trait CopyIssue {
       $issue[$new] = $issue[$old];
       unset( $issue[$old] );
     } );
-    if(!empty($assignee)){
-      $issue->assignee = $assignee;
-    }
     return $issue;
+    
+  }
+  protected function formatIssue ( object $issue_api_result, $add_user_name = true ) {
+    $post_data = $this->remapIssueKeys( $issue_api_result, $add_user_name = true);
+  
+    // ユーザー・種別・マイルストーンを一致させる。
+    $type_ids = $this->getIdMapping( 'typeIds' );
+    $version_ids = $this->getIdMapping( 'versionIds' );
+    //
+    $post_data = $this->remapiId( $post_data, 'issueTypeId', $type_ids );
+    $post_data = $this->remapiId( $post_data, 'versionsId', $version_ids );
+    //
+    $cf = $this->remapCustomFieldKeys($issue_api_result,$this->getIdMapping( 'customFieldIds' ));
+    $post_data = array_merge($post_data,$cf);
+    //
+    if(!empty($this->assignee_user_id)){
+      $post_data['assigneeId'] = $this->assignee_user_id;
+    }
+    return $post_data;
   }
   
   protected function addUserInfoIntoBody ( object $issue_api_result ) {
@@ -185,7 +226,7 @@ trait CopyIssue {
       $params['statusId'] = $src_issue->status->id;
     }
     if ( $src_issue->resolution?->id != $dst_issue->resolution?->id ) {
-      $params['resolution'] = $src_issue->resolution->id;
+      $params['resolutionId'] = $src_issue->resolution->id;
     }
     
     return !empty( $params ) ? $this->dst_cli->updateIssue( $dst_issue->id, $params ) : $dst_issue;

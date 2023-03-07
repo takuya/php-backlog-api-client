@@ -8,6 +8,8 @@ trait CopyProject {
   use CopyMilestone;
   use CopySharedFile;
   use CopyWiki;
+  use CopyIssue;
+  use CopyProjectCustomField;
   
   public function copyProjectWebhook ( $src_project_id, $dst_project_id ) {
     $hooks = $this->src_cli->getListOfWebhooks( $src_project_id );
@@ -25,6 +27,10 @@ trait CopyProject {
     }
     return $map;
   }
+  protected function copyProjectWikis($src_project_id, $dst_project_id){
+    $wiki_ids = $this->copyWiki( $src_project_id, $dst_project_id );
+    return $this->id_mapping['wikiIds']=$wiki_ids;
+  }
   
   protected function copyProjectConf ( $src_project_id, $dst_project_id ) {
     // ユーザー・種別・マイルストーンを一致させる。
@@ -37,21 +43,22 @@ trait CopyProject {
      * - 共有ファイル
      * - カテゴリ
      */
-    $webhookIds = $this->copyProjectWebhook( $src_project_id, $dst_project_id );
     $type_ids = $this->copyIssueType( $src_project_id, $dst_project_id );
+    $webhookIds = $this->copyProjectWebhook( $src_project_id, $dst_project_id );
     $version_ids = $this->copyProjectMileStone( $src_project_id, $dst_project_id );
     $file_ids = $this->copySharedFiles( $src_project_id, $dst_project_id );
     $user_ids = $this->copyProjectUser( $src_project_id, $dst_project_id );
-    $wiki_ids = $this->copyWiki( $src_project_id, $dst_project_id );
-    
+    //
     $this->id_mapping = [
       'webhookIds'  => $webhookIds,
       'sharedFiles' => $file_ids,
       'userIds'     => $user_ids,
       'typeIds'     => $type_ids,
       'versionIds'  => $version_ids,
-      'wikiIds'     => $wiki_ids,
     ];
+    $custom_field_ids = $this->copyProjectCustomField($src_project_id, $this->id_mapping['typeIds'], $dst_project_id);
+    dump($custom_field_ids);
+    $this->id_mapping['customFieldIds'] = $custom_field_ids;
     return $this->id_mapping;
   }
   
