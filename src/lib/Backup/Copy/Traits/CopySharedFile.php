@@ -8,6 +8,9 @@ trait CopySharedFile {
     
     $mapping = [];
     foreach ( $list as $item ) {
+      if ($item->type == 'directory'){
+        continue;
+      }
       $path = $item->dir.DIRECTORY_SEPARATOR.$item->name;
       $content = $this->src_cli->getFile( $src_project_id, $item->id );
       $this->dst_cli->addSharedFile( $dst_project_id, $path, $content );
