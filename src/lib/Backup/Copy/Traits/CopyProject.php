@@ -57,13 +57,13 @@ trait CopyProject {
       'versionIds'  => $version_ids,
     ];
     $custom_field_ids = $this->copyProjectCustomField($src_project_id, $this->id_mapping['typeIds'], $dst_project_id);
-    dump($custom_field_ids);
     $this->id_mapping['customFieldIds'] = $custom_field_ids;
     return $this->id_mapping;
   }
   
   public function copyProject ( $src_project_id, $dst_project_id ) {
     $this->copyProjectConf( $src_project_id, $dst_project_id );
+    $this->copyProjectWikis( $src_project_id, $dst_project_id );
     $this->copyIssueList( $src_project_id, $dst_project_id );
   }
 }

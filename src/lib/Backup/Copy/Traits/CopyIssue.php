@@ -49,15 +49,15 @@ trait CopyIssue {
       return [];
     }
     $map = $idMap;
-    $custom_fields = $issue->customFields;
-    $custom_fields = array_filter($custom_fields,fn($c)=>!empty($c->value));
     $data = [];
+    //
+    $custom_fields = array_filter($issue->customFields,fn($c)=>!empty($c->value));
     foreach ( $custom_fields as $idx => $cf ) {
       $data[$idx] = [];
       $data[$idx]['id'] =  $map[$cf->id];
       $data[$idx]['value'] =match ($cf->fieldTypeId){
-        1,2,3,4,8 => $cf->value,
-        6,7 => array_column($cf->value,'id'),
+        1,2,3,4,5,8 => $cf->value,// シングル値
+        6,7 => array_column($cf->value,'id'),//複数値選択
       };
       if (!empty($cf->other_value)){
         $data[$idx]['other_value'] = $cf->value;
@@ -105,7 +105,7 @@ trait CopyIssue {
       //"updatedUser",
       //"updated",
       // TODO parentIssueId をどうするか。
-      // TODO attachment, customField
+      // TODO attachment
     ];
     $map_entry = [
       "assignee"  => fn( $e ) => $e['id'] ?? $e,

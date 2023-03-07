@@ -48,6 +48,11 @@ trait CopyProjectCustomField {
       $values = array_column($data['items'],'name');
       $data['items'] = $values;
     }
+    // カスタムフィールドの必須チェックは誤作動する。
+    // カスタムフィールド項目が課題作成後に除去されると、以前の課題がNULL値になる。
+    // そのため除去まえの課題をそのまま投稿するとNULL値が必須チェックに係りエラーになる。
+    // ひどい仕様なので、必須チェックは無効にする。
+    $data['required'] = false;
     //
     return $data;
   }
