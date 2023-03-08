@@ -56,7 +56,8 @@ trait CopyIssue {
       $data[$idx] = [];
       $data[$idx]['id'] =  $map[$cf->id];
       $data[$idx]['value'] =match ($cf->fieldTypeId){
-        1,2,3,4,5,8 => $cf->value,// シングル値
+        1,2,3,4 => $cf->value,// シングル値
+        5,8 => $cf->value->id,// シングル値、ただしオブジェクトから選ぶ
         6,7 => array_column($cf->value,'id'),//複数値選択
       };
       if (!empty($cf->other_value)){

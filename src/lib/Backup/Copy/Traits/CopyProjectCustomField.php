@@ -45,7 +45,10 @@ trait CopyProjectCustomField {
       }
     }
     if (!empty($data['items'])){
-      $values = array_column($data['items'],'name');
+      // カスタムフィールドのListは削除される、二度と取得できないため欠番を埋める。
+      $values = array_column($data['items'],'name','id');
+      $seq_keys = range(array_keys($values)[0],array_slice(array_keys($values),-1)[0]);
+      $values = array_replace(array_fill_keys($seq_keys,'未設定'),$values);
       $data['items'] = $values;
     }
     // カスタムフィールドの必須チェックは誤作動する。

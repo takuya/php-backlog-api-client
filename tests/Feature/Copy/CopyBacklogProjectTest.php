@@ -18,36 +18,29 @@ class CopyBacklogProjectTest extends TestCaseTemporaryProject {
   
   
   public function test_copy_project_and_issues_and_comments () {
-
-
     $projects = $this->api->getProjectList();
     $project = null;
     foreach ( $projects as $project ) {
-      if(preg_match('/TAKU/',$project->projectKey)>0){
-        dump($project);
+      if ( preg_match( '/TAKU/', $project->projectKey ) > 0 ) {
+        //dump($project->projectKey);
         break;
       }
     }
     $src_project_id = $project->id;
-    //スペースをまたぐ場合を想定する
+    ////スペースをまたぐ場合を想定する
     $src_cli = $this->api;
     $dst_cli = $this->api;
-    $woker = new BacklogCopy($src_cli,$dst_cli);
-    $woker->copyProject($src_project_id,$this->project_id);
+    $woker = new BacklogCopy( $src_cli, $dst_cli );
+    $woker->setAssignee( $this->api->getOwnUser()->id );
+    $woker->copyProject( $src_project_id, $this->project_id );
     
     $src_issue_list = $src_cli->issue_ids($src_project_id);
     $dst_issue_list = $dst_cli->issue_ids($this->project_id);
     $this->assertEquals(sizeof($src_issue_list),sizeof($dst_issue_list));
-    //
+    
     $src_wiki_list = $src_cli->getWikiPageList(['projectIdOrKey' =>$src_project_id]);
     $dst_wiki_list = $dst_cli->getWikiPageList(['projectIdOrKey' =>$this->project_id]);
     $this->assertEquals(sizeof($src_wiki_list),sizeof($dst_wiki_list));
-  
-  
-  
-  
-  
-  
   }
   
 }
